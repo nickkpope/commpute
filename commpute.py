@@ -1,10 +1,13 @@
 # all the imports
 import os
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
-from login import login_manager
+from flask.ext.login import LoginManager
 # create our little application :)
 app = Flask(__name__)
 app.config.from_object(__name__)
+login_manager = LoginManager()
+login_manager.init_app(app)
+
 
 # Load default config and override config from an environment variable
 app.config.update(dict(
