@@ -8,13 +8,17 @@ login_manager.login_message = u'Please log in to access this page'
 
 @login_manager.user_loader
 def load_user(userid):
-	return User()
+	return User('John')
 
-class User():
+class User:
+
+	def __init__(self, name):
+		self.name = name
+		self.authenticated = True		
 
 #Determines whether a user has provided the correct crudentials
 	def	is_authenticated(self):
-		return True
+		return self.authenticated
 
 #Determines whether a user is an active user i.e. not suspended
 	def is_active(self):

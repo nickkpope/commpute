@@ -1,7 +1,8 @@
 # all the imports
 import os
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
-from flask.ext.login import LoginManager
+from flask.ext.login import LoginManager, login_required, login_user
+from auth import *
 # create our little application :)
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -26,7 +27,14 @@ def show_landing():
 
 @app.route('/login')
 def login():
-	return 'Login'
+	return render_template('login.html')
+	#validate user here
+	'''
+	user = User('John')
+	login_user(user)
+	flash("Logged in successfully.")
+	return redirect(url_for('profile', username='John'))
+	'''
 
 @app.route('/signup')
 def sign_up():
@@ -39,6 +47,17 @@ def docs():
 @app.route('/testdrive')
 def test_drive():
 	return 'Test Drive'
+
+@login_required
+@app.route('/profile/<username>')
+def profile(username):
+	return 'Welcome %s to your profile page!' % username
+
+@login_required
+@app.route('/logout')
+def logout():
+	logout_user()
+	return redirect('/')
 
 
 if __name__ == '__main__':
