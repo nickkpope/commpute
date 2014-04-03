@@ -1,8 +1,34 @@
-from flask import render_template, redirect, url_for, request, flash
+from flask import g, session
 from flask.ext.login import LoginManager, login_user, logout_user
 from flask.ext.login import current_user, login_required
 from commpute import app, login_manager
+from flask_oauthlib.client import OAuth
 
+#Oauth Setup
+oauth = OAuth(app)
+
+twitter = oauth.remote_app('twitter',
+	base_url = 'https://api.twitter.com/1/',
+	request_token_url='https://api.twitter.com/oauth/request_token',
+	access_token_url='https://api.twitter.com/oauth/access_token',
+	authorize_url='https://api.twitter.com/oauth/authenticate',
+	consumer_key='',
+	consumer_secret=''
+)
+
+@twitter_tokengetter
+def get_twitter_token():
+	if 'twitter_oauth' in session:
+		resp = session['twitter_oauth']
+		return resp['oauth_token'], resp['oauth_token_secret']
+
+@app.before_request
+def before_request():
+	g.user = None
+	if 'twitter_oauth' in session:
+		g.user = session['twitter_oauth']
+
+#Login Customization
 login_manager.login_view = 'login'
 login_manager.login_message = u'Please log in to access this page'
 
