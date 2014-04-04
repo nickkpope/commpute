@@ -59,6 +59,7 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff428bca', endColorstr='#ff2d6ca2', GradientType=0);
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   background-repeat: repeat-x;
+  .buttonBackground(@yourColor, @yourColorDarker);
   border-color: #2b669a;
 }
 .btn-primary:hover,

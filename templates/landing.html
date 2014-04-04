@@ -1,25 +1,38 @@
 {% extends "layout.html" %}
 {% block body %}
-<br><br><br><br><br><br><br><br>
-<div class="row text-center">
-  <div class="col-lg-12">
-    <h1>Think community garden,</h1>
-    <p class="lead">but with computers</p>
-  </div>
-</div>
-<br><br><br><br><br><br><br><br>
-<div class="row text-center">
-  <div class="col-xs-2"></div>
-  <div class="col-xs-4">
-    <div class="centered">
-      <button class="btn btn-large btn-primary" type="button">Learn more</button>
+<br>
+  <div class="">
+    <br><br><br><br><br><br><br><br><br>
+    <div class="row text-center">
+      <div class="col-lg-12 tagline">
+        <h1>Think community garden,</h1>
+        <p class="lead">but with computers.</p>
+      </div>
     </div>
-  </div>
-  <div class="col-xs-4">
-    <div class="centered">
-      <button class="btn btn-large btn-primary" type="button">Try it out</button>
+    <br><br><br><br><br><br><br><br><br>
+    <div class="row text-center">
+      <div class="col-xs-2"></div>
+      <div class="col-xs-4">
+        <div class="centered">
+          Learn more
+          <p><span class="glyphicon glyphicon-chevron-down"></span></p>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="centered">
+          <a href="/testdrive" ><button class="btn btn-primary" type="button">Try it out</button></a>
+        </div>
+      </div>
+      <div class="col-xs-2"></div>
     </div>
+    <br><br>
   </div>
-  <div class="col-xs-2"></div>
-</div>
+  <br><br>
+  <div class="row text-center">
+    <div class="col-xs-12>"><img src="{{ url_for('static', filename = 'img/Description.jpg') }}"></img></div>
+  </div>
+  <br><br>
+  <div class="row text-center">
+    <div class="col-xs-12>"><img src="{{ url_for('static', filename = 'img/CreateAndViewJobs.jpg') }}"></img></div>
+  </div>
 {% endblock %}

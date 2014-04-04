@@ -1,0 +1,26 @@
+.landing {
+    background-image:url("../img/background.jpg");
+    background-size: 100% 29%;
+    background-repeat: no-repeat;
+}
+
+.tagline {
+    font-family: Helvetica;
+}
+
+.btn-custom {
+  background-color: hsl(22, 88%, 65%) !important;
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f6a373", endColorstr="#f49057");
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#f6a373), to(#f49057));
+  background-image: -moz-linear-gradient(top, #f6a373, #f49057);
+  background-image: -ms-linear-gradient(top, #f6a373, #f49057);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f6a373), color-stop(100%, #f49057));
+  background-image: -webkit-linear-gradient(top, #f6a373, #f49057);
+  background-image: -o-linear-gradient(top, #f6a373, #f49057);
+  background-image: linear-gradient(#f6a373, #f49057);
+  border-color: #f49057 #f49057 hsl(22, 88%, 63.5%);
+  color: #333 !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.09);
+  -webkit-font-smoothing: antialiased;
+}
