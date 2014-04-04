@@ -64,11 +64,21 @@ def logout():
 
 @app.route('/facebook')
 def facebook():
-	return 'Facebook'
+	callback_url = url_for('facebook-auth')
+	return facebook.authorize(callback=callback_url)
+
+@app.route('/facebook-auth')
+@facebook.authorized_handler
+def facebook_auth(resp):
+	if resp is None:
+		flash('You denied the request to sign in.')
+	else:
+		session['facebook_oauth'] = resp
+	return redirect(url_for('profile', username='Facebook'))
 
 @app.route('/twitter')
 def twitter():
-	callback_url = url_for('twitter-auth', username='Twitter')
+	callback_url = url_for('twitter-auth')
 	return twitter.authorize(callback=callback_url)
 
 @app.route('/twitter-auth')
@@ -78,7 +88,7 @@ def twitter_auth(resp):
 		flash('You denied the request to sign in.')
 	else:
 		session['twitter_oauth'] = resp
-	return redirect(url_for('profile'))
+	return redirect(url_for('profile', username='Twitter'))
 
 @app.route('/google')
 def google():

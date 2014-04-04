@@ -7,13 +7,30 @@ from flask_oauthlib.client import OAuth
 #Oauth Setup
 oauth = OAuth(app)
 
+#Facebook
+facebook = oauth.remote_app('facebook',
+	base_url='https://graph.facebook.com',
+	request_token_url=None,
+	access_token_url='/oauth/access_token',
+	authorize_url='https://www.facebook.com/dialog/oauth',
+	consumer_key='5',
+	consumer_secret='5'
+)
+
+@facebook_tokengetter
+def get_facebook_token():
+	if 'facebook_oauth' in session:
+		resp = session['facebook_oauth']
+		return resp['oauth_token'], resp['oauth_token_secret']
+
+#Twitter
 twitter = oauth.remote_app('twitter',
 	base_url = 'https://api.twitter.com/1/',
 	request_token_url='https://api.twitter.com/oauth/request_token',
 	access_token_url='https://api.twitter.com/oauth/access_token',
 	authorize_url='https://api.twitter.com/oauth/authenticate',
-	consumer_key='',
-	consumer_secret=''
+	consumer_key='FW0k326IPRWRB6cPd6AEw',
+	consumer_secret='OVLhEfVm5ZaU8XHPWaFosenmDm4o3uj0fDi3E0KfQ'
 )
 
 @twitter_tokengetter
