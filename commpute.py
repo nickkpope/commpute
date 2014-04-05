@@ -46,7 +46,7 @@ def docs():
 
 @app.route('/testdrive')
 def test_drive():
-	return 'Test Drive'
+	return render_template('jobs.html', jobs=jobs)
 
 @login_required
 @app.route('/profile/<username>')
@@ -59,6 +59,22 @@ def logout():
 	logout_user()
 	return redirect('/')
 
+jobs = [
+    {
+        'name': 'Job 1',
+        'tasks': [
+            {'name': 'Task 1'},
+            {'name': 'Task 2'}
+        ]
+    },
+    {
+        'name': 'Job 2',
+        'tasks': [
+            {'name': 'Task 3'},
+            {'name': 'Task 4'}
+        ]
+    }
+]
 
 if __name__ == '__main__':
     app.run()
