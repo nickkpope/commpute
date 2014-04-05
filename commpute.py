@@ -27,14 +27,17 @@ def show_landing():
 
 @app.route('/login')
 def login():
-	return render_template('login.html')
-	#validate user here
 	'''
-	user = User('John')
-	login_user(user)
-	flash("Logged in successfully.")
-	return redirect(url_for('profile', username='John'))
+	form = LoginForm()
+	if form.validate_on_submit():
+		#validate user here
+		user = User('John')
+		login_user(user)
+		flash("Logged in successfully.")
+		return redirect(url_for('profile', username='John'))
 	'''
+	return render_template("login.html")
+
 
 @app.route('/signup')
 def sign_up():
@@ -48,7 +51,7 @@ def docs():
 def test_drive():
 	return 'Test Drive'
 
-@login_required
+#@login_required
 @app.route('/profile/<username>')
 def profile(username):
 	return 'Welcome %s to your profile page!' % username
@@ -58,6 +61,38 @@ def profile(username):
 def logout():
 	logout_user()
 	return redirect('/')
+
+@app.route('/facebook')
+def facebook():
+	callback_url = url_for('facebook-auth')
+	return facebook.authorize(callback=callback_url)
+
+@app.route('/facebook-auth')
+@facebook.authorized_handler
+def facebook_auth(resp):
+	if resp is None:
+		flash('You denied the request to sign in.')
+	else:
+		session['facebook_oauth'] = resp
+	return redirect(url_for('profile', username='Facebook'))
+
+@app.route('/twitter')
+def twitter():
+	callback_url = url_for('twitter-auth')
+	return twitter.authorize(callback=callback_url)
+
+@app.route('/twitter-auth')
+@twitter.authorized_handler
+def twitter_auth(resp):
+	if resp is None:
+		flash('You denied the request to sign in.')
+	else:
+		session['twitter_oauth'] = resp
+	return redirect(url_for('profile', username='Twitter'))
+
+@app.route('/google')
+def google():
+	return 'Google'
 
 
 if __name__ == '__main__':
