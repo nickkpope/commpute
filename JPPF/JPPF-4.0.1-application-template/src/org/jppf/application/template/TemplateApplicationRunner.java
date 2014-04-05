@@ -36,6 +36,11 @@ public class TemplateApplicationRunner {
    */
   private static JPPFClient jppfClient =  null;
 
+  public TemplateApplicationRunner()
+  {
+    jppfClient = new JPPFClient();
+  }
+
   /**
    * The entry point for this application runner to be run from a Java command line.
    * @param args by default, we do not use the command line arguments,
@@ -45,7 +50,7 @@ public class TemplateApplicationRunner {
     try {
       // create the JPPFClient. This constructor call causes JPPF to read the configuration file
       // and connect with one or multiple JPPF drivers.
-      jppfClient = new JPPFClient();
+      //jppfClient = new JPPFClient();
 
       // create a runner instance.
       TemplateApplicationRunner runner = new TemplateApplicationRunner();

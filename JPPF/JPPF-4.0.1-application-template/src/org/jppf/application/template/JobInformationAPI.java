@@ -1,4 +1,5 @@
 import org.jppf.application.template.TemplateApplicationRunner;
+import org.apache.xmlrpc.server.*;
 
 /**
  * This class provides a simplified window to the JPPF API focused on job submission and status.
@@ -8,8 +9,12 @@ public class JobInformationAPI
 {
 	private TemplateApplicationRunner jobRunner;
 
+	/*
+	* Constructor, initializes the application runner
+	*/
 	public JobInformationAPI()
 	{
+		// this call reads from the config file and connects to the JPPF server
 		jobRunner = new TemplateApplicationRunner();
 	}
 
