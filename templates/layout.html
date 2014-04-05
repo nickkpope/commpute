@@ -12,7 +12,8 @@
     <title>Commpute</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/css/bootstrap.css" rel="stylesheet">
+    <link href="static/css/landing.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="jumbotron-narrow.css" rel="stylesheet">
@@ -26,16 +27,16 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-
+  <!-- "{{ url_for('static', filename = 'img/background.jpg') }}" -->
   <body>
-
+    <div class="landing">
     <div class="container">
       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li><a href="/login">Log in</a></li>
           <li class="active"><a href="/signup">Sign up</a></li>
         </ul>
-        <h3 class="text-muted">Commpute</h3>
+        <h1><span style="color: #4c6e3b;font-family: Helvetica;">Comm</span><span style="color: #e3722e;font-family: Georgia;font-size:1.1em;">pute</span></h3>
       </div>
 
     </div> <!-- /container -->
@@ -45,7 +46,7 @@
         {% block body %}{% endblock %}
       </div>
     </div> <!-- /container -->
-
+  </div>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
