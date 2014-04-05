@@ -1,7 +1,8 @@
 # all the imports
 from flask import session, redirect, url_for, render_template, flash, request
-from flask.ext.login import login_required, logout_user
-from ops import app, facebook, twitter
+from flask.ext.login import login_required, login_user, logout_user, current_user
+from ops import app, facebook, twitter, users
+from auth import User
 
 
 @app.route('/')
@@ -11,16 +12,15 @@ def show_landing():
 
 @app.route('/login')
 def login():
-
-    # form = LoginForm()
-    # if form.validate_on_submit():
-    #   #validate user here
-    #   user = User('John')
-    #   login_user(user)
-    #   flash("Logged in successfully.")
-    #   return redirect(url_for('profile', username='John'))
-
     return render_template("login.html")
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    current_user.authenticated = False
+    logout_user()
+    return redirect(url_for('show_landing'))
 
 
 @app.route('/signup')
@@ -39,15 +39,9 @@ def test_drive():
 
 
 @app.route('/profile/<username>')
+@login_required
 def profile(username):
     return 'Welcome %s to your profile page!' % username
-
-
-@login_required
-@app.route('/logout')
-def logout():
-    logout_user()
-    return redirect('/')
 
 
 @app.route('/facebook')
@@ -77,9 +71,22 @@ def twitter_login():
 def twitter_auth(resp):
     if resp is None:
         flash('You denied the request to sign in.')
+        return redirect(request.args.get('next') or url_for('show_landing'))
+    user = None
+    for i in users:
+        if i.username == resp['screen_name']:
+            user = i
+
+    if user is None:
+        user = User(resp['screen_name'], resp['oauth_token'], resp['oauth_token_secret'])
+        print session
+        user.userid = session['user_id']
+        users.append(user)
+        login_user(user)
     else:
-        session['twitter_oauth'] = resp
-    return redirect(url_for('profile', username='Twitter'))
+        login_user(user)
+
+    return redirect(request.args.get('next') or url_for('profile', username=user.username))
 
 
 @app.route('/google')

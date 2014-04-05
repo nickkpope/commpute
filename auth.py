@@ -1,15 +1,15 @@
 from flask import g, session
-from ops import app, login_manager, facebook, twitter
+from ops import app, login_manager, facebook, twitter, users
 
 
-@facebook.facebook_tokengetter
+@facebook.tokengetter
 def get_facebook_token():
     if 'facebook_oauth' in session:
         resp = session['facebook_oauth']
         return resp['oauth_token'], resp['oauth_token_secret']
 
 
-@twitter.twitter_tokengetter
+@twitter.tokengetter
 def get_twitter_token():
     if 'twitter_oauth' in session:
         resp = session['twitter_oauth']
@@ -29,18 +29,22 @@ login_manager.login_message = u'Please log in to access this page'
 
 @login_manager.user_loader
 def load_user(userid):
-    return User('John')
+    for user in users:
+        if user.userid == userid:
+            return user
 
 
 class User:
 
-    def __init__(self, name):
-        self.name = name
-        self.authenticated = True
+    def __init__(self, username, token, secret):
+        self.username = username
+        self.token = token
+        self.secret = secret
+        self.userid = None
 
     def is_authenticated(self):
         '''Determines whether a user has provided the correct crudentials'''
-        return self.authenticated
+        return True
 
     def is_active(self):
         '''Determines whether a user is an active user i.e. not suspended'''
@@ -51,6 +55,9 @@ class User:
         (real users should return false)'''
         return False
 
-    # Return the id of the user (the id must be in unicode)
     def get_id(self):
+        '''Return the id of the user (the id must be in unicode)'''
         return u'5'
+
+    def get(self):
+        return self.username
