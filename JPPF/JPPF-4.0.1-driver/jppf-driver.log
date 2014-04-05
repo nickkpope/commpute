@@ -1,7 +1,5 @@
-2014-03-29 16:01:07,880 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(88)]: --------------------------------------------------------------------------------
-2014-03-29 16:01:07,882 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(89)]: JPPF Version: 4.0.1, Build number: 1309, Build date: 2014-02-27 11:04 CET
-2014-03-29 16:01:07,883 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(90)]: starting driver with PID=5497, UUID=5F956A1B-63B1-BBED-1E61-56E6452319BD
-2014-03-29 16:01:07,883 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(91)]: --------------------------------------------------------------------------------
-2014-03-29 16:01:08,619 [INFO ][org.jppf.nio.NioConstants.getCheckConnection(83)]: NIO checks are enabled
-2014-03-29 16:03:16,860 [WARN ][org.jppf.nio.StateTransitionTask.run(90)]: error on channel SelectionKeyWrapper[id=4, readyOps=1, interestOps=0, context=RemoteNodeContext[channel=SelectionKeyWrapper[id=4], state=IDLE, uuid=05CCF14E-B1C1-61CF-832B-7189559A75B6, connectionUuid=null, peer=false, ssl=false]] : java.net.ConnectException: node SelectionKeyWrapper[id=4, readyOps=1, interestOps=0, context=RemoteNodeContext[channel=SelectionKeyWrapper[id=4], state=IDLE, uuid=05CCF14E-B1C1-61CF-832B-7189559A75B6, connectionUuid=null, peer=false, ssl=false]] has been disconnected
-2014-03-29 16:03:16,860 [WARN ][org.jppf.nio.StateTransitionTask.run(90)]: error on channel SelectionKeyWrapper[id=2, readyOps=1, interestOps=0, context=channel=SelectionKeyWrapper[id=2], state=WAITING_NODE_REQUEST, resource=null, pendingResponses=0, type=node, peer=false, uuid=05CCF14E-B1C1-61CF-832B-7189559A75B6, secure=false, ssl=false] : java.io.EOFException: null
+2014-04-04 20:56:08,135 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(88)]: --------------------------------------------------------------------------------
+2014-04-04 20:56:08,140 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(89)]: JPPF Version: 4.0.1, Build number: 1309, Build date: 2014-02-27 11:04 CET
+2014-04-04 20:56:08,140 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(90)]: starting driver with PID=18720, UUID=64F171DD-6B6F-733D-7BA8-E23DF4E058DC
+2014-04-04 20:56:08,140 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(91)]: --------------------------------------------------------------------------------
+2014-04-04 20:56:10,115 [INFO ][org.jppf.nio.NioConstants.getCheckConnection(83)]: NIO checks are enabled

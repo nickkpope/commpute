@@ -1,30 +1,4 @@
-2014-03-28 22:09:22,957 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(88)]: --------------------------------------------------------------------------------
-2014-03-28 22:09:22,961 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(89)]: JPPF Version: 4.0.1, Build number: 1309, Build date: 2014-02-27 11:04 CET
-2014-03-28 22:09:22,961 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(90)]: starting node with PID=11864, UUID=3806FACB-1517-5E42-FE9E-CC71499D3C9E
-2014-03-28 22:09:22,962 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(91)]: --------------------------------------------------------------------------------
-2014-03-28 22:09:25,033 [INFO ][org.jppf.classloader.ClassLoaderRequestHandler.run(155)]: maxBatchSize = 1
-2014-03-28 22:09:25,118 [INFO ][org.jppf.server.node.NodeExecutionManagerImpl.<init>(137)]: running 2 processing threads
-2014-03-28 22:09:25,119 [INFO ][org.jppf.server.node.NodeExecutionManagerImpl.createThreadManager(164)]: Using default thread manager
-2014-03-28 22:32:50,913 [ERROR][org.jppf.server.node.JPPFContainer.call(218)]: task at index 1 could not be deserialized : java.lang.UnsupportedClassVersionError: org/jppf/application/template/TemplateJPPFTask : Unsupported major.minor version 52.0
-2014-03-28 22:36:10,771 [ERROR][org.jppf.server.node.JPPFContainer.call(218)]: task at index 1 could not be deserialized : java.lang.UnsupportedClassVersionError: org/jppf/application/template/TemplateJPPFTask : Unsupported major.minor version 52.0
-2014-03-28 22:46:53,414 [ERROR][org.jppf.server.node.JPPFContainer.call(218)]: task at index 1 could not be deserialized : java.lang.UnsupportedClassVersionError: org/jppf/application/template/TemplateJPPFTask : Unsupported major.minor version 52.0
-2014-03-28 22:47:34,358 [ERROR][org.jppf.server.node.JPPFContainer.call(218)]: task at index 1 could not be deserialized : java.lang.UnsupportedClassVersionError: org/jppf/application/template/TemplateJPPFTask : Unsupported major.minor version 52.0
-2014-03-28 23:11:04,937 [ERROR][org.jppf.server.node.JPPFNode.run(137)]: Connection reset
-java.net.SocketException: Connection reset
-	at java.net.SocketInputStream.read(Unknown Source)
-	at java.net.SocketInputStream.read(Unknown Source)
-	at java.io.BufferedInputStream.fill(Unknown Source)
-	at java.io.BufferedInputStream.read(Unknown Source)
-	at java.io.DataInputStream.readInt(Unknown Source)
-	at org.jppf.comm.socket.AbstractSocketWrapper.readInt(AbstractSocketWrapper.java:258)
-	at org.jppf.io.SocketWrapperInputSource.readInt(SocketWrapperInputSource.java:89)
-	at org.jppf.io.IOHelper.readData(IOHelper.java:115)
-	at org.jppf.io.IOHelper.unwrappedData(IOHelper.java:174)
-	at org.jppf.server.node.remote.RemoteNodeIO.deserializeObjects(RemoteNodeIO.java:64)
-	at org.jppf.server.node.AbstractNodeIO.readObjects(AbstractNodeIO.java:110)
-	at org.jppf.server.node.AbstractNodeIO.readTask(AbstractNodeIO.java:84)
-	at org.jppf.server.node.JPPFNode.processNextJob(JPPFNode.java:175)
-	at org.jppf.server.node.JPPFNode.perform(JPPFNode.java:165)
-	at org.jppf.server.node.JPPFNode.run(JPPFNode.java:132)
-	at org.jppf.node.NodeRunner.main(NodeRunner.java:124)
-2014-03-28 23:11:04,946 [WARN ][org.jppf.classloader.AbstractClassLoaderConnection.sendCloseChannelCommand(117)]: error sending close channel command : java.net.SocketException: Connection reset by peer: socket write error
+2014-04-04 20:56:44,988 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(88)]: --------------------------------------------------------------------------------
+2014-04-04 20:56:44,995 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(89)]: JPPF Version: 4.0.1, Build number: 1309, Build date: 2014-02-27 11:04 CET
+2014-04-04 20:56:44,995 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(90)]: starting node with PID=20300, UUID=0B335DD9-0ADB-A9C6-BA18-9FD1C4051B9F
+2014-04-04 20:56:44,996 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(91)]: --------------------------------------------------------------------------------

@@ -18,7 +18,7 @@
 package org.jppf.application.template;
 
 import java.util.List;
-
+//import JobInformationAPI;
 import org.jppf.client.*;
 import org.jppf.node.protocol.Task;
 
