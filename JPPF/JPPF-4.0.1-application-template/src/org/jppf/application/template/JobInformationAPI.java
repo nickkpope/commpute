@@ -1,5 +1,5 @@
 import org.jppf.application.template.TemplateApplicationRunner;
-import org.apache.xmlrpc.server.*;
+import org.jppf.client.*;
 
 /**
  * This class provides a simplified window to the JPPF API focused on job submission and status.
@@ -19,19 +19,26 @@ public class JobInformationAPI
 	}
 
 	/**
-	* @Returns the ID of the Job that is created
+	* @Throws Exception if an error occurs while creating the job.
+	* @Returns the ID of the Job that was created
 	*/
-	public String submitTestJob(String desiredOutput, int secondsLong)
+	public String submitTestJob(String desiredOutput, int secondsLong) throws Exception
 	{
-		return "FAIL";
+		// Create a job
+		JPPFJob job = jobRunner.createJob();
+
+		// execute a non-blocking job
+		jobRunner.executeNonBlockingJob(job);
+
+		return job.getUuid();
 	}
 	
 	/*
 	* @Returns the ID of the Job that is created
 	*/
-	public void submitBlenderJob(String[] dependencies, String[] nodeIPs)
+	public String submitBlenderJob(String[] dependencies, String[] nodeIPs)
 	{
-		TemplateApplicationRunner runner;
+		return "FAIL";
 	}
 
 	/*
@@ -41,4 +48,14 @@ public class JobInformationAPI
 	{
 		return "FAILED";
 	}
+
+	/*
+	* @Returns true if the job was successfully cancelled, false otherwise
+	*/
+	public boolean cancelJob(String jobID)
+	{
+		return false;
+	}
+
+
 }

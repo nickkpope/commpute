@@ -18,7 +18,6 @@
 package org.jppf.application.template;
 
 import java.util.List;
-//import JobInformationAPI;
 import org.jppf.client.*;
 import org.jppf.node.protocol.Task;
 
@@ -125,9 +124,12 @@ public class TemplateApplicationRunner {
     // to obtain the execution results asynchronously
     JPPFResultCollector collector = submitNonBlockingJob(job);
 
-    // the non-blocking job execution is asynchronous, we can do anything else in the meantime
+    // We should store the result collector so that website users can query it for job info.
+    // When the job is finished (fail or succeed) the website should delete the listener and store
+    // any archival info to a database so we don't run out of RAM.
+
     System.out.println("Doing something while the job is executing ...");
-    // ...
+
 
     // We are now ready to get the results of the job execution.
     // We use JPPFResultCollector.waitForResults() for this. This method returns immediately with
