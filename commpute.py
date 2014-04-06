@@ -1,8 +1,9 @@
 # all the imports
-from flask import session, redirect, url_for, render_template, flash, request
+from flask import session, redirect, url_for, render_template, flash, request, jsonify
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from ops import app, facebook, twitter, users
 from auth import User
+import time
 
 
 @app.route('/')
@@ -15,12 +16,12 @@ def login():
     return render_template("login.html")
 
 
-@app.route('/logout')
-@login_required
-def logout():
-    current_user.authenticated = False
-    logout_user()
-    return redirect(url_for('show_landing'))
+# @app.route('/logout')
+# @login_required
+# def logout():
+#     current_user.authenticated = False
+#     logout_user()
+#     return redirect(url_for('show_landing'))
 
 
 @app.route('/_add_numbers')
@@ -37,7 +38,7 @@ def index():
 
 @app.route('/progress')
 def progress():
-    return jsonify(prog=request.args.get('uservalue', 0, type=int))
+    return jsonify(prog=time.time() % 50 * 2)
 
 
 @app.route('/signup')

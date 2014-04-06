@@ -12,6 +12,7 @@
     <script type=text/javascript>
       $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     </script>
+    {% block scripts %}{% endblock %}
     <title>Commpute</title>
 
     <!-- Bootstrap core CSS -->
@@ -31,7 +32,7 @@
     <![endif]-->
   </head>
   <!-- "{{ url_for('static', filename = 'img/background.jpg') }}" -->
-  <body>
+  <body onload="init()">
     <div class="">
     <div class="container">
       <div class="header">
