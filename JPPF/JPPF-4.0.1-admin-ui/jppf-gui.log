@@ -1,0 +1,9 @@
+2014-04-04 20:57:49,170 [DEBUG][org.jppf.ui.options.xml.OptionDescriptorParser.createScriptDescriptor(242)]: no protocol: org/jppf/ui/options/xml/imports.groovy
+2014-04-04 20:57:49,175 [DEBUG][org.jppf.ui.options.xml.OptionDescriptorParser.createScriptDescriptor(242)]: no protocol: org/jppf/ui/options/xml/jppfAdminTool.groovy
+2014-04-04 20:57:49,454 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(88)]: --------------------------------------------------------------------------------
+2014-04-04 20:57:49,455 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(89)]: JPPF Version: 4.0.1, Build number: 1309, Build date: 2014-02-27 11:04 CET
+2014-04-04 20:57:49,455 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(90)]: starting client with PID=18576, UUID=2CA28C65-707B-D65F-BFC0-23DC10BB53BA
+2014-04-04 20:57:49,456 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(91)]: --------------------------------------------------------------------------------
+2014-04-04 20:57:49,459 [INFO ][org.jppf.client.AbstractGenericClient.init(106)]: JPPF client starting with sslEnabled = false
+2014-04-04 20:57:50,534 [DEBUG][org.jppf.ui.options.xml.OptionDescriptorParser.createScriptDescriptor(242)]: no protocol: org/jppf/ui/options/xml/chartsConfig.groovy
+2014-04-04 20:57:50,629 [DEBUG][org.jppf.ui.options.xml.OptionDescriptorParser.createScriptDescriptor(242)]: no protocol: org/jppf/ui/options/xml/bundleSize.groovy

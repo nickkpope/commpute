@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block body %}
+<script type=text/javascript>
+  $(function() {
+    $('a#calculate').bind('click', function() {
+      $.getJSON($SCRIPT_ROOT + '/_add_numbers', {
+        a: $('input[name="a"]').val(),
+        b: $('input[name="b"]').val()
+      }, function(data) {
+        $("#result").text(data.result);
+      });
+      return false;
+    });
+  });
+</script>
+<script type=text/javascript>
+  $(function() {
+    $('a#progress').bind('click', function() {
+      $.getJSON($SCRIPT_ROOT + '/progress', {
+        uservalue: $('input[name="uservalue"]').val(),
+      }, function(data) {
+        $("#prog").text(data.prog);
+        document.getElementById("pbar").style.width = data.prog + "%"
+      });
+      return false;
+    });
+  });
+</script>
+<h1>jQuery Example</h1>
+<br>
+<p>
+    <input type=text size=5 name=a> +</input>
+    <input type=text size=5 name=b> =</input>
+    <span id=result>?</span>
+</p>
+<p><a href=# id=calculate>calculate server side</a></p>
+<br>
+<input type=text size=5, name=uservalue></input>
+<div class="progress progress-striped active">
+  <div id="pbar" class="progress-bar"  role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
+    <span class="sr-only">0% Complete</span>
+  </div>
+</div>
+<p><a href="/progress" id=progress>Go</a></p>
+<span id=prog>?</span>
+{% endblock %}

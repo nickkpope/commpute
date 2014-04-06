@@ -1,0 +1,5 @@
+2014-04-04 23:13:04,360 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(88)]: --------------------------------------------------------------------------------
+2014-04-04 23:13:04,364 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(89)]: JPPF Version: 4.0.1, Build number: 1309, Build date: 2014-02-27 11:04 CET
+2014-04-04 23:13:04,365 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(90)]: starting client with PID=5796, UUID=46D24AD1-EC8A-1F11-B905-0B9444EF96DC
+2014-04-04 23:13:04,365 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(91)]: --------------------------------------------------------------------------------
+2014-04-04 23:13:04,368 [INFO ][org.jppf.client.AbstractGenericClient.init(106)]: JPPF client starting with sslEnabled = false

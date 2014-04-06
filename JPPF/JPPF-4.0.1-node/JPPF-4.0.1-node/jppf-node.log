@@ -1,0 +1,4 @@
+2014-04-04 20:56:44,988 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(88)]: --------------------------------------------------------------------------------
+2014-04-04 20:56:44,995 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(89)]: JPPF Version: 4.0.1, Build number: 1309, Build date: 2014-02-27 11:04 CET
+2014-04-04 20:56:44,995 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(90)]: starting node with PID=20300, UUID=0B335DD9-0ADB-A9C6-BA18-9FD1C4051B9F
+2014-04-04 20:56:44,996 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(91)]: --------------------------------------------------------------------------------
