@@ -9,6 +9,8 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 login_manager = LoginManager()
 login_manager.init_app(app)
+users = []
+
 
 app.config.update(dict(
     DATABASE=os.path.join(app.root_path, 'flaskr.db'),
@@ -35,7 +37,7 @@ facebook = oauth.remote_app('facebook',
 
 #Twitter
 twitter = oauth.remote_app('twitter',
-    base_url = 'https://api.twitter.com/1/',
+    base_url='https://api.twitter.com/1.1/',
     request_token_url='https://api.twitter.com/oauth/request_token',
     access_token_url='https://api.twitter.com/oauth/access_token',
     authorize_url='https://api.twitter.com/oauth/authenticate',
@@ -45,5 +47,3 @@ twitter = oauth.remote_app('twitter',
     consumer_key='xBeXxg9lyElUgwZT6AZ0A',
     consumer_secret='aawnSpNTOVuDCjx7HMh6uSXetjNN8zWLpZwCEU4LBrk'
 )
-
-
