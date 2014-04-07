@@ -1,7 +1,7 @@
 # all the imports
 from flask import session, redirect, url_for, render_template, flash, request
 from flask.ext.login import login_required, login_user, logout_user, current_user
-from ops import app, facebook, twitter, users
+from ops import app, facebook, twitter
 from auth import User
 
 
@@ -10,15 +10,18 @@ def show_landing():
     return render_template('landing.html')
 
 
-@app.route('/login')
+@app.route('/login', methods=['POST', 'GET'])
 def login():
+    if request.method == 'POST':
+        user = User(request.form['username'])
+        login_user(user)
+        return redirect(url_for('profile', username=user.username))
     return render_template("login.html")
 
 
 @app.route('/logout')
 @login_required
 def logout():
-    current_user.authenticated = False
     logout_user()
     return redirect(url_for('show_landing'))
 
@@ -41,7 +44,8 @@ def test_drive():
 @app.route('/profile/<username>')
 @login_required
 def profile(username):
-    return 'Welcome %s to your profile page!' % username
+    print "hello"
+    return render_template('home.html')
 
 
 @app.route('/facebook')

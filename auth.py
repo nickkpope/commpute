@@ -1,5 +1,5 @@
 from flask import g, session
-from ops import app, login_manager, facebook, twitter, users
+from ops import app, login_manager, facebook, twitter
 
 
 @facebook.tokengetter
@@ -29,22 +29,21 @@ login_manager.login_message = u'Please log in to access this page'
 
 @login_manager.user_loader
 def load_user(userid):
-    for user in users:
-        if user.userid == userid:
-            return user
+    if userid == 0:
+        return User('admin')
 
 
 class User:
 
-    def __init__(self, username, token, secret):
+    def __init__(self, username):
         self.username = username
-        self.token = token
-        self.secret = secret
-        self.userid = None
 
     def is_authenticated(self):
         '''Determines whether a user has provided the correct crudentials'''
-        return True
+        if username == 'admin':
+            return True
+        else:
+            return False
 
     def is_active(self):
         '''Determines whether a user is an active user i.e. not suspended'''
@@ -59,5 +58,3 @@ class User:
         '''Return the id of the user (the id must be in unicode)'''
         return u'5'
 
-    def get(self):
-        return self.username
