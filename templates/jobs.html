@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block scripts %}
+<script type=text/javascript>
+  function refreshProgress() {
+    $.getJSON($SCRIPT_ROOT + '/progress', {
+        uservalue: $('input[name="uservalue"]').val(),
+    }, function(data) {
+        $("#prog").text(data.prog);
+        {% for job in jobs %}
+        document.getElementById("{{ job.name }}_pbar").style.width = data.prog + "%"
+        {% endfor %}
+    });
+  };
+
+  function init(){
+    window.setInterval(refreshProgress, 1000); // repeat forever, polling every 3 seconds
+  }
+
+</script>
+{% endblock %}
+{% block body %}
+    <div class="row text-right">
+        <div class="col-xs-4">
+        <div class="row text-left>"><div class="col-xs-4"><h1>Jobs</h1></div></div>
+        <br><br>
+        {% for job in jobs %}
+        <h2>{{ job.name }}</h2>
+            <div class="progress progress-striped active">
+              <div id="{{ job.name }}_pbar" class="progress-bar"  role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                <span class="sr-only">0% Complete</span>
+              </div>
+            </div>
+            <ul>
+            <div class="row text-left">
+                {% for task in job.tasks %}
+                <li>{{ task.name }}</li>
+                {% endfor %}
+            </div>
+        </ul>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

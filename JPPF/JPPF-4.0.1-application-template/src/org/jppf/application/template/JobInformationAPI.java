@@ -1,5 +1,9 @@
+package org.jppf.application.template;
+
 import org.jppf.application.template.TemplateApplicationRunner;
 import org.jppf.client.*;
+import org.jppf.node.protocol.Task;
+import org.jppf.client.submission.*;
 
 /**
  * This class provides a simplified window to the JPPF API focused on job submission and status.
@@ -15,7 +19,12 @@ public class JobInformationAPI
 	public JobInformationAPI()
 	{
 		// this call reads from the config file and connects to the JPPF server
-		jobRunner = new TemplateApplicationRunner();
+		jobRunner = TemplateApplicationRunner.getInstance();
+	}
+
+	public static void main(String[] args) 
+	{
+		JobInformationAPI.testJobInformationAPI();
 	}
 
 	/**
@@ -42,10 +51,32 @@ public class JobInformationAPI
 	}
 
 	/*
-	* @Returns "SUBMITTED", "PENDING", "EXECUTING", "COMPLETE", or "FAILED"
+	* @Returns "SUBMITTED", "PENDING", "EXECUTING", "COMPLETE", "FAILED", or "NONEXISTENT" if the job doesn't exist
 	*/
 	public String getJobStatus(String jobID)
 	{
+		JPPFResultCollector results;
+		String[] possibleStatuses = new String[]{"SUBMITTED", "PENDING", "EXECUTING", "COMPLETE", "FAILED", "NONEXISTENT"};
+		
+		// If the job doesn't exist in the jobRunner, it will throw an exception
+		try
+		{
+			results = jobRunner.getResultsForJob(jobID);
+		}
+		catch(Exception e)
+		{
+			return "NONEXISTENT";		
+		}
+	
+		for(String status : possibleStatuses)
+		{
+			if(results.getStatus() == SubmissionStatus.valueOf(status))
+			{
+				return status;			
+			}
+		}
+	
+		// WTF, this should never happen.
 		return "FAILED";
 	}
 
@@ -57,5 +88,27 @@ public class JobInformationAPI
 		return false;
 	}
 
+	public static void testJobInformationAPI()
+	{
+		JobInformationAPI api = new JobInformationAPI();		
 
+		System.out.println("Testing submitTestJob\n");
+		
+		String jobID = "FAIL";
+		try
+		{
+			jobID = api.submitTestJob("Test Output", 5);
+			System.out.println("Job ID returned was: " + jobID);
+		}
+		catch(Exception e)
+		{
+			System.out.println("FAIL, threw an exception");
+		}	
+		
+		System.out.println("Testing getJobStatus\n");
+		
+		String status = api.getJobStatus(jobID);
+		System.out.println("Status was: " + status);
+		
+	}
 }

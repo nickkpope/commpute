@@ -1,8 +1,9 @@
 # all the imports
-from flask import session, redirect, url_for, render_template, flash, request
+from flask import session, redirect, url_for, render_template, flash, request, jsonify
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from ops import app, facebook, twitter
 from auth import User
+import time
 
 
 @app.route('/')
@@ -26,6 +27,23 @@ def logout():
     return redirect(url_for('show_landing'))
 
 
+@app.route('/_add_numbers')
+def add_numbers():
+    a = request.args.get('a', 0, type=int)
+    b = request.args.get('b', 0, type=int)
+    return jsonify(result=a + b)
+
+
+@app.route('/add')
+def index():
+    return render_template('jstest.html')
+
+
+@app.route('/progress')
+def progress():
+    return jsonify(prog=time.time() % 50 * 2)
+
+
 @app.route('/signup')
 def sign_up():
     return 'Sign Up'
@@ -38,7 +56,7 @@ def docs():
 
 @app.route('/testdrive')
 def test_drive():
-    return 'Test Drive'
+    return render_template('jobs.html', jobs=jobs)
 
 
 @app.route('/profile/<username>')
@@ -46,6 +64,30 @@ def test_drive():
 def profile(username):
     print "hello"
     return render_template('home.html')
+
+
+@login_required
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect('/')
+
+jobs = [
+    {
+        'name': 'Job 1',
+        'tasks': [
+            {'name': 'Task 1'},
+            {'name': 'Task 2'}
+        ]
+    },
+    {
+        'name': 'Job 2',
+        'tasks': [
+            {'name': 'Task 3'},
+            {'name': 'Task 4'}
+        ]
+    }
+]
 
 
 @app.route('/facebook')
