@@ -20,6 +20,8 @@ package org.jppf.application.template;
 import java.util.List;
 import org.jppf.client.*;
 import org.jppf.node.protocol.Task;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * This is a template JPPF application runner.
@@ -34,17 +36,30 @@ public class TemplateApplicationRunner {
    * should generally be created and used as a singleton.
    */
   private static JPPFClient jppfClient =  null;
+  private static TemplateApplicationRunner instance = null;
+  private Map<String, JPPFResultCollector> resultsMap = null;
+  
+  public static synchronized TemplateApplicationRunner getInstance()
+  {
+		if(instance == null)
+		{
+			instance = new TemplateApplicationRunner();
+		}  
+		
+		return instance;
+  }
 
-  public TemplateApplicationRunner()
+  private TemplateApplicationRunner()
   {
     jppfClient = new JPPFClient();
+    resultsMap = new HashMap<String, JPPFResultCollector>();
   }
 
   /**
    * The entry point for this application runner to be run from a Java command line.
    * @param args by default, we do not use the command line arguments,
    * however nothing prevents us from using them if need be.
-   */
+   *//*
   public static void main(final String...args) {
     try {
       // create the JPPFClient. This constructor call causes JPPF to read the configuration file
@@ -68,7 +83,7 @@ public class TemplateApplicationRunner {
       if (jppfClient != null) jppfClient.close();
     }
   }
-
+	*/
   /**
    * Create a JPPF job that can be submitted for execution.
    * @return an instance of the {@link org.jppf.client.JPPFJob JPPFJob} class.
@@ -128,7 +143,7 @@ public class TemplateApplicationRunner {
     // When the job is finished (fail or succeed) the website should delete the listener and store
     // any archival info to a database so we don't run out of RAM.
 
-    System.out.println("Doing something while the job is executing ...");
+    resultsMap.put(job.getUuid(), collector);
 
 
     // We are now ready to get the results of the job execution.
@@ -175,7 +190,8 @@ public class TemplateApplicationRunner {
    * Process the execution results of each submitted task. 
    * @param results the tasks results after execution on the grid.
    */
-  public synchronized void processExecutionResults(final List<Task<?>> results) {
+  public synchronized void processExecutionResults(final List<Task<?>> results) 
+  {
     // process the results
     for (Task<?> task: results) {
       // if the task execution resulted in an exception
@@ -186,5 +202,10 @@ public class TemplateApplicationRunner {
         // process the result here ...
       }
     }
+  }
+  
+  public JPPFResultCollector getResultsForJob(String jobID)
+  {
+		return resultsMap.get(jobID);
   }
 }
