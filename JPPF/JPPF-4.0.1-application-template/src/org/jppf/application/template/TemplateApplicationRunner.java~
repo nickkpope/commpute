@@ -60,20 +60,41 @@ public class TemplateApplicationRunner {
    * @return an instance of the {@link org.jppf.client.JPPFJob JPPFJob} class.
    * @throws Exception if an error occurs while creating the job or adding tasks.
    */
-  public synchronized JPPFJob createJob() throws Exception {
+  public synchronized JPPFJob createJob() throws Exception 
+  {
     // create a JPPF job
     JPPFJob job = new JPPFJob();
 
     // give this job a readable unique id that we can use to monitor and manage it.
-    job.setName("Template Job Id");
+    job.setName("Test Job");
 
     // add a task to the job.
     job.add(new TemplateJPPFTask());
 
     // add more tasks here ...
+    
+    return job;
+  }
+  
+    /**
+   * Create a test JPPF job that can be submitted for execution.
+   * @return an instance of the {@link org.jppf.client.JPPFJob JPPFJob} class.
+   * @throws Exception if an error occurs while creating the job or adding tasks.
+   */
+  public synchronized JPPFJob createTestJob(String message, int waitTime, int numTasks) throws Exception 
+  {
+    // create a JPPF job
+    JPPFJob job = new JPPFJob();
 
-    // there is no guarantee on the order of execution of the tasks,
-    // however the results are guaranteed to be returned in the same order as the tasks.
+    // give this job a readable unique id that we can use to monitor and manage it.
+    job.setName("Test Job");
+
+
+    for(int i = 0; i < numMessages; i++)
+    {
+      job.add(new TemplateJPPFTask(message, waitTime));
+    }    
+    
     return job;
   }
   
@@ -89,7 +110,7 @@ public class TemplateApplicationRunner {
     
     try
     {
-      wasSuccessful = TemplateApplicationRunner.jppfClient.cancelJob(jobID);
+      wasSuccessful = jppfClient.cancelJob(jobID);
     }
     catch(Exception e)
     {

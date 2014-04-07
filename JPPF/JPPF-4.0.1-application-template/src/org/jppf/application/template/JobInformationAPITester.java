@@ -27,7 +27,7 @@ public class JobInformationAPITester
 		String jobID = "FAIL";
 		try
 		{
-			jobID = api.submitTestJob("Test Output", 5);
+			jobID = api.submitTestJob("Test Output", 5, 3);
 		}
 		catch(Exception e)
 		{
@@ -48,7 +48,7 @@ public class JobInformationAPITester
 		String jobID = "FAIL";
 		try
 		{
-			jobID = api.submitTestJob("Test Output", 5);
+			jobID = api.submitTestJob("Test Output", 5, 3);
 		}
 		catch(Exception e)
 		{
@@ -62,7 +62,22 @@ public class JobInformationAPITester
 
 	public static void testCancelJob()
 	{
-
+		System.out.println("Testing cancelJob()");
+		
+		String jobID = "";
+		try
+		{
+			jobID = api.submitTestJob("Test Output", 10, 1);
+		}
+		catch(Exception e)
+		{
+			System.out.println("FAIL, threw an exception");
+		}		
+		
+		if(api.cancelJob(jobID) == false)
+		{
+			System.out.println("FAIL, could not cancel a job");		
+		}
 	}
 
 

@@ -29,7 +29,7 @@ public class JobInformationAPI
 	public String submitTestJob(String desiredOutput, int secondsLong) throws Exception
 	{
 		// Create a job
-		JPPFJob job = jobRunner.createJob();
+		JPPFJob job = jobRunner.createTestJob();
 
 		// execute a non-blocking job
 		jobRunner.executeNonBlockingJob(job);
@@ -80,6 +80,6 @@ public class JobInformationAPI
 	*/
 	public boolean cancelJob(String jobID)
 	{
-		return jppfClient.cancelJob(jobID);
+		return jobRunner.cancelJob(jobID);
 	}
 }

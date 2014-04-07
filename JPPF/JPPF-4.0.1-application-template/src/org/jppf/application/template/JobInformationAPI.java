@@ -26,10 +26,10 @@ public class JobInformationAPI
 	* @Throws Exception if an error occurs while creating the job.
 	* @Returns the ID of the Job that was created
 	*/
-	public String submitTestJob(String desiredOutput, int secondsLong) throws Exception
+	public String submitTestJob(String desiredOutput, int secondsLong, int numTasks) throws Exception
 	{
 		// Create a job
-		JPPFJob job = jobRunner.createJob();
+		JPPFJob job = jobRunner.createTestJob(desiredOutput, secondsLong, numTasks);
 
 		// execute a non-blocking job
 		jobRunner.executeNonBlockingJob(job);

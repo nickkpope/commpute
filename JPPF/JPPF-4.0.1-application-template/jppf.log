@@ -1,8 +1,8 @@
-2014-04-07 14:03:16,710 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(88)]: --------------------------------------------------------------------------------
-2014-04-07 14:03:16,723 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(89)]: JPPF Version: 4.0.1, Build number: 1309, Build date: 2014-02-27 11:04 CET
-2014-04-07 14:03:16,723 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(90)]: starting client with PID=20664, UUID=22822387-A0CD-B1A3-74ED-30FE05F77C23
-2014-04-07 14:03:16,724 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(91)]: --------------------------------------------------------------------------------
-2014-04-07 14:03:16,726 [INFO ][org.jppf.client.AbstractGenericClient.init(106)]: JPPF client starting with sslEnabled = false
-2014-04-07 14:03:16,869 [INFO ][org.jppf.client.AbstractGenericClient.newConnection(246)]: connection [driver-1] created
-2014-04-07 14:03:16,881 [INFO ][org.jppf.client.ClassServerDelegateImpl.init(81)]: [client: driver-1 - ClassServer] Attempting connection to the class server at 172.16.145.1:11111
-2014-04-07 14:03:17,885 [INFO ][org.jppf.client.ClassServerDelegateImpl.init(91)]: [client: driver-1 - ClassServer] Reconnected to the class server
+2014-04-07 14:47:50,710 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(88)]: --------------------------------------------------------------------------------
+2014-04-07 14:47:50,713 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(89)]: JPPF Version: 4.0.1, Build number: 1309, Build date: 2014-02-27 11:04 CET
+2014-04-07 14:47:50,714 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(90)]: starting client with PID=28361, UUID=BD23EDCA-A9F1-18DA-50C7-BC67EB4D0A42
+2014-04-07 14:47:50,714 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(91)]: --------------------------------------------------------------------------------
+2014-04-07 14:47:50,716 [INFO ][org.jppf.client.AbstractGenericClient.init(106)]: JPPF client starting with sslEnabled = false
+2014-04-07 14:47:50,952 [INFO ][org.jppf.client.AbstractGenericClient.newConnection(246)]: connection [driver-1] created
+2014-04-07 14:47:50,961 [INFO ][org.jppf.client.ClassServerDelegateImpl.init(81)]: [client: driver-1 - ClassServer] Attempting connection to the class server at 192.168.43.1:11111
+2014-04-07 14:47:51,965 [INFO ][org.jppf.client.ClassServerDelegateImpl.init(91)]: [client: driver-1 - ClassServer] Reconnected to the class server

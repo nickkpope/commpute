@@ -38,7 +38,8 @@ import java.util.concurrent.TimeUnit;
 public class TemplateJPPFTask extends AbstractTask<String> 
 {
 	private int waitTime = 5;
-	private String messageDisplayed = "This is a test JPPF task, set to wait for " + waitTime + " seconds.";	
+	private String messageDisplayed = "This is an example message.";
+	private String COMMONMESSAGE = "This is a test JPPF task, set to wait for " + waitTime + " seconds.";	
 	
   /**
    * Perform initializations on the client side,
@@ -46,6 +47,12 @@ public class TemplateJPPFTask extends AbstractTask<String>
    */
   public TemplateJPPFTask() {
     // perform initializations here ...
+  }
+  
+  public TemplateJPPFTask(String displayMessage, int waitTime) 
+  {
+    this.waitTime = waitTime;
+    this.messageDisplayed = displayMessage;
   }
 
   /**
@@ -62,7 +69,8 @@ public class TemplateJPPFTask extends AbstractTask<String>
   @Override
   public void run() 
   {
-    // write your task code here.
+    System.out.println(COMMONMESSAGE);
+    System.out.println(messageDisplayed);
     
     try
 	 {
@@ -73,7 +81,7 @@ public class TemplateJPPFTask extends AbstractTask<String>
    
     }
    
-   System.out.println(messageDisplayed);
+
 
     // eventually set the execution results
     setResult("the execution was performed successfully");
