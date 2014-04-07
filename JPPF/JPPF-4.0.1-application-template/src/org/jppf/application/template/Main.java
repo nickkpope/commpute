@@ -1,9 +1,13 @@
-import org.jppf.application.template.JobInformationAPI;
+package org.jppf.application.template;
+
+import org.jppf.application.template.JobInformationAPITester;
 
 public class Main
 {	
 	public static void main(String[] args) 
 	{
-		JobInformationAPI.testJobInformationAPI();
+		JobInformationAPITester.testJobInformationAPI();
+		
+		//System.exit(0);
 	}
 }

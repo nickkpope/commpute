@@ -22,11 +22,6 @@ public class JobInformationAPI
 		jobRunner = TemplateApplicationRunner.getInstance();
 	}
 
-	public static void main(String[] args) 
-	{
-		JobInformationAPI.testJobInformationAPI();
-	}
-
 	/**
 	* @Throws Exception if an error occurs while creating the job.
 	* @Returns the ID of the Job that was created
@@ -76,7 +71,7 @@ public class JobInformationAPI
 			}
 		}
 	
-		// WTF, this should never happen.
+		// This should never happen.
 		return "FAILED";
 	}
 
@@ -85,30 +80,6 @@ public class JobInformationAPI
 	*/
 	public boolean cancelJob(String jobID)
 	{
-		return false;
-	}
-
-	public static void testJobInformationAPI()
-	{
-		JobInformationAPI api = new JobInformationAPI();		
-
-		System.out.println("Testing submitTestJob\n");
-		
-		String jobID = "FAIL";
-		try
-		{
-			jobID = api.submitTestJob("Test Output", 5);
-			System.out.println("Job ID returned was: " + jobID);
-		}
-		catch(Exception e)
-		{
-			System.out.println("FAIL, threw an exception");
-		}	
-		
-		System.out.println("Testing getJobStatus\n");
-		
-		String status = api.getJobStatus(jobID);
-		System.out.println("Status was: " + status);
-		
+		return jobRunner.cancelJob(jobID);
 	}
 }

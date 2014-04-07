@@ -56,35 +56,6 @@ public class TemplateApplicationRunner {
   }
 
   /**
-   * The entry point for this application runner to be run from a Java command line.
-   * @param args by default, we do not use the command line arguments,
-   * however nothing prevents us from using them if need be.
-   *//*
-  public static void main(final String...args) {
-    try {
-      // create the JPPFClient. This constructor call causes JPPF to read the configuration file
-      // and connect with one or multiple JPPF drivers.
-      //jppfClient = new JPPFClient();
-
-      // create a runner instance.
-      TemplateApplicationRunner runner = new TemplateApplicationRunner();
-
-      // Create a job
-      JPPFJob job = runner.createJob();
-
-      // execute a blocking job
-      runner.executeBlockingJob(job);
-
-      // execute a non-blocking job
-      //runner.executeNonBlockingJob(job);
-    } catch(Exception e) {
-      e.printStackTrace();
-    } finally {
-      if (jppfClient != null) jppfClient.close();
-    }
-  }
-	*/
-  /**
    * Create a JPPF job that can be submitted for execution.
    * @return an instance of the {@link org.jppf.client.JPPFJob JPPFJob} class.
    * @throws Exception if an error occurs while creating the job or adding tasks.
@@ -104,6 +75,28 @@ public class TemplateApplicationRunner {
     // there is no guarantee on the order of execution of the tasks,
     // however the results are guaranteed to be returned in the same order as the tasks.
     return job;
+  }
+  
+  /**
+  * Attempts to cancel the job with the specified ID.  
+  *
+  * @Returns true if the job was cancelled, false if not.
+  *
+  */
+  public synchronized boolean cancelJob(String jobID)
+  {
+    boolean wasSuccessful = false;
+    
+    try
+    {
+      wasSuccessful = jppfClient.cancelJob(jobID);
+    }
+    catch(Exception e)
+    {
+      return false;    
+    }
+	
+	 return wasSuccessful;
   }
 
   /**
@@ -144,15 +137,6 @@ public class TemplateApplicationRunner {
     // any archival info to a database so we don't run out of RAM.
 
     resultsMap.put(job.getUuid(), collector);
-
-
-    // We are now ready to get the results of the job execution.
-    // We use JPPFResultCollector.waitForResults() for this. This method returns immediately with
-    // the results if the job has completed, otherwise it waits until the job execution is complete.
-    List<Task<?>> results = collector.awaitResults();
-
-    // process the results
-    processExecutionResults(results);
   }
 
   /**
