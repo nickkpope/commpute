@@ -18,8 +18,8 @@ class DBO():
 class MongoDBO(DBO):
     '''
     {
-        dbo: DBO
-        col: string
+        dbo: DBO,
+        col: string,
         db:  string    
     }
     '''
@@ -46,13 +46,13 @@ class MongoDBO(DBO):
 class Participant(MongoDBO):
     '''
     {
-        parent: MongoDBO
-        contributors: listof Participants?
-        name: string
-        username: string
-        uptime: #
-        computers: listof Computers
-        requests: listof Participants 
+        parent: MongoDBO,
+        contributors: listof Participants?,
+        name: string,
+        username: string,
+        uptime: #,
+        computers: listof Computers,
+        requests: listof Participants
     }
     '''
     def __init__(self, username=None, name=None):
@@ -118,7 +118,7 @@ class Person(Participant):
 class Organization(Participant):
     '''
     {
-        participant: Participant
+        participant: Participant,
         leaders: listof Participants
     }
     '''
@@ -134,13 +134,13 @@ class Organization(Participant):
 class Computer(MongoDBO):
     '''
     {
-        'uptime': int, #  (seconds)
+        'uptime': int, #  (seconds),
         'info': {
             'os': str,
             'ram': str,
             'cores': int,
             ...
-        }
+        },
         address: string
     }
     '''
@@ -167,7 +167,7 @@ class Computer(MongoDBO):
 class Job(MongoDBO):
     '''
     {
-        object: MongoDBO
+        object: MongoDBO,
         ...
     }
     '''
@@ -177,3 +177,21 @@ class Job(MongoDBO):
 
     def participant(self):
         pass
+
+
+class Request(MongoDB0):
+    '''
+    {
+        object: MongoDBO,
+        sender: Participant,
+        receiver: Participant,
+        data: Date,
+        status: str,
+        ...
+    }
+    '''
+
+    def __init__(self):
+        MongoDBO.__init__(self)
+        pass
+
