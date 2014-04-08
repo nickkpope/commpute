@@ -1,7 +1,7 @@
 from flask import g, session
 from ops import app, login_manager, facebook, twitter, mongo, users
 from flask.ext.login import current_user
-from db import Participant
+from db import Person
 
 
 @facebook.tokengetter
@@ -32,11 +32,10 @@ def load_user(userid):
             return user
 
 
-class User(Participant):
+class User(Person):
 
     def __init__(self, username, name):
-        self.username = username
-        self.name = name
+        Person.__init__(self, username, name)
 
     def is_authenticated(self):
         '''Determines whether a user has provided the correct crudentials'''

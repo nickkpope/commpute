@@ -14,6 +14,8 @@ def show_landing():
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
+    if current_user.is_authenticated():
+        return redirect(url_for('profile', username=current_user.username))
     if request.method == 'POST':
         stored_user = mongo.db.users.find_one({'username': request.form['username']})
         print stored_user
@@ -50,9 +52,19 @@ def progress():
     return jsonify(prog=time.time() % 50 * 2)
 
 
-@app.route('/signup')
+@app.route('/signup', methods=['GET', 'POST'])
 def sign_up():
-    return 'Sign Up'
+    if current_user.is_authenticated():
+        return redirect(url_for('profile', username=current_user.username))
+    if request.method == 'POST':
+        user = User(request.form['username'], request.form['name'])
+        print user
+        users.append(user)
+        login_user(user)
+        user.user_id = session['user_id']
+        mongo.db.users.insert(user.save_participant())
+        return redirect(url_for('profile', username=user.username))
+    return render_template('signup.html')
 
 
 @app.route('/docs')
