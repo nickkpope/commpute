@@ -52,7 +52,7 @@ class Participant(MongoDBO):
         username: string,
         uptime: #,
         computers: listof Computers,
-        requests: listof Participants
+        requests: listof Requests
     }
     '''
     def __init__(self, username=None, name=None):
