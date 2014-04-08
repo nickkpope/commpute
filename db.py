@@ -88,17 +88,19 @@ class Computer(MongoDBO):
         MongoDBO.__init__(self)
 
     def uptime(self):
-        '''Computers uptime'''
+        '''Computers uptime (seconds)'''
+        return self.uptime
 
     def info(self):
         '''Dictionary containing useful information about that computer'''
+        return self.info
 
     def connect_info(self):
         '''
         Dictionary containing information necessary for users to
         authenticate with and send commands to.
         '''
-        pass
+        return self.connect_info
 
 
 class Job(MongoDBO):

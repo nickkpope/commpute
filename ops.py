@@ -1,5 +1,6 @@
 from flask import Flask
 from flask.ext.login import LoginManager
+from flask.ext.pymongo import PyMongo
 import os
 from flask_oauthlib.client import OAuth
 
@@ -7,10 +8,12 @@ from flask_oauthlib.client import OAuth
 #Create and configure the application
 app = Flask(__name__)
 app.config.from_object(__name__)
+#Login
 login_manager = LoginManager()
 login_manager.init_app(app)
+#Database handle
+mongo = PyMongo(app)
 users = []
-
 
 app.config.update(dict(
     DATABASE=os.path.join(app.root_path, 'flaskr.db'),
