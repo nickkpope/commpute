@@ -1,9 +1,10 @@
 # all the imports
 from flask import session, redirect, url_for, render_template, flash, request, jsonify
 from flask.ext.login import login_required, login_user, logout_user, current_user
-from ops import app, facebook, twitter
+from ops import app, facebook, twitter, mongo, users
 from auth import User
 import time
+import pymongo
 
 
 @app.route('/')
@@ -14,9 +15,14 @@ def show_landing():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
-        user = User(request.form['username'])
-        login_user(user)
-        return redirect(url_for('profile', username=user.username))
+        stored_user = mongo.db.users.find_one({'username': request.form['username']})
+        print stored_user
+        if stored_user is not None:
+            user = User(username=stored_user['username'], name=stored_user['name'])
+            users.append(user)
+            login_user(user)
+            user.user_id = session['user_id']
+            return redirect(url_for('profile', username=user.username))
     return render_template("login.html")
 
 
@@ -62,15 +68,11 @@ def test_drive():
 @app.route('/profile/<username>')
 @login_required
 def profile(username):
-    print "hello"
+    for user in users:
+        if user.username == username:
+            return render_template('home.html', name=user.name)
     return render_template('home.html')
 
-
-@login_required
-@app.route('/logout')
-def logout():
-    logout_user()
-    return redirect('/')
 
 jobs = [
     {

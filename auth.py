@@ -1,5 +1,7 @@
 from flask import g, session
-from ops import app, login_manager, facebook, twitter
+from ops import app, login_manager, facebook, twitter, mongo, users
+from flask.ext.login import current_user
+from db import Participant
 
 
 @facebook.tokengetter
@@ -22,28 +24,23 @@ def before_request():
     if 'twitter_oauth' in session:
         g.user = session['twitter_oauth']
 
-#Login Customization
-login_manager.login_view = 'login'
-login_manager.login_message = u'Please log in to access this page'
-
 
 @login_manager.user_loader
 def load_user(userid):
-    if userid == 0:
-        return User('admin')
+    for user in users:
+        if user.user_id == userid:
+            return user
 
 
-class User:
+class User(Participant):
 
-    def __init__(self, username):
+    def __init__(self, username, name):
         self.username = username
+        self.name = name
 
     def is_authenticated(self):
         '''Determines whether a user has provided the correct crudentials'''
-        if username == 'admin':
-            return True
-        else:
-            return False
+        return True
 
     def is_active(self):
         '''Determines whether a user is an active user i.e. not suspended'''
