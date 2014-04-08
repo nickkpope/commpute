@@ -38,7 +38,7 @@ def index():
 
 @app.route('/progress')
 def progress():
-    return jsonify(prog=time.time() % 50 * 2)
+    return jsonify(prog=time.time() % 50 * 2, jobs=jobs)
 
 
 @app.route('/signup')
@@ -71,16 +71,30 @@ def logout():
 jobs = [
     {
         'name': 'Job 1',
+        "id": 'j1',
         'tasks': [
-            {'name': 'Task 1'},
-            {'name': 'Task 2'}
+            {'name': 'Task 1', 'id': 't1'},
+            {'name': 'Task 2', 'id': 't2'}
         ]
     },
     {
         'name': 'Job 2',
+        "id": 'j2',
         'tasks': [
-            {'name': 'Task 3'},
-            {'name': 'Task 4'}
+            {'name': 'Task A', 'id': 't1'},
+            {'name': 'Task B', 'id': 't2'},
+            {'name': 'Task C', 'id': 't3'}
+        ]
+    },
+    {
+        'name': 'Job 3',
+        "id": 'j3',
+        'tasks': [
+            {'name': 'Task Gorilla', 'id': 't1'},
+            {'name': 'Task Banana', 'id': 't2'},
+            {'name': 'Task Drunk', 'id': 't3'},
+            {'name': 'Task Monkey', 'id': 't4'}
+
         ]
     }
 ]
