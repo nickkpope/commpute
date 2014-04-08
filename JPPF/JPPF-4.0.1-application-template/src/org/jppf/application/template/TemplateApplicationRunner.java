@@ -20,6 +20,8 @@ package org.jppf.application.template;
 import java.util.List;
 import org.jppf.client.*;
 import org.jppf.node.protocol.Task;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * This is a template JPPF application runner.
@@ -34,39 +36,23 @@ public class TemplateApplicationRunner {
    * should generally be created and used as a singleton.
    */
   private static JPPFClient jppfClient =  null;
-
-  public TemplateApplicationRunner()
+  private static TemplateApplicationRunner instance = null;
+  private Map<String, JPPFResultCollector> resultsMap = null;
+  
+  public static synchronized TemplateApplicationRunner getInstance()
   {
-    jppfClient = new JPPFClient();
+		if(instance == null)
+		{
+			instance = new TemplateApplicationRunner();
+		}  
+		
+		return instance;
   }
 
-  /**
-   * The entry point for this application runner to be run from a Java command line.
-   * @param args by default, we do not use the command line arguments,
-   * however nothing prevents us from using them if need be.
-   */
-  public static void main(final String...args) {
-    try {
-      // create the JPPFClient. This constructor call causes JPPF to read the configuration file
-      // and connect with one or multiple JPPF drivers.
-      //jppfClient = new JPPFClient();
-
-      // create a runner instance.
-      TemplateApplicationRunner runner = new TemplateApplicationRunner();
-
-      // Create a job
-      JPPFJob job = runner.createJob();
-
-      // execute a blocking job
-      runner.executeBlockingJob(job);
-
-      // execute a non-blocking job
-      //runner.executeNonBlockingJob(job);
-    } catch(Exception e) {
-      e.printStackTrace();
-    } finally {
-      if (jppfClient != null) jppfClient.close();
-    }
+  private TemplateApplicationRunner()
+  {
+    jppfClient = new JPPFClient();
+    resultsMap = new HashMap<String, JPPFResultCollector>();
   }
 
   /**
@@ -74,21 +60,64 @@ public class TemplateApplicationRunner {
    * @return an instance of the {@link org.jppf.client.JPPFJob JPPFJob} class.
    * @throws Exception if an error occurs while creating the job or adding tasks.
    */
-  public synchronized JPPFJob createJob() throws Exception {
+  public synchronized JPPFJob createJob() throws Exception 
+  {
     // create a JPPF job
     JPPFJob job = new JPPFJob();
 
     // give this job a readable unique id that we can use to monitor and manage it.
-    job.setName("Template Job Id");
+    job.setName("Test Job");
 
     // add a task to the job.
     job.add(new TemplateJPPFTask());
 
     // add more tasks here ...
-
-    // there is no guarantee on the order of execution of the tasks,
-    // however the results are guaranteed to be returned in the same order as the tasks.
+    
     return job;
+  }
+  
+    /**
+   * Create a test JPPF job that can be submitted for execution.
+   * @return an instance of the {@link org.jppf.client.JPPFJob JPPFJob} class.
+   * @throws Exception if an error occurs while creating the job or adding tasks.
+   */
+  public synchronized JPPFJob createTestJob(String message, int waitTime, int numTasks) throws Exception 
+  {
+    // create a JPPF job
+    JPPFJob job = new JPPFJob();
+
+    // give this job a readable unique id that we can use to monitor and manage it.
+    job.setName("Test Job");
+
+
+    for(int i = 0; i < numTasks; i++)
+    {
+      job.add(new TemplateJPPFTask(message, waitTime));
+    }    
+    
+    return job;
+  }
+  
+  /**
+  * Attempts to cancel the job with the specified ID.  
+  *
+  * @Returns true if the job was cancelled, false if not.
+  *
+  */
+  public synchronized boolean cancelJob(String jobID)
+  {
+    boolean wasSuccessful = false;
+    
+    try
+    {
+      wasSuccessful = jppfClient.cancelJob(jobID);
+    }
+    catch(Exception e)
+    {
+      return false;    
+    }
+	
+	 return wasSuccessful;
   }
 
   /**
@@ -128,16 +157,7 @@ public class TemplateApplicationRunner {
     // When the job is finished (fail or succeed) the website should delete the listener and store
     // any archival info to a database so we don't run out of RAM.
 
-    System.out.println("Doing something while the job is executing ...");
-
-
-    // We are now ready to get the results of the job execution.
-    // We use JPPFResultCollector.waitForResults() for this. This method returns immediately with
-    // the results if the job has completed, otherwise it waits until the job execution is complete.
-    List<Task<?>> results = collector.awaitResults();
-
-    // process the results
-    processExecutionResults(results);
+    resultsMap.put(job.getUuid(), collector);
   }
 
   /**
@@ -175,7 +195,8 @@ public class TemplateApplicationRunner {
    * Process the execution results of each submitted task. 
    * @param results the tasks results after execution on the grid.
    */
-  public synchronized void processExecutionResults(final List<Task<?>> results) {
+  public synchronized void processExecutionResults(final List<Task<?>> results) 
+  {
     // process the results
     for (Task<?> task: results) {
       // if the task execution resulted in an exception
@@ -186,5 +207,10 @@ public class TemplateApplicationRunner {
         // process the result here ...
       }
     }
+  }
+  
+  public JPPFResultCollector getResultsForJob(String jobID)
+  {
+		return resultsMap.get(jobID);
   }
 }

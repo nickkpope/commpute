@@ -1,4 +1,7 @@
-2014-04-04 20:56:44,988 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(88)]: --------------------------------------------------------------------------------
-2014-04-04 20:56:44,995 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(89)]: JPPF Version: 4.0.1, Build number: 1309, Build date: 2014-02-27 11:04 CET
-2014-04-04 20:56:44,995 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(90)]: starting node with PID=20300, UUID=0B335DD9-0ADB-A9C6-BA18-9FD1C4051B9F
-2014-04-04 20:56:44,996 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(91)]: --------------------------------------------------------------------------------
+2014-04-07 14:21:04,446 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(88)]: --------------------------------------------------------------------------------
+2014-04-07 14:21:04,453 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(89)]: JPPF Version: 4.0.1, Build number: 1309, Build date: 2014-02-27 11:04 CET
+2014-04-07 14:21:04,453 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(90)]: starting node with PID=22638, UUID=9E0772BC-B99E-DFCC-D994-87047E75AAF1
+2014-04-07 14:21:04,454 [INFO ][org.jppf.utils.VersionUtils.logVersionInformation(91)]: --------------------------------------------------------------------------------
+2014-04-07 14:21:05,574 [INFO ][org.jppf.classloader.ClassLoaderRequestHandler.run(155)]: maxBatchSize = 1
+2014-04-07 14:21:05,698 [INFO ][org.jppf.server.node.NodeExecutionManagerImpl.<init>(137)]: running 8 processing threads
+2014-04-07 14:21:05,699 [INFO ][org.jppf.server.node.NodeExecutionManagerImpl.createThreadManager(164)]: Using default thread manager

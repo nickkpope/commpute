@@ -18,6 +18,7 @@
 package org.jppf.application.template;
 
 import org.jppf.node.protocol.AbstractTask;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class is a template for a standard JPPF task.
@@ -34,13 +35,24 @@ import org.jppf.node.protocol.AbstractTask;
  * </ol>
  * @author Laurent Cohen
  */
-public class TemplateJPPFTask extends AbstractTask<String> {
+public class TemplateJPPFTask extends AbstractTask<String> 
+{
+	private int waitTime = 5;
+	private String messageDisplayed = "This is an example message.";
+	private String COMMONMESSAGE = "This is a test JPPF task, set to wait for " + waitTime + " seconds.";	
+	
   /**
    * Perform initializations on the client side,
    * before the task is executed by the node.
    */
   public TemplateJPPFTask() {
     // perform initializations here ...
+  }
+  
+  public TemplateJPPFTask(String displayMessage, int waitTime) 
+  {
+    this.waitTime = waitTime;
+    this.messageDisplayed = displayMessage;
   }
 
   /**
@@ -55,11 +67,21 @@ public class TemplateJPPFTask extends AbstractTask<String> {
    * @see java.lang.Runnable#run()
    */
   @Override
-  public void run() {
-    // write your task code here.
-    System.out.println("Hello, this is the node executing a template JPPF task");
+  public void run() 
+  {
+    System.out.println(COMMONMESSAGE);
+    System.out.println(messageDisplayed);
+    
+    try
+	 {
+      TimeUnit.SECONDS.sleep(1 * waitTime);
+    }
+    catch(Exception e)
+    {
+   
+    }
+   
 
-    // ...
 
     // eventually set the execution results
     setResult("the execution was performed successfully");

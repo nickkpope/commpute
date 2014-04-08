@@ -1,9 +1,10 @@
 # all the imports
 from flask import session, redirect, url_for, render_template, flash, request, jsonify
 from flask.ext.login import login_required, login_user, logout_user, current_user
-from ops import app, facebook, twitter, users
+from ops import app, facebook, twitter, mongo, users
 from auth import User
 import time
+import pymongo
 
 
 @app.route('/')
@@ -11,17 +12,32 @@ def show_landing():
     return render_template('landing.html')
 
 
-@app.route('/login')
+@app.route('/login', methods=['POST', 'GET'])
 def login():
+    if current_user.is_authenticated():
+        return redirect(url_for('profile', username=current_user.username))
+    if request.method == 'POST':
+        #stored_user = mongo.db.users.find_one({'username': request.form['username']})
+        stored_user = None
+        for user in users:
+            if user.username == request.form['username']:
+                stored_user = user
+        print stored_user
+        if stored_user is not None:
+            #user = User(username=stored_user['username'], name=stored_user['name'])
+            #users.append(user)
+            user = stored_user
+            login_user(user)
+            user.user_id = session['user_id']
+            return redirect(url_for('profile', username=user.username))
     return render_template("login.html")
 
 
-# @app.route('/logout')
-# @login_required
-# def logout():
-#     current_user.authenticated = False
-#     logout_user()
-#     return redirect(url_for('show_landing'))
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('show_landing'))
 
 
 @app.route('/_add_numbers')
@@ -41,9 +57,19 @@ def progress():
     return jsonify(prog=time.time() % 50 * 2, jobs=jobs)
 
 
-@app.route('/signup')
+@app.route('/signup', methods=['GET', 'POST'])
 def sign_up():
-    return 'Sign Up'
+    if current_user.is_authenticated():
+        return redirect(url_for('profile', username=current_user.username))
+    if request.method == 'POST':
+        user = User(request.form['username'], request.form['name'])
+        print user
+        users.append(user)
+        login_user(user)
+        user.user_id = session['user_id']
+        #mongo.db.users.insert(user.save_participant())
+        return redirect(url_for('profile', username=user.username))
+    return render_template('signup.html')
 
 
 @app.route('/docs')
@@ -59,14 +85,11 @@ def test_drive():
 @app.route('/profile/<username>')
 @login_required
 def profile(username):
-    return 'Welcome %s to your profile page!' % username
+    for user in users:
+        if user.username == username:
+            return render_template('home.html', name=user.name)
+    return render_template('home.html')
 
-
-@login_required
-@app.route('/logout')
-def logout():
-    logout_user()
-    return redirect('/')
 
 jobs = [
     {
