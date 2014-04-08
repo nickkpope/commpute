@@ -178,9 +178,9 @@ class Job(MongoDBO):
     def participant(self):
         pass
 
-
+'''
 class Request(MongoDB0):
-    '''
+    
     {
         object: MongoDBO,
         sender: Participant,
@@ -189,9 +189,10 @@ class Request(MongoDB0):
         status: str,
         ...
     }
-    '''
+    
 
     def __init__(self):
         MongoDBO.__init__(self)
         pass
+'''
 
