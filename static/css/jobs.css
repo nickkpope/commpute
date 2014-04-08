@@ -1,0 +1,10 @@
+.bottom-buffer { 
+    margin-bottom: 10px;
+}
+.pane-item {
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-bottom: 2px;
+    border-radius: 10px;
+    border-color: #35bce3;
+}
