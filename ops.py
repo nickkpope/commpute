@@ -13,8 +13,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 #Database handle
 mongo = PyMongo(app)
-users = []
-
+users = [] 
 app.config.update(dict(
     DATABASE=os.path.join(app.root_path, 'flaskr.db'),
     DEBUG=True,

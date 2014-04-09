@@ -92,7 +92,7 @@ class Participant(MongoDBO):
         '''Method to convert Participant into a dictionary'''
         self.data = {'username': self.username,
                         'name' : self.name }
-        return participant
+        return self.data
 
 
     def request(self):
