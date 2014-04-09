@@ -41,9 +41,9 @@ public class JPPFXmlRpcServer
                 config.setServerURL(new URL("http://127.0.0.1:8090"));
                 XmlRpcClient client = new XmlRpcClient();
                 client.setConfig(config);
-                Object[] params = new Object[]{"XMLRPC test text", new Integer(9), new Integer(3)};
-                String result = (String) client.execute("system.submitTestJob", params);
+                //Object[] params = new Object[]{"XMLRPC test text", new Integer(9), new Integer(3)};
+                //String result = (String) client.execute("system.submitTestJob", params);
 
-                System.out.println("result was: " + result);
+                //System.out.println("result was: " + result);
 	}
 }
