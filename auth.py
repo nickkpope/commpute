@@ -1,7 +1,7 @@
 from flask import g, session
 from ops import app, login_manager, facebook, twitter, mongo, users
 from flask.ext.login import current_user
-from db import Person
+from db import Participant
 
 
 @facebook.tokengetter
@@ -19,13 +19,6 @@ def get_twitter_token():
         return None
 
 
-@app.before_request
-def before_request():
-    g.user = None
-    if 'twitter_oauth' in session:
-        g.user = session['twitter_oauth']
-
-
 @login_manager.user_loader
 def load_user(userid):
     for user in users:
@@ -33,7 +26,7 @@ def load_user(userid):
             return user
 
 
-class User(Person):
+class User(Participant):
 
     def __init__(self, username=None, name=None, token=None, secret=None):
         Person.__init__(self, username, name)

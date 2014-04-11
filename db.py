@@ -203,7 +203,7 @@ class Request():
             this.receiver = data['receiver']
         if 'data' in data:
             this.data = data['date']
-        if 'status' in data['status']
+        if 'status' in data['status']:
             this.status = data['status']
 
 
