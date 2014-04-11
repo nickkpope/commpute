@@ -1,4 +1,4 @@
-class DBO():
+class DBO(object):
     '''
     {
         id, #
@@ -25,22 +25,6 @@ class MongoDBO(DBO):
     '''
     def __init__(self):
         DBO.__init__(self)
-        self.col = None
-        self.db = None
-        self.data = None
-
-    def __getitme__(self, key):
-        return self.data()[key]
-
-    def collection(self):
-        pass
-
-    def database(self):
-        pass
-
-    def data(self):
-        '''Raw dictionary returned from the database'''
-        pass
 
 
 class Participant(MongoDBO):
@@ -61,48 +45,28 @@ class Participant(MongoDBO):
         self.username = username
         self.name = name
         self.requests = []
+        self.contributors = []
 
     def __gt__(self, other):
         '''Compares uptime'''
         return self.uptime() > other.uptime()
 
-    def contributors(self):
-        '''List of all the contributors for the given entity'''
-        pass
-
-    def is_name_unique(self):
-        '''Checks if any other entities have the same name'''
-        pass
-
-    def name(self):
-        '''Unique name for a given entity'''
-        pass
-
-    def uptime(self):
-        '''The aggregated time in seconds of all the users computers uptimes'''
-        with 0 as total:
-            for computer in computers:
-                total += computer.uptime()
-
-    def computers(self):
-        '''List of all the comptuers associated with that participant'''
-
-
     def save_participant(self):
         '''Method to convert Participant into a dictionary'''
-        self.data = {'username': self.username,
-                        'name' : self.name }
-        return self.data
+        return self.__dict__
 
-
-    def request(self):
-        '''Method to obtain the requests that
-           have been sent to this participant
-        '''
-        return self.requests
-
-
-
+    def load_participant(self, data):
+        '''Method to convert Participant into a dictionary'''
+        if 'username' in data:
+            self.username = data['username']
+        if 'name' in data:
+            self.name = data['name']
+        if 'computers' in data:
+            self.computers = data['computers']
+        if 'requests' in data:
+            self.requests = data['requests']
+        if 'contributors' in data:
+            self.contributors = data['contributors']
 
 
 class Person(Participant):
@@ -113,6 +77,22 @@ class Person(Participant):
     '''
     def __init__(self, username=None, name=None):
         Participant.__init__(self, username, name)
+
+    def save_person(self):
+        return self.__dict__
+
+    def load_person(self, data):
+        '''Method to convert Participant into a dictionary'''
+        if 'username' in data:
+            self.username = data['username']
+        if 'name' in data:
+            self.name = data['name']
+        if 'computers' in data:
+            self.computers = data['computers']
+        if 'requests' in data:
+            self.requests = data['requests']
+        if 'contributors' in data:
+            self.contributors = data['contributors']
 
 
 class Organization(Participant):
@@ -126,9 +106,23 @@ class Organization(Participant):
         Participant.__init__(self)
         self.leaders = []
 
-    def leaders(self):
-        '''List of all the project leaders (users)'''
-        return self.leaders
+    def save_organization(self):
+        return self.__dict__
+
+    def load_organization(self, data):
+        if 'username' in data:
+            self.username = data['username']
+        if 'name' in data:
+            self.name = data['name']
+        if 'computers' in data:
+            self.computers = data['computers']
+        if 'requests' in data:
+            self.requests = data['requests']
+        if 'contributors' in data:
+            self.contributors = data['contributors']
+        if 'leaders' in data:
+            self.leaders = data['leaders']
+
 
 
 class Computer(MongoDBO):
@@ -141,33 +135,34 @@ class Computer(MongoDBO):
             'cores': int,
             ...
         },
-        address: string
+        connection_info: {
+            'stuff': ...
+        }
     }
     '''
     def __init__(self):
         MongoDBO.__init__(self)
         self.uptime = 0
+        self.info = {}
+        self.connection_info = {}
 
-    def uptime(self):
-        '''Computers uptime (seconds)'''
-        return self.uptime
+    def save_computer(self):
+        return self.__dict__
 
-    def info(self):
-        '''Dictionary containing useful information about that computer'''
-        return self.info
-
-    def connect_info(self):
-        '''
-        Dictionary containing information necessary for users to
-        authenticate with and send commands to.
-        '''
-        return self.connect_info
+    def load_computer(self, data):
+        if 'uptime' in data:
+            self.uptime = data['uptime']
+        if 'info' in data:
+            self.info = data['info']
+        if 'connection_info' in data:
+            sefl.connection_info = data['connection_info']
 
 
 class Job(MongoDBO):
     '''
     {
         object: MongoDBO,
+        owner: Participant,
         ...
     }
     '''
@@ -175,24 +170,40 @@ class Job(MongoDBO):
         MongoDBO.__init__(self)
         pass
 
-    def participant(self):
-        pass
+    def load_job(self, data):
+        if 'owner' in data:
+            self.owner = data['owner']
 
-'''
-class Request(MongoDB0):
-    
+    def save_job(self):
+        return self.__dict__
+
+
+class Request():
+    '''
     {
         object: MongoDBO,
         sender: Participant,
         receiver: Participant,
-        data: Date,
+        date: Date,
         status: str,
-        ...
     }
-    
+    '''
 
     def __init__(self):
         MongoDBO.__init__(self)
         pass
-'''
+
+    def save_request(self):
+        return self.__dict__
+
+    def load_request(self, data):
+        if 'sender' in data:
+            this.sender = data['sender']
+        if 'receiver' in data:
+            this.receiver = data['receiver']
+        if 'data' in data:
+            this.data = data['date']
+        if 'status' in data['status']:
+            this.status = data['status']
+
 

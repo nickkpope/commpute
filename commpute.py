@@ -83,6 +83,11 @@ def profile(username):
             return render_template('home.html', name=user.name)
     return render_template('home.html')
 
+@app.route('/profile/friends/<username>')
+@login_required
+def profile_friend(username):
+    pass
+
 
 jobs = [
     {
@@ -118,8 +123,8 @@ jobs = [
 
 @app.route('/facebook')
 def facebook_login():
-    callback_url = url_for('facebook_auth')
-    return facebook.authorize(callback=callback_url, next=request.args.get('next'))
+    callback_url = url_for('facebook_auth', next=request.args.get('next'))
+    return facebook.authorize(callback=callback_url)
 
 
 @app.route('/facebook_auth')
@@ -127,9 +132,15 @@ def facebook_login():
 def facebook_auth(resp):
     if resp is None:
         flash('You denied the request to sign in.')
-    else:
-        session['facebook_oauth'] = resp
-    return redirect(url_for('profile', username='Facebook'))
+        return redirect(request.args.get('next') or url_for('show_landing'))
+
+    user = User(username=resp['screen_name'], name=resp['screen_name'],
+                token=resp['oauth_token'], secret=resp['oauth_token_secret'])
+    login_user(user)
+    user.user_id = session['user_id']
+    users.append(user)
+    mongo.db.users.insert(user.save_participant())
+    return redirect(request.args.get('next') or url_for('profile', username=user.username))
 
 
 @app.route('/twitter')
@@ -144,20 +155,13 @@ def twitter_auth(resp):
     if resp is None:
         flash('You denied the request to sign in.')
         return redirect(request.args.get('next') or url_for('show_landing'))
-    user = None
-    for i in users:
-        if i.username == resp['screen_name']:
-            user = i
 
-    if user is None:
-        user = User(resp['screen_name'], resp['oauth_token'], resp['oauth_token_secret'])
-        print session
-        user.userid = session['user_id']
-        users.append(user)
-        login_user(user)
-    else:
-        login_user(user)
-
+    user = User(username=resp['screen_name'], name=resp['screen_name'],
+                token=resp['oauth_token'], secret=resp['oauth_token_secret'])
+    login_user(user)
+    user.user_id = session['user_id']
+    users.append(user)
+    mongo.db.users.insert(user.save_participant())
     return redirect(request.args.get('next') or url_for('profile', username=user.username))
 
 

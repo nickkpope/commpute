@@ -1,7 +1,7 @@
 from flask import g, session
 from ops import app, login_manager, facebook, twitter, mongo, users
 from flask.ext.login import current_user
-from db import Person
+from db import Participant
 
 
 @facebook.tokengetter
@@ -13,16 +13,10 @@ def get_facebook_token():
 
 @twitter.tokengetter
 def get_twitter_token():
-    if 'twitter_oauth' in session:
-        resp = session['twitter_oauth']
-        return resp['oauth_token'], resp['oauth_token_secret']
-
-
-@app.before_request
-def before_request():
-    g.user = None
-    if 'twitter_oauth' in session:
-        g.user = session['twitter_oauth']
+    if current_user.is_authenticated():
+        return (current_user.token, current_user.secret)
+    else:
+        return None
 
 
 @login_manager.user_loader
@@ -32,10 +26,13 @@ def load_user(userid):
             return user
 
 
-class User(Person):
+class User(Participant):
 
-    def __init__(self, username, name):
+    def __init__(self, username=None, name=None, token=None, secret=None):
         Person.__init__(self, username, name)
+        self.user_id = 0
+        self.token = token
+        self.secret = secret
 
     def is_authenticated(self):
         '''Determines whether a user has provided the correct crudentials'''
