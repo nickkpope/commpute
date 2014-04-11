@@ -13,9 +13,10 @@ def get_facebook_token():
 
 @twitter.tokengetter
 def get_twitter_token():
-    if 'twitter_oauth' in session:
-        resp = session['twitter_oauth']
-        return resp['oauth_token'], resp['oauth_token_secret']
+    if current_user.is_authenticated():
+        return (current_user.token, current_user.secret)
+    else:
+        return None
 
 
 @app.before_request
@@ -34,8 +35,11 @@ def load_user(userid):
 
 class User(Person):
 
-    def __init__(self, username, name):
+    def __init__(self, username=None, name=None, token=None, secret=None):
         Person.__init__(self, username, name)
+        self.user_id = 0
+        self.token = token
+        self.secret = secret
 
     def is_authenticated(self):
         '''Determines whether a user has provided the correct crudentials'''

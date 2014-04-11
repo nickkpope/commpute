@@ -144,20 +144,13 @@ def twitter_auth(resp):
     if resp is None:
         flash('You denied the request to sign in.')
         return redirect(request.args.get('next') or url_for('show_landing'))
-    user = None
-    for i in users:
-        if i.username == resp['screen_name']:
-            user = i
 
-    if user is None:
-        user = User(resp['screen_name'], resp['oauth_token'], resp['oauth_token_secret'])
-        print session
-        user.userid = session['user_id']
-        users.append(user)
-        login_user(user)
-    else:
-        login_user(user)
-
+    user = User(username=resp['screen_name'], name=resp['screen_name'],
+                token=resp['oauth_token'], secret=resp['oauth_token_secret'])
+    login_user(user)
+    user.user_id = session['user_id']
+    users.append(user)
+    mongo.db.users.insert(user.save_participant())
     return redirect(request.args.get('next') or url_for('profile', username=user.username))
 
 

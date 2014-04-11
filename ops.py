@@ -43,9 +43,9 @@ twitter = oauth.remote_app('twitter',
     request_token_url='https://api.twitter.com/oauth/request_token',
     access_token_url='https://api.twitter.com/oauth/access_token',
     authorize_url='https://api.twitter.com/oauth/authenticate',
+    consumer_key='FW0k326IPRWRB6cPd6AEw',
+    consumer_secret='OVLhEfVm5ZaU8XHPWaFosenmDm4o3uj0fDi3E0KfQ'
+    #Using the keys for flask oauth example
     #consumer_key='FW0k326IPRWRB6cPd6AEw',
     #consumer_secret='OVLhEfVm5ZaU8XHPWaFosenmDm4o3uj0fDi3E0KfQ'
-    #Using the keys for flask oauth example
-    consumer_key='xBeXxg9lyElUgwZT6AZ0A',
-    consumer_secret='aawnSpNTOVuDCjx7HMh6uSXetjNN8zWLpZwCEU4LBrk'
 )
