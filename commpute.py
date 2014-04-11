@@ -167,4 +167,4 @@ def google():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='107.170.57.29', port=80)
