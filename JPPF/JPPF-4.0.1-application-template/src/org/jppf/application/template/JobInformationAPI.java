@@ -82,4 +82,26 @@ public class JobInformationAPI
 	{
 		return jobRunner.cancelJob(jobID);
 	}
+
+	/*
+	* @Returns the number of tasks in the specified job
+	*/
+	public int getTotalTasks(String jobID)
+	{
+		return jobRunner.getNumTasks(jobID);
+	}
+
+	/*
+	* @Returns the number of tasks still pending for the specified job
+	*/
+	public int getNumCompleteTasks(String jobID)
+	{
+		return jobRunner.getNumCompleteTasks(jobID);
+	}
 }
+
+
+
+
+
+
