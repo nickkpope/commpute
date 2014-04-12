@@ -36,6 +36,22 @@ public class JobInformationAPI
 
 		return job.getUuid();
 	}
+
+	/**
+	* Randomized Tasks will sometimes fail.
+	* @Throws Exception if an error occurs while creating the job.
+	* @Returns the ID of the Job that was created
+	*/
+	public String submitRandomizedTestJob(String desiredOutput, int maxWaitTime, int numTasks) throws Exception
+	{
+		// Create a job
+		JPPFJob job = jobRunner.createRandomizedTestJob(desiredOutput, maxWaitTime, numTasks);
+
+		// execute a non-blocking job
+		jobRunner.executeNonBlockingJob(job);
+
+		return job.getUuid();
+	}
 	
 	/*
 	* @Returns the ID of the Job that is created
@@ -88,7 +104,7 @@ public class JobInformationAPI
 	*/
 	public int getTotalTasks(String jobID)
 	{
-		return jobRunner.getNumTasks(jobID);
+		return jobRunner.getTotalTasks(jobID);
 	}
 
 	/*

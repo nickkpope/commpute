@@ -14,10 +14,13 @@ public class JobInformationAPITester
 	{
 		api = new JobInformationAPI();			
 		
-		testSubmitTestJob();
-		testSubmitBlenderJob();
-		testGetJobStatus();
-		testCancelJob();	
+		//testSubmitTestJob();
+		//testSubmitBlenderJob();
+		//testGetJobStatus();
+		//testCancelJob();	
+		//testGetTotalTasks();
+		//testGetNumCompleteTasks();
+		testSubmitRandomizedTestJob();
 	}	
 	
 	public static void testSubmitTestJob()
@@ -80,5 +83,91 @@ public class JobInformationAPITester
 		}
 	}
 
+	public static void testGetTotalTasks()
+	{
+		System.out.println("Testing getTotalTasks()");
+		int NUMTASKS = 3;
+		int WAITTIME = 5;
+		
+		String jobID = "";
+		try
+		{
+			jobID = api.submitTestJob("Testing getTotalTasks()", WAITTIME, NUMTASKS);
+		}
+		catch(Exception e)
+		{
+			System.out.println("FAIL, threw an exception");
+		}
+	
+		int numTasks = api.getTotalTasks(jobID);
+		
+		if(numTasks != NUMTASKS)
+		{
+			System.out.println("FAIL, returned the wrong number of tasks: " + numTasks);		
+		}
+	}
 
+	public static void testGetNumCompleteTasks()
+	{
+		System.out.println("Testing getNumCompleteTasks()");
+		
+		String jobID = "";
+		try
+		{
+			jobID = api.submitTestJob("Testing getNumCompleteTasks()", 5, 20);
+		}
+		catch(Exception e)
+		{
+			System.out.println("FAIL, threw an exception");
+		}
+	
+		assert(api.getNumCompleteTasks(jobID) == 0);
+		
+		// Uncomment this code if you want to see it change in real time
+		/*
+		while(true)
+		{
+			try 
+			{
+    			Thread.sleep(1000);
+			}
+			catch (InterruptedException e) 
+			{
+    			e.printStackTrace();
+			}
+			System.out.println(api.getNumCompleteTasks(jobID));
+		}
+		*/
+	}
+
+	public static void testSubmitRandomizedTestJob()
+	{
+		System.out.println("Testing SubmitRandomizedTestJob()");
+		
+		String jobID = "";
+		try
+		{
+			jobID = api.submitRandomizedTestJob("Testing SubmitRandomizedTestJob()", 5, 20);
+		}
+		catch(Exception e)
+		{
+			System.out.println("FAIL, threw an exception");
+		}
+	
+		// Uncomment this code if you want to see it change in real time
+		
+		while(true)
+		{
+			try 
+			{
+    			Thread.sleep(1000);
+			}
+			catch (InterruptedException e) 
+			{
+    			e.printStackTrace();
+			}
+			System.out.println(api.getNumCompleteTasks(jobID));
+		}
+		
+	}
 }
