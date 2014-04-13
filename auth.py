@@ -29,7 +29,7 @@ def load_user(userid):
 class User(Participant):
 
     def __init__(self, username=None, name=None, token=None, secret=None):
-        Person.__init__(self, username, name)
+        Participant.__init__(self, username, name)
         self.user_id = 0
         self.token = token
         self.secret = secret

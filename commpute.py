@@ -1,10 +1,11 @@
 # all the imports
+import sys
 from flask import session, redirect, url_for, render_template, flash, request, jsonify
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from ops import app, facebook, twitter, mongo, users
 from auth import User
 import time
-import pymongo
+from mock_data import jobs, items
 
 
 @app.route('/')
@@ -15,7 +16,7 @@ def show_landing():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if current_user.is_authenticated():
-        return redirect(url_for('profile', username=current_user.username))
+        return redirect(url_for('home', username=current_user.username))
     if request.method == 'POST':
         stored_user = mongo.db.users.find_one({'username': request.form['username']})
         if stored_user is not None:
@@ -23,7 +24,7 @@ def login():
             login_user(user)
             users.append(user)
             user.user_id = session['user_id']
-            return redirect(url_for('profile', username=user.username))
+            return redirect(url_for('home', username=user.username))
     return render_template("login.html")
 
 
@@ -54,14 +55,14 @@ def progress():
 @app.route('/signup', methods=['GET', 'POST'])
 def sign_up():
     if current_user.is_authenticated():
-        return redirect(url_for('profile', username=current_user.username))
+        return redirect(url_for('home', username=current_user.username))
     if request.method == 'POST':
         user = User(request.form['username'], request.form['name'])
         users.append(user)
         login_user(user)
         user.user_id = session['user_id']
         mongo.db.users.insert(user.save_participant())
-        return redirect(url_for('profile', username=user.username))
+        return redirect(url_for('home', username=user.username))
     return render_template('signup.html')
 
 
@@ -70,55 +71,53 @@ def docs():
     return 'Docs'
 
 
+@app.route('/fetchitems', methods=['POST'])
+def fetch_items():
+    item_type = request.form.get('item_type')
+    pane_id = request.form.get('pane_id')
+    return render_template('items.html', items=items[item_type], pane_id=pane_id)
+
+
+@app.route('/iteminfo', methods=['POST'])
+def item_info():
+    item_id = request.form['item_id']
+    item_type = request.form['item_type']
+    for item in items[item_type]:
+        if item['id'] == item_id:
+            return jsonify(item)
+    return jsonify(None)
+
+
+@app.route('/deleteitem', methods=['POST'])
+def delete_item():
+    item_id = request.form['item_id']
+    pane_id = request.form['pane_id']
+    # This will be much simpler with a call to the database using the item id.
+    for k, v in items.items():
+        for item in v:
+            if item['id'] == int(item_id):
+                item['visible'] = False
+                return render_template('items.html', items=v, pane_id=pane_id)
+
+
 @app.route('/testdrive')
 def test_drive():
     return render_template('jobs.html', jobs=jobs)
 
 
-@app.route('/profile/<username>')
+@app.route('/home/<username>')
 @login_required
-def profile(username):
+def home(username):
     for user in users:
         if user.username == username:
             return render_template('home.html', name=user.name)
     return render_template('home.html')
 
-@app.route('/profile/friends/<username>')
+
+@app.route('/friends/<username>')
 @login_required
-def profile_friend(username):
-    pass
-
-
-jobs = [
-    {
-        'name': 'Job 1',
-        "id": 'j1',
-        'tasks': [
-            {'name': 'Task 1', 'id': 't1'},
-            {'name': 'Task 2', 'id': 't2'}
-        ]
-    },
-    {
-        'name': 'Job 2',
-        "id": 'j2',
-        'tasks': [
-            {'name': 'Task A', 'id': 't1'},
-            {'name': 'Task B', 'id': 't2'},
-            {'name': 'Task C', 'id': 't3'}
-        ]
-    },
-    {
-        'name': 'Job 3',
-        "id": 'j3',
-        'tasks': [
-            {'name': 'Task Gorilla', 'id': 't1'},
-            {'name': 'Task Banana', 'id': 't2'},
-            {'name': 'Task Drunk', 'id': 't3'},
-            {'name': 'Task Monkey', 'id': 't4'}
-
-        ]
-    }
-]
+def friends(username):
+    return 'You have no friends, you fool.'
 
 
 @app.route('/facebook')
@@ -140,7 +139,7 @@ def facebook_auth(resp):
     user.user_id = session['user_id']
     users.append(user)
     mongo.db.users.insert(user.save_participant())
-    return redirect(request.args.get('next') or url_for('profile', username=user.username))
+    return redirect(request.args.get('next') or url_for('home', username=user.username))
 
 
 @app.route('/twitter')
@@ -162,7 +161,7 @@ def twitter_auth(resp):
     user.user_id = session['user_id']
     users.append(user)
     mongo.db.users.insert(user.save_participant())
-    return redirect(request.args.get('next') or url_for('profile', username=user.username))
+    return redirect(request.args.get('next') or url_for('home', username=user.username))
 
 
 @app.route('/google')
@@ -171,4 +170,6 @@ def google():
 
 
 if __name__ == '__main__':
-    app.run(host='107.170.57.29', port=80)
+    if len(sys.argv) == 1:
+        print 'USAGE: python commpute.py <address> <port>'
+    app.run(host=sys.argv[1], port=int(sys.argv[2]))
