@@ -37,7 +37,7 @@ public class TemplateApplicationRunner {
    */
   private static JPPFClient jppfClient =  null;
   private static TemplateApplicationRunner instance = null;
-  private Map<String, JPPFResultCollector> resultsMap = null;
+  private Map<String, JPPFJob> resultsMap = null;
   
   public static synchronized TemplateApplicationRunner getInstance()
   {
@@ -52,7 +52,7 @@ public class TemplateApplicationRunner {
   private TemplateApplicationRunner()
   {
     jppfClient = new JPPFClient();
-    resultsMap = new HashMap<String, JPPFResultCollector>();
+    resultsMap = new HashMap<String, JPPFJob>();
   }
 
   /**
@@ -98,6 +98,28 @@ public class TemplateApplicationRunner {
     return job;
   }
   
+   /**
+   * Create a test JPPF job that can be submitted for execution.
+   * @return an instance of the {@link org.jppf.client.JPPFJob JPPFJob} class.
+   * @throws Exception if an error occurs while creating the job or adding tasks.
+   */
+  public synchronized JPPFJob createRandomizedTestJob(String message, int maxWaitTime, int numTasks) throws Exception 
+  {
+    // create a JPPF job
+    JPPFJob job = new JPPFJob();
+
+    // give this job a readable unique id that we can use to monitor and manage it.
+    job.setName("Randomized Test Job");
+
+
+    for(int i = 0; i < numTasks; i++)
+    {
+      job.add(new RandomizedJPPFTask(message, maxWaitTime));
+    }    
+    
+    return job;
+  }
+  
   /**
   * Attempts to cancel the job with the specified ID.  
   *
@@ -132,7 +154,7 @@ public class TemplateApplicationRunner {
 
     // Submit the job and wait until the results are returned.
     // The results are returned as a list of JPPFTask instances,
-    // in the same order as the one in which the tasks where initially added the job.
+    // in the same order as the one in which the tasks were initially added the job.
     List<Task<?>> results = jppfClient.submitJob(job);
 
     // process the results
@@ -157,7 +179,7 @@ public class TemplateApplicationRunner {
     // When the job is finished (fail or succeed) the website should delete the listener and store
     // any archival info to a database so we don't run out of RAM.
 
-    resultsMap.put(job.getUuid(), collector);
+    resultsMap.put(job.getUuid(), job);
   }
 
   /**
@@ -209,8 +231,26 @@ public class TemplateApplicationRunner {
     }
   }
   
-  public JPPFResultCollector getResultsForJob(String jobID)
+  public synchronized JPPFResultCollector getResultsForJob(String jobID)
   {
-		return resultsMap.get(jobID);
+		return (JPPFResultCollector) resultsMap.get(jobID).getResultListener();
   }
+  
+  /*
+	* @Returns the number of tasks in the specified job
+	*/
+	public synchronized int getTotalTasks(String jobID)
+	{
+		//return -1;
+
+		return resultsMap.get(jobID).getJobTasks().size();
+	}
+
+	/*
+	* @Returns the number of tasks still pending for the specified job
+	*/
+	public synchronized int getNumCompleteTasks(String jobID)
+	{
+		return resultsMap.get(jobID).getResults().size();
+	}
 }
