@@ -1,9 +1,30 @@
+{{ item_type }}
 {% for item in items %}
-{% if item.visible %}
-<div id="{{ item.id }}" class='row'>
-    <div class="col-md-10"><span style="font-size: 1.1em">{{ item.html }}<span></div>
-    <div class="col-md-1"><span onclick="javascript:deleteItem({{ pane_id }}, {{ item.id }})" class="glyphicon glyphicon-remove-circle"></span></div>
-</div>
-    <br>
-{% endif %}
+    {% if item.visible %}
+        <!-- item_type will be an item field to provide mixed item lists -->
+        {% if item_type == 'friends' or item_type == 'friends_suggestions' %}
+            <div id="{{ item.id }}" class='row text-center'>
+                <div class="col-md-2 centering"><br><image style="width: 60px" src="{{url_for('static', filename = 'img/' + item.gender + '-avatar.png')}}"><image></div>
+                <div class="col-md-6 col-md-offset-1">
+                    <h3>{{ item.name }}</h3>
+                    <p><span style="font-size: .7em">{{ item.uptime }} - {{ item.cores }}cores - {{ item.bandwidth }}</span></p>
+                </div>
+                {% if item_type == 'friends_suggestions' %}
+                <div class="col-md-1"><br><span style="font-size:24px" class="glyphicon glyphicon-plus-sign"></span></div>
+                {% elif item_type == 'friends' %}
+                <div class="col-md-1"><br><span style="font-size:24px" class="glyphicon glyphicon-remove-circle"></span></div>
+                {% endif %}
+            </div>
+        {% elif item_type == 'computers' %}
+            <div id="{{ item.id }}" class='row'>
+                <div class="col-md-12"><h3>{{ item.name }}</h3></div>
+            </div>
+        {% elif item_type == 'user_updates' or item_type == 'user_action_items' or item_type == 'community_updates' %}
+            <div id="{{ item.id }}" class='row text-left'>
+                <div class="col-xs-2 col-xs-offset-1"><span style="font-size:24px" onclick="javascript:deleteItem({{ pane_id }}, {{ item.id }}, '{{item_type}}')" class="glyphicon glyphicon-remove-circle"></span></div>
+                <div class="col-xs-8"><span style="font-size: 1.5em">{{ item.html }}<span></div>
+            </div>
+        {% endif %}
+        <br>
+    {% endif %}
 {% endfor %}

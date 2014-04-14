@@ -1,4 +1,4 @@
-jobs = [
+jobs_data = [
     {
         'name': 'Job 1',
         "id": 'j1',
@@ -60,7 +60,7 @@ items = {
             'visible': True
         },
         {
-            'html': 'One of your macines is not running',
+            'html': 'One of your machines is not running',
             'id': 6,
             'visible': True
         },
@@ -81,5 +81,102 @@ items = {
             'id': 9,
             'visible': True
         }
+    ],
+    'friends': [
+        {
+            'name': 'Jim Kirk',
+            'uptime': '83d',
+            'cores': 2,
+            'bandwidth': '10mbps',
+            'gender': 'male',
+            'id': 1,
+            'visible': True
+        },
+        {
+            'name': 'Tim Taylor',
+            'uptime': '46h',
+            'cores': 2,
+            'bandwidth': '13mbps',
+            'gender': 'male',
+            'id': 2,
+            'visible': True
+        },
+        {
+            'name': 'Jane K',
+            'uptime': '18h',
+            'cores': 2,
+            'bandwidth': '2mbps',
+            'gender': 'female',
+            'id': 3,
+            'visible': True
+        }
+    ],
+    'friends_suggestions': [
+        {
+            'name': 'Todd Buck',
+            'uptime': '523d',
+            'cores': 24,
+            'bandwidth': '20mbps',
+            'gender': 'male',
+            'id': 4,
+            'visible': True
+        },
+        {
+            'name': 'Angie Clopp',
+            'uptime': '345d',
+            'cores': 18,
+            'bandwidth': '16mbps',
+            'gender': 'female',
+            'id': 5,
+            'visible': True
+        }
+    ],
+    'friends_results': [
+        {
+            'name': 'Bob T',
+            'uptime': '345d',
+            'cores': 18,
+            'bandwidth': '16mbps',
+            'gender': 'male',
+            'id': 6,
+            'visible': True
+        }
+    ],
+    'friends_suggestions_results': [
+        {
+            'name': 'Bob Trump',
+            'uptime': '1623d',
+            'cores': 48,
+            'bandwidth': '60mbps',
+            'gender': 'male',
+            'id': 7,
+            'visible': True
+        },
+        {
+            'name': 'Bobby C',
+            'uptime': '1203d',
+            'cores': 18,
+            'bandwidth': '16mbps',
+            'gender': 'male',
+            'id': 8,
+            'visible': True
+        },
+        {
+            'name': 'Robert Tilly',
+            'uptime': '523d',
+            'cores': 24,
+            'bandwidth': '18mbps',
+            'gender': 'male',
+            'id': 9,
+            'visible': True
+        }
+
+    ],
+    'computers': [
+        {
+            'name': 'Macbook Pro',
+            'visible': True
+        }
     ]
+
 }

@@ -1,0 +1,8 @@
+{% for item in items %}
+{% if item.visible %}
+<div id="{{ item.id }}" class='row'>
+    <div class="col-md-12">{{ item.name }}</div>
+</div>
+    <br>
+{% endif %}
+{% endfor %}

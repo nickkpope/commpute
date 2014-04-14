@@ -5,12 +5,17 @@ from flask.ext.login import login_required, login_user, logout_user, current_use
 from ops import app, facebook, twitter, mongo, users
 from auth import User
 import time
-from mock_data import jobs, items
+from mock_data import jobs_data, items
 
 
 @app.route('/')
 def show_landing():
-    return render_template('landing.html')
+    return render_template('landing.html', username=username(current_user))
+
+
+def username(current_user):
+    if current_user.is_authenticated():
+        return current_user.username
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -49,7 +54,7 @@ def index():
 
 @app.route('/progress')
 def progress():
-    return jsonify(prog=time.time() % 50 * 2, jobs=jobs)
+    return jsonify(prog=time.time() % 50 * 2, jobs=jobs_data)
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -75,7 +80,7 @@ def docs():
 def fetch_items():
     item_type = request.form.get('item_type')
     pane_id = request.form.get('pane_id')
-    return render_template('items.html', items=items[item_type], pane_id=pane_id)
+    return render_template('items.html', item_type=item_type, items=items[item_type], pane_id=pane_id)
 
 
 @app.route('/iteminfo', methods=['POST'])
@@ -91,18 +96,20 @@ def item_info():
 @app.route('/deleteitem', methods=['POST'])
 def delete_item():
     item_id = request.form['item_id']
+    item_type = request.form['item_type']
     pane_id = request.form['pane_id']
     # This will be much simpler with a call to the database using the item id.
-    for k, v in items.items():
-        for item in v:
-            if item['id'] == int(item_id):
-                item['visible'] = False
-                return render_template('items.html', items=v, pane_id=pane_id)
+    for item in items[item_type]:
+        if item['id'] == int(item_id):
+            item['visible'] = False
+            break
+    print items[item_type]
+    return render_template('items.html', items=items[item_type], pane_id=pane_id, item_type=item_type)
 
 
-@app.route('/testdrive')
-def test_drive():
-    return render_template('jobs.html', jobs=jobs)
+@app.route('/jobs/<username>')
+def jobs(username):
+    return render_template('jobs.html', jobs=jobs_data, username=username)
 
 
 @app.route('/home/<username>')
@@ -110,14 +117,14 @@ def test_drive():
 def home(username):
     for user in users:
         if user.username == username:
-            return render_template('home.html', name=user.name)
-    return render_template('home.html')
+            return render_template('home.html', name=user.name, username=username)
+    return render_template('home.html', username=username(current_user))
 
 
 @app.route('/friends/<username>')
 @login_required
 def friends(username):
-    return 'You have no friends, you fool.'
+    return render_template('friends.html', username=username)
 
 
 @app.route('/facebook')

@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="row text-center">
+{% if not name %}
+    <h1>Hello Anonymous! You shouldn't be here. Sucka!</h1>
+{% endif %}
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="row">
+            <h3>Friends</h3>
+        </div>
+        <div id="friends_pane" class="row"></div>
+    </div>
+    <div class="col-sm-4">
+        <div class="row">
+            <h3>Computers</h3>
+        </div>
+        <div id="computers_pane" class="row"></div>
+    </div>
+    <div class="col-sm-4">
+        <div class="row">
+            <h3>Suggestions</h3>
+        </div>
+        <div id="suggestions_pane" class="row"></div>
+    </div>
+
+</div>
+{% endblock %}
+{% block scripts %}
+<script type='text/javascript' src="{{ url_for('static', filename = 'js/items.js')}}"></script>
+<script type='text/javascript'>
+$(document).ready(function (){
+    fetchItems('friends_pane', "friends");
+    fetchItems('computers_pane', "computers");
+    fetchItems('suggestions_pane', "friends_suggestions");
+});
+</script>
+{% endblock %}

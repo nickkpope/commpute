@@ -87,7 +87,7 @@
     }
 
 
-    function init(){
+    $(document).ready( function (){
     window.setInterval(refreshProgress, 2000); // repeat forever, polling every second
 
         $.getJSON($SCRIPT_ROOT + '/progress', function(data) {
@@ -96,7 +96,7 @@
                 $( "#job_btn_"+job.id ).bind('click', {'id':job.id, 'data':data}, jobClicked);
             }
       });
-    }
+    });
 
 </script>
 <link href="{{url_for( 'static', filename = 'css/jobs.css' )}}" rel="stylesheet">
