@@ -21,9 +21,10 @@ def username(current_user):
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if current_user.is_authenticated():
-        return redirect(url_for('home', username=current_user.username))
+        return redirect(url_for('home', name=current_user.name))
     if request.method == 'POST':
-        stored_user = mongo.db.users.find_one({'username': request.form['username']})
+        stored_user = mongo.db.participants.find_one({'username': request.form['username']})
+        print stored_user
         if stored_user is not None:
             user = User(username=stored_user['username'], name=stored_user['name'])
             login_user(user)
@@ -66,7 +67,7 @@ def sign_up():
         users.append(user)
         login_user(user)
         user.user_id = session['user_id']
-        mongo.db.users.insert(user.save_participant())
+        mongo.db.participants.insert(user.save_participant())
         return redirect(url_for('home', username=user.username))
     return render_template('signup.html')
 
@@ -108,23 +109,21 @@ def delete_item():
 
 
 @app.route('/jobs/<username>')
+@login_required
 def jobs(username):
-    return render_template('jobs.html', jobs=jobs_data, username=username)
+    return render_template('jobs.html', jobs=jobs_data, name=current_user.name)
 
 
 @app.route('/home/<username>')
 @login_required
 def home(username):
-    for user in users:
-        if user.username == username:
-            return render_template('home.html', name=user.name, username=username)
-    return render_template('home.html', username=username(current_user))
+    return render_template('home.html', name=current_user.name)
 
 
 @app.route('/friends/<username>')
 @login_required
 def friends(username):
-    return render_template('friends.html', username=username)
+    return render_template('friends.html', name=current_user.name)
 
 
 @app.route('/facebook')
@@ -145,7 +144,7 @@ def facebook_auth(resp):
     login_user(user)
     user.user_id = session['user_id']
     users.append(user)
-    mongo.db.users.insert(user.save_participant())
+    mongo.db.participants.insert(user.save_participant())
     return redirect(request.args.get('next') or url_for('home', username=user.username))
 
 
@@ -167,7 +166,7 @@ def twitter_auth(resp):
     login_user(user)
     user.user_id = session['user_id']
     users.append(user)
-    mongo.db.users.insert(user.save_participant())
+    mongo.db.participants.insert(user.save_participant())
     return redirect(request.args.get('next') or url_for('home', username=user.username))
 
 
