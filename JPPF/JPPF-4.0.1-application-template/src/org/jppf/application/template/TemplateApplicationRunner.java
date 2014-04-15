@@ -231,6 +231,9 @@ public class TemplateApplicationRunner {
     }
   }
   
+  /*
+  * This isn't thread-safe and should be deleted
+  */
   public synchronized JPPFResultCollector getResultsForJob(String jobID)
   {
 		return (JPPFResultCollector) resultsMap.get(jobID).getResultListener();
@@ -241,8 +244,6 @@ public class TemplateApplicationRunner {
 	*/
 	public synchronized int getTotalTasks(String jobID)
 	{
-		//return -1;
-
 		return resultsMap.get(jobID).getJobTasks().size();
 	}
 
@@ -253,4 +254,24 @@ public class TemplateApplicationRunner {
 	{
 		return resultsMap.get(jobID).getResults().size();
 	}
+
+  /*
+  * Returns a list of the statuses of all tasks in the specified job.
+  * Statuses can be: "EXECUTING", "FAILED", or "COMPLETE".
+  *
+  * Please note that these statuses are different than those returned by getJobStatus()
+  * in that they do not correspond to any JPPF enum value and are determined
+  * by seeing whether each task threw an exception or has results yet.
+  *
+  * @Returns a list of the statuses of all tasks in the specified job.
+  */
+  public synchronized String[] getTaskStatuses(String jobID)
+  {
+    String[] statuses = new String[99];
+    
+
+
+
+    return statuses;
+  }
 }
