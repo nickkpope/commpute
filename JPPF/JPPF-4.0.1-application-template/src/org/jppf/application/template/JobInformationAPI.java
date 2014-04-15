@@ -114,6 +114,21 @@ public class JobInformationAPI
 	{
 		return jobRunner.getNumCompleteTasks(jobID);
 	}
+
+    /*
+    * Returns a list of the statuses of all tasks in the specified job.
+    * Statuses can be: "EXECUTING", "FAILED", or "COMPLETE".
+    *
+    * Please note that these statuses are different than those returned by getJobStatus()
+    * in that they do not correspond to any JPPF enum value and are determined
+    * by seeing whether each task threw an exception or has results yet.
+    *
+    * @Returns a list of the statuses of all tasks in the specified job.
+    */
+	public String[] getTaskStatuses(String jobID)
+	{
+		return jobRunner.getTaskStatuses(jobID);
+	}
 }
 
 

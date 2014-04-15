@@ -79,7 +79,7 @@ public class RandomizedJPPFTask extends AbstractTask<String>
     System.out.flush();
     
     try
-	 {
+    {
       TimeUnit.SECONDS.sleep(1 * waitTime);
     }
     catch(Exception e)
@@ -90,13 +90,14 @@ public class RandomizedJPPFTask extends AbstractTask<String>
     if(willFail)
     {
 	System.out.println("This task FAILED");
-    	throw new IllegalArgumentException();
+    	setThrowable(new IllegalArgumentException());
+	return;
     }
 	 else
     {
 	System.out.println("This task did not fail");
     	setResult("the execution was performed successfully");
     }
-
+	System.out.println("The result was: " + getResult());
   }
 }
