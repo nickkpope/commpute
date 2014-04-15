@@ -26,10 +26,26 @@ public class JobInformationAPI
 	* @Throws Exception if an error occurs while creating the job.
 	* @Returns the ID of the Job that was created
 	*/
-	public String submitTestJob(String desiredOutput, int secondsLong) throws Exception
+	public String submitTestJob(String desiredOutput, int secondsLong, int numTasks) throws Exception
 	{
 		// Create a job
-		JPPFJob job = jobRunner.createTestJob();
+		JPPFJob job = jobRunner.createTestJob(desiredOutput, secondsLong, numTasks);
+
+		// execute a non-blocking job
+		jobRunner.executeNonBlockingJob(job);
+
+		return job.getUuid();
+	}
+
+	/**
+	* Randomized Tasks will sometimes fail.
+	* @Throws Exception if an error occurs while creating the job.
+	* @Returns the ID of the Job that was created
+	*/
+	public String submitRandomizedTestJob(String desiredOutput, int maxWaitTime, int numTasks) throws Exception
+	{
+		// Create a job
+		JPPFJob job = jobRunner.createTestJob(desiredOutput, maxWaitTime, numTasks);
 
 		// execute a non-blocking job
 		jobRunner.executeNonBlockingJob(job);
@@ -82,4 +98,26 @@ public class JobInformationAPI
 	{
 		return jobRunner.cancelJob(jobID);
 	}
+
+	/*
+	* @Returns the number of tasks in the specified job
+	*/
+	public int getTotalTasks(String jobID)
+	{
+		return jobRunner.getTotalTasks(jobID);
+	}
+
+	/*
+	* @Returns the number of tasks still pending for the specified job
+	*/
+	public int getNumCompleteTasks(String jobID)
+	{
+		return jobRunner.getNumCompleteTasks(jobID);
+	}
 }
+
+
+
+
+
+
