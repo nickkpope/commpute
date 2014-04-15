@@ -22,6 +22,10 @@ import org.jppf.client.*;
 import org.jppf.node.protocol.Task;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * This is a template JPPF application runner.
@@ -231,6 +235,9 @@ public class TemplateApplicationRunner {
     }
   }
   
+  /*
+  * This isn't thread-safe and should be deleted
+  */
   public synchronized JPPFResultCollector getResultsForJob(String jobID)
   {
 		return (JPPFResultCollector) resultsMap.get(jobID).getResultListener();
@@ -241,8 +248,6 @@ public class TemplateApplicationRunner {
 	*/
 	public synchronized int getTotalTasks(String jobID)
 	{
-		//return -1;
-
 		return resultsMap.get(jobID).getJobTasks().size();
 	}
 
@@ -253,4 +258,49 @@ public class TemplateApplicationRunner {
 	{
 		return resultsMap.get(jobID).getResults().size();
 	}
+
+  /*
+  * Returns a list of the statuses of all tasks in the specified job.
+  * Statuses can be: "EXECUTING", "FAILED", or "COMPLETE".
+  *
+  * Please note that these statuses are different than those returned by getJobStatus()
+  * in that they do not correspond to any JPPF enum value and are determined
+  * by seeing whether each task threw an exception or has results yet.
+  *
+  * @Returns a list of the statuses of all tasks in the specified job.
+  */
+  public synchronized String[] getTaskStatuses(String jobID)
+  {    
+    int numTasks = resultsMap.get(jobID).getJobTasks().size();
+    JobResults results = resultsMap.get(jobID).getResults();
+    String[] statuses = new String[numTasks];
+
+    for(int i = 0; i < numTasks; i++)
+    {
+      if(!results.hasResult(i))
+      {
+        statuses[i] = "EXECUTING";
+        continue;
+      }
+
+      Task t = results.getResultTask(i);
+
+      if(t.getThrowable() != null)
+      {
+        statuses[i] = "FAILED";
+        continue;
+      }
+
+      if((String)t.getResult() != null)
+      {
+        statuses[i] = "COMPLETE";
+        continue;
+      }
+
+      // this should never happen
+      statuses[i] = "EXECUTING";
+    }
+
+    return (String[])statuses;
+  }
 }

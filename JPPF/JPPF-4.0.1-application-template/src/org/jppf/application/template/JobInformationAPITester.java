@@ -20,7 +20,8 @@ public class JobInformationAPITester
 		//testCancelJob();	
 		//testGetTotalTasks();
 		//testGetNumCompleteTasks();
-		testSubmitRandomizedTestJob();
+		//testSubmitRandomizedTestJob();
+		testGetTaskStatuses();
 	}	
 	
 	public static void testSubmitTestJob()
@@ -155,7 +156,7 @@ public class JobInformationAPITester
 		}
 	
 		// Uncomment this code if you want to see it change in real time
-		
+		/*
 		while(true)
 		{
 			try 
@@ -167,6 +168,42 @@ public class JobInformationAPITester
     			e.printStackTrace();
 			}
 			System.out.println(api.getNumCompleteTasks(jobID));
+		}
+		*/
+		
+	}
+
+	public static void testGetTaskStatuses()
+	{
+		System.out.println("Testing getTaskStatuses()");
+		
+		String jobID = "";
+		try
+		{
+			jobID = api.submitRandomizedTestJob("Testing SubmitRandomizedTestJob()", 5, 20);
+		}
+		catch(Exception e)
+		{
+			System.out.println("FAIL, threw an exception");
+		}
+	
+		// Uncomment this code if you want to see it change in real time
+		
+		while(true)
+		{
+			try 
+			{
+    			Thread.sleep(1000);
+			}
+			catch (InterruptedException e) 
+			{
+    			e.printStackTrace();
+			}
+
+			for(String s : api.getTaskStatuses(jobID))
+			{
+				System.out.println(s + ",");
+			}
 		}
 		
 	}
