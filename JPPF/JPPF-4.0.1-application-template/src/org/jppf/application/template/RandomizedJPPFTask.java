@@ -89,10 +89,12 @@ public class RandomizedJPPFTask extends AbstractTask<String>
 
     if(willFail)
     {
+	System.out.println("This task FAILED");
     	throw new IllegalArgumentException();
     }
 	 else
     {
+	System.out.println("This task did not fail");
     	setResult("the execution was performed successfully");
     }
 
