@@ -121,6 +121,12 @@ def home(username):
     return render_template('home.html', username=username(current_user))
 
 
+@app.route('/settings/<username>')
+@login_required
+def settings(username):
+    return render_template('settings.html', username=username)
+
+
 @app.route('/friends/<username>')
 @login_required
 def friends(username):
