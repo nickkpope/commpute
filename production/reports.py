@@ -32,7 +32,7 @@ def parseMilestones(data, milestone_title):
 
 
 def main():
-    parseMilestones(open(sys.argv[1]).read(), 'Milestone 1')
+    parseMilestones(open(sys.argv[1]).read(), 'Milestone 2')
 
 
 if __name__ == '__main__':

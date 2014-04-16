@@ -10,12 +10,11 @@ from mock_data import jobs_data, items
 
 @app.route('/')
 def show_landing():
-    return render_template('landing.html', username=username(current_user))
-
-
-def username(current_user):
     if current_user.is_authenticated():
-        return current_user.username
+        username = current_user.username
+    else:
+        username = None
+    return render_template('landing.html', username=username, showbg=True)
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -38,18 +37,6 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('show_landing'))
-
-
-@app.route('/_add_numbers')
-def add_numbers():
-    a = request.args.get('a', 0, type=int)
-    b = request.args.get('b', 0, type=int)
-    return jsonify(result=a + b)
-
-
-@app.route('/add')
-def index():
-    return render_template('jstest.html')
 
 
 @app.route('/progress')

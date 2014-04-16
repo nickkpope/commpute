@@ -157,7 +157,7 @@ items = {
             'uptime': '1203d',
             'cores': 18,
             'bandwidth': '16mbps',
-            'gender': 'male',
+            'gender': 'female',
             'id': 8,
             'visible': True
         },
