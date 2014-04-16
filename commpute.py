@@ -2,7 +2,7 @@
 import sys
 from flask import session, redirect, url_for, render_template, flash, request, jsonify
 from flask.ext.login import login_required, login_user, logout_user, current_user
-from ops import app, facebook, twitter, mongo, users
+from ops import app, facebook, twitter, mongo
 from auth import User
 import time
 from mock_data import jobs_data, items
@@ -21,15 +21,14 @@ def username(current_user):
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if current_user.is_authenticated():
-        return redirect(url_for('home', name=current_user.name))
+        return redirect(url_for('home', name=current_user.username))
     if request.method == 'POST':
         stored_user = mongo.db.participants.find_one({'username': request.form['username']})
-        print stored_user
         if stored_user is not None:
             user = User(username=stored_user['username'], name=stored_user['name'])
             login_user(user)
-            users.append(user)
             user.user_id = session['user_id']
+            mongo.db.participants.insert(user.save_user())
             return redirect(url_for('home', username=user.username))
     return render_template("login.html")
 
@@ -117,6 +116,7 @@ def jobs(username):
 @app.route('/home/<username>')
 @login_required
 def home(username):
+    print current_user.name
     return render_template('home.html', name=current_user.name)
 
 

@@ -2,6 +2,7 @@ from flask import g, session
 from ops import app, login_manager, facebook, twitter, mongo, users
 from flask.ext.login import current_user
 from db import Participant
+from ops import mongo
 
 
 @facebook.tokengetter
@@ -21,9 +22,11 @@ def get_twitter_token():
 
 @login_manager.user_loader
 def load_user(userid):
-    for user in users:
-        if user.user_id == userid:
-            return user
+    serial_user = mongo.db.participants.find_one({'userid': userid})
+    if serial_user is not None:
+        user = User(serial_user['username'], serial_user['name'])
+        user.load_participant(serial_user)
+        return user
 
 
 class User(Participant):
@@ -33,6 +36,12 @@ class User(Participant):
         self.user_id = 0
         self.token = token
         self.secret = secret
+
+    def save_user(self):
+        self.__dict__
+
+    def load_user(self, data):
+        pass
 
     def is_authenticated(self):
         '''Determines whether a user has provided the correct crudentials'''
