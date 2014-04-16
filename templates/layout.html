@@ -8,7 +8,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
-    <script type=text/javascript src="{{url_for('static', filename='js/jquery.js') }}"></script>
     <script type=text/javascript>
       $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     </script>
@@ -16,14 +15,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="{{url_for( 'static', filename = 'css/bootstrap.css' )}}" rel="stylesheet">
-    <link href="{{url_for( 'static', filename = 'css/landing.css' )}}" rel="stylesheet">
-    <!-- <link href="static/css/landing.css" rel="stylesheet"> -->
-
-    <!-- Custom styles for this template -->
-    <!-- <link href="jumbotron-narrow.css" rel="stylesheet"> -->
-
-    <!-- Just for debugging purposes. Don't actually copy this line! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <link href="{{url_for( 'static', filename = 'css/commpute.css' )}}" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -31,39 +23,52 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <!-- "{{ url_for('static', filename = 'img/background.jpg') }}" -->
   <body>
-    <div class="">
-    <div class="container">
-      <div class="header">
-        <ul id="nav-pills" class="nav nav-pills pull-right">
-          {% if username %}
-            <li><a href="{{url_for('logout')}}">Log out</a></li>
-            <li id="jobs-nav-pill"><a href="{{url_for('jobs', username=username)}}">Jobs</a></li>
-            <li id="friends-nav-pill"><a href="{{url_for('friends', username=username)}}">Friends</a></li>
-            <li id="home-nav-pill"><a href="{{url_for('home', username=username)}}">Home</a></li>
-            <li id="settings-nav-pill"><a href="{{url_for('settings', username=username)}}"><span style="font-size: 1.5em;" class="glyphicon glyphicon-cog"></span></a></li>
-          {% else %}
-            <li><a href="{{url_for('login')}}">Log in</a></li>
-            <li class="active"><a href="/signup">Sign up</a></li>
-          {% endif %}
-        </ul>
-        <a href="{{url_for('show_landing')}}" style="text-decoration:none"><h1><span style="color: #4c6e3b;font-family: Helvetica;">Comm</span><span style="color: #e3722e;font-family: Georgia;font-size:1.1em;">pute</span></h3></h1></a>
-      </div>
-
-    </div> <!-- /container -->
-    
-    <div class="container">
-      <div class=page>
-        {% block body %}{% endblock %}
-      </div>
-    </div> <!-- /container -->
+    {% if showbg %}
+    <div class='landing'>
+    {% else %}
+    <div>
+    {% endif %}
+      <div id='nav_bar' class="container">
+        <div class="header">
+          <ul id="nav-pills" class="nav nav-pills pull-right">
+            {% if username %}
+              <li id="jobs-nav-pill"><a href="{{url_for('jobs', username=username)}}">Jobs</a></li>
+              <li id="friends-nav-pill"><a href="{{url_for('friends', username=username)}}">Friends</a></li>
+              <li id="home-nav-pill"><a href="{{url_for('home', username=username)}}">Home</a></li>
+              <li>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle noborder" data-toggle="dropdown">
+                    <a href="#"><span style="font-size: 1.5em;" class="glyphicon glyphicon-cog"></a>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li><a href="{{url_for('settings', username=username)}}">Settings</a></li>
+                    <li class="divider"></li>
+                    <li><a href="{{url_for('logout')}}">Log out</a></li>
+                  </ul>
+                </div>
+              </li>
+            {% else %}
+              <li><a href="{{url_for('login')}}">Log in</a></li>
+              <li class="active"><a href="/signup">Sign up</a></li>
+            {% endif %}
+          </ul>
+          <a href="{{url_for('show_landing')}}" style="text-decoration:none"><h1><span style="color: #4c6e3b;font-family: Helvetica;">Comm</span><span style="color: #e3722e;font-family: Georgia;font-size:1.1em;">pute</span></h3></h1></a>
+        </div>
+      </div> <!-- /container -->
+      
+      <div class="container">
+        <div class=page>
+          {% block body %}{% endblock %}
+        </div>
+      </div> <!-- /container -->
   </div>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
 
     <script type=text/javascript src="{{url_for('static', filename='js/jquery.js') }}"></script>
+    <script type=text/javascript src="{{url_for('static', filename='js/bootstrap.js') }}"></script>
     <script type=text/javascript src="{{url_for('static', filename='js/nav.js')}}"></script>
     {% block scripts %}{% endblock %}
 
