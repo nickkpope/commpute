@@ -7,7 +7,7 @@
                 <div class="col-md-2 centering"><br><image style="width: 60px" src="{{url_for('static', filename = 'img/' + item.gender + '-avatar.png')}}"><image></div>
                 <div class="col-md-6 col-md-offset-1">
                     <h3>{{ item.name }}</h3>
-                    <p><span style="font-size: .7em">{{ item.uptime }} - {{ item.cores }}cores - {{ item.bandwidth }}</span></p>
+                    <p><span style="font-size: .7em">{{ item.uptime }} - 10 cores - 20 mbps</span></p>
                 </div>
                 {% if item_type == 'friends_suggestions' %}
                 <div class="col-md-1"><br><span style="font-size:24px" class="glyphicon glyphicon-plus-sign"></span></div>

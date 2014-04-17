@@ -6,7 +6,7 @@ from ops import app, facebook, twitter, mongo
 from auth import User
 import time
 from mock_data import jobs_data, items
-from db import Request
+import db
 
 
 @app.route('/')
@@ -70,7 +70,14 @@ def docs():
 def fetch_items():
     item_type = request.form.get('item_type')
     pane_id = request.form.get('pane_id')
-    return render_template('items.html', item_type=item_type, items=items[item_type], pane_id=pane_id)
+
+    return render_template('items.html', item_type=item_type, items=find_items_by_type(item_type), pane_id=pane_id)
+
+
+def find_items_by_type(self, item_type):
+    item_map = {}
+    item_map['friends'] = lambda: db.find_participants({})
+    return item_map[item_type]()
 
 
 @app.route('/iteminfo', methods=['POST'])
@@ -124,7 +131,7 @@ def friends(username):
 @app.route('/request_friend/<friend_username>')
 @login_required
 def request_friend(friend_username):
-    Request(current_user.username, friend_username).insert()
+    db.Request(current_user.username, friend_username).insert()
 
 
 @app.route('/facebook')

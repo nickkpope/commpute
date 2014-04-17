@@ -2,6 +2,10 @@ from ops import mongo
 import time
 
 
+def find_participants(q):
+    mongo.db.participants.find(q)
+
+
 class DBO(object):
     '''
     {

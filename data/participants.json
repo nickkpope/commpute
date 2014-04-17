@@ -2,6 +2,7 @@
 		{
 			"username": "pyotr",
 			"name": "Peter Anderson",
+            "uptime": "50",
 			"computers": [
 				{
 					"name": "Fitgerald",
@@ -22,6 +23,7 @@
 		{
 			"username": "pope",
         	"name": "Nick Pope",
+            "uptime": "150",
         	"computers": [
         		{
             		"name": "Poperino",
@@ -54,6 +56,7 @@
 		{
         	"username": "coffman",
         	"name": "Ben Coffman",
+            "uptime": "1285",
         	"computers": [
         		{
             		"name": "Coffin On Me",
