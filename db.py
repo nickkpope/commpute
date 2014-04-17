@@ -118,7 +118,7 @@ class Organization(Participant):
         leaders: listof Participants
     }
     '''
-    def __init__(self, name=None):
+    def __init__(self, username=None, name=None):
         Participant.__init__(self)
         self.leaders = []
 
@@ -143,7 +143,7 @@ class Organization(Participant):
 class Computer(MongoDBO):
     '''
     {
-        'uptime': int, #  (seconds),
+        'uptime': int, #  (hours),
         'info': {
             'os': str,
             'ram': str,
@@ -165,6 +165,8 @@ class Computer(MongoDBO):
         return self.__dict__
 
     def load_computer(self, data):
+        if 'name' in data:
+            self.name = data['name']
         if 'uptime' in data:
             self.uptime = data['uptime']
         if 'info' in data:

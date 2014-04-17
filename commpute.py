@@ -2,7 +2,7 @@
 import sys
 from flask import session, redirect, url_for, render_template, flash, request, jsonify
 from flask.ext.login import login_required, login_user, logout_user, current_user
-from ops import app, facebook, twitter, mongo, users
+from ops import app, facebook, twitter, mongo
 from auth import User
 import time
 from mock_data import jobs_data, items
@@ -23,12 +23,16 @@ def login():
     if current_user.is_authenticated():
         return redirect(url_for('home', username=current_user.username))
     if request.method == 'POST':
-        stored_user = mongo.db.users.find_one({'username': request.form['username']})
-        if stored_user is not None:
+        stored_user = mongo.db.participants.find_one({'username': request.form['username']})
+        print stored_user
+        if stored_user:
             user = User(username=stored_user['username'], name=stored_user['name'])
+            print user.name
+            print user.username
+            user.load_participant(stored_user)
+            print "user loaded"
             login_user(user)
-            users.append(user)
-            user.user_id = session['user_id']
+            print "user logged in"
             return redirect(url_for('home', username=user.username))
     return render_template("login.html")
 
@@ -51,11 +55,9 @@ def sign_up():
         return redirect(url_for('home'))
     if request.method == 'POST':
         user = User(request.form['username'], request.form['name'])
-        users.append(user)
+        mongo.db.participants.insert(user.save_participant())
         login_user(user)
-        user.user_id = session['user_id']
-        mongo.db.users.insert(user.save_participant())
-        return redirect(url_for('home'))
+        return redirect(url_for('home', username=user.username))
     return render_template('signup.html')
 
 
@@ -116,7 +118,7 @@ def settings(username):
 @app.route('/friends/<username>')
 @login_required
 def friends(username):
-    return render_template('friends.html')
+    return render_template('friends.html', name=current_user.name)
 
 
 @app.route('/request_friend/<friend_username>')
@@ -143,7 +145,7 @@ def facebook_auth(resp):
     login_user(user)
     user.user_id = session['user_id']
     users.append(user)
-    mongo.db.users.insert(user.save_participant())
+    mongo.db.participants.insert(user.save_participant())
     return redirect(request.args.get('next') or url_for('home', username=user.username))
 
 
@@ -165,7 +167,7 @@ def twitter_auth(resp):
     login_user(user)
     user.user_id = session['user_id']
     users.append(user)
-    mongo.db.users.insert(user.save_participant())
+    mongo.db.participants.insert(user.save_participant())
     return redirect(request.args.get('next') or url_for('home', username=user.username))
 
 
