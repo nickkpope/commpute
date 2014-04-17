@@ -23,7 +23,7 @@ def login():
     if current_user.is_authenticated():
         return redirect(url_for('home', username=current_user.username))
     if request.method == 'POST':
-        stored_user = mongo.db.participants.find_one({'username': request.form['username']})
+        stored_user = db.find_user(request.form['username'])
         print stored_user
         if stored_user:
             user = User(username=stored_user['username'], name=stored_user['name'])
@@ -70,14 +70,32 @@ def docs():
 def fetch_items():
     item_type = request.form.get('item_type')
     pane_id = request.form.get('pane_id')
-
+    print 'fetching items for', item_type, [i['username'] for i in find_items_by_type(item_type)]
     return render_template('items.html', item_type=item_type, items=find_items_by_type(item_type), pane_id=pane_id)
 
 
-def find_items_by_type(self, item_type):
+def contributors(username, q={}):
+    ret = []
+    print '<<<', db.find_user(username, q)['contributors']
+    for f in db.find_user(username, q)['contributors']:
+        f_doc = db.find_user(f)
+        if f_doc:
+            ret.append(f_doc)
+        else:
+            print 'could not find', f
+
+    return ret
+
+
+def find_items_by_type(item_type):
     item_map = {}
-    item_map['friends'] = lambda: db.find_participants({})
-    return item_map[item_type]()
+    item_map['friends'] = lambda q: contributors(current_user.username, q)
+    item_map['friend_suggestions'] = lambda q: suggest_friends(current_user.username, q)
+
+    try:
+        return list(item_map[item_type]({}))
+    except KeyError:
+        return []
 
 
 @app.route('/iteminfo', methods=['POST'])
@@ -100,14 +118,14 @@ def delete_item():
         if item['id'] == int(item_id):
             item['visible'] = False
             break
-    print items[item_type]
+
     return render_template('items.html', items=items[item_type], pane_id=pane_id, item_type=item_type)
 
 
 @app.route('/jobs/<username>')
 @login_required
 def jobs(username):
-    return render_template('jobs.html', jobs=jobs_data)
+    return render_template('jobs.html', jobs=jobs_data, username=username)
 
 
 @app.route('/home/<username>')
@@ -125,13 +143,61 @@ def settings(username):
 @app.route('/friends/<username>')
 @login_required
 def friends(username):
-    return render_template('friends.html', name=current_user.name)
+    print 'friends(%s)' % username
+    return render_template('friends.html', username=username)
+
+
+@app.route('/add_friend', methods=['POST'])
+@login_required
+def add_friend():
+    return manage_friend(request.form['friend_username'], add=True)
+
+
+@app.route('/remove_friend', methods=['POST'])
+@login_required
+def remove_friend():
+    return manage_friend(request.form['friend_username'], remove=True)
+
+
+def manage_friend(friend_username, add=False, remove=False):
+    print 'add_friend(%s)' % friend_username
+    user = db.Participant(current_user.username, load=True)
+    if db.find_user(friend_username):
+        try:
+            if add:
+                user['contributors'].append(friend_username)
+            elif remove:
+                user['contributors'].pop(user['contributors'].index(friend_username))
+            user.save()
+        except:
+            print 'unknown error occured when managing friend'
+            return jsonify(nailedit=False)
+        return jsonify(nailedit=True)
+    else:
+        return jsonify(nailedit=False)
 
 
 @app.route('/request_friend/<friend_username>')
 @login_required
 def request_friend(friend_username):
     db.Request(current_user.username, friend_username).insert()
+
+
+def suggest_friends(username, q={}):
+    user = db.find_user(username)
+    if not user:
+        print 'could not find user', username
+        return []
+    ret = []
+    if len(user['contributors']) == 0:
+        return list(db.find_participants({'username': {'$ne': username}}))
+    for cname in user['contributors']:
+        c = db.find_user(cname)
+        if c:
+            for suggestion in [db.find_user(i) for i in c['contributors']]:
+                if suggestion and not suggestion['username'] in user['contributors']:
+                    ret.append(suggestion)
+    return ret
 
 
 @app.route('/facebook')

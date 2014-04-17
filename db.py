@@ -1,9 +1,27 @@
 from ops import mongo
 import time
+from bson.objectid import ObjectId
 
 
-def find_participants(q):
-    mongo.db.participants.find(q)
+def find_participants(q={}):
+    return mongo.db.participants.find(q)
+
+
+def find_user(username=None, uid=None):
+    ''':returns: participant object if user exists, None otherwise'''
+    if uid:
+        if type(uid) is str:
+            uid = ObjectId(uid)
+        elif type(uid) is ObjectId:
+            pass
+        else:
+            return None
+        user_doc = mongo.db.participants.find_one({'_id': uid})
+
+    user_doc = None
+
+    user_doc = mongo.db.participants.find_one({'username': username})
+    return user_doc
 
 
 class DBO(object):
@@ -12,8 +30,8 @@ class DBO(object):
         id, #
     }
     '''
-    def __init__(self, id=None):
-        self.id = id
+    def __init__(self, _id=None):
+        self.id = _id
 
     def load(self):
         '''Reads the data from the database'''
@@ -38,7 +56,7 @@ class MongoDBO(DBO):
         return self.__dict__[k]
 
     def collection(self):
-        pass
+        raise NotImplementedError('collection() must be implemented by a subclass')
 
     def insert(self):
         self.collection().insert(self.__dict__)
@@ -59,17 +77,22 @@ class Participant(MongoDBO):
         requests: listof Requests
     }
     '''
-    def __init__(self, username=None, name=None):
+    def __init__(self, username=None, name=None, load=False):
         MongoDBO.__init__(self)
         self.computers = []
         self.username = username
         self.name = name
         self.requests = []
         self.contributors = []
+        if load:
+            self.load(find_user(self.username))
 
     def __gt__(self, other):
         '''Compares uptime'''
         return self.uptime() > other.uptime()
+
+    def collection(self):
+        return mongo.db.participants
 
     def save_participant(self):
         '''Method to convert Participant into a dictionary'''
@@ -77,16 +100,10 @@ class Participant(MongoDBO):
 
     def load_participant(self, data):
         '''Method to convert Participant into a dictionary'''
-        if 'username' in data:
-            self.username = data['username']
-        if 'name' in data:
-            self.name = data['name']
-        if 'computers' in data:
-            self.computers = data['computers']
-        if 'requests' in data:
-            self.requests = data['requests']
-        if 'contributors' in data:
-            self.contributors = data['contributors']
+        for k, v in data.items():
+            self.__dict__[k] = v
+
+    load = load_participant
 
 
 class Person(Participant):

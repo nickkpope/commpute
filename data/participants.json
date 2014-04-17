@@ -3,6 +3,7 @@
 			"username": "pyotr",
 			"name": "Peter Anderson",
             "uptime": "50",
+            "profile_pic": "male-avatar.png",
 			"computers": [
 				{
 					"name": "Fitgerald",
@@ -24,6 +25,7 @@
 			"username": "pope",
         	"name": "Nick Pope",
             "uptime": "150",
+            "profile_pic": "male-avatar.png",
         	"computers": [
         		{
             		"name": "Poperino",
@@ -50,13 +52,14 @@
             		}
         		}	
         	],
-        	"contributors": [],
+        	"contributors": ["coffman"],
         	"requests": []
 		},
 		{
         	"username": "coffman",
         	"name": "Ben Coffman",
             "uptime": "1285",
+            "profile_pic": "male-avatar.png",
         	"computers": [
         		{
             		"name": "Coffin On Me",
@@ -95,7 +98,7 @@
 		            }
 		        }	
         	],
-        	"contributors": [],
+        	"contributors": ["pyotr"],
         	"requests": []
     	}
 ]

@@ -1,18 +1,17 @@
-<!-- {{ item_type }} -->
 {% for item in items %}
-    {% if item.visible %}
+    {% if item.visible or True %}
         <!-- item_type will be an item field to provide mixed item lists -->
-        {% if item_type == 'friends' or item_type == 'friends_suggestions' or item_type == 'friends_results' or item_type == 'friends_suggestions_results' %}
+        {% if item_type == 'friends' or item_type == 'friend_suggestions' %}
             <div id="{{ item.id }}" class='row text-center'>
-                <div class="col-md-2 centering"><br><image style="width: 60px" src="{{url_for('static', filename = 'img/' + item.gender + '-avatar.png')}}"><image></div>
+                <div class="col-md-2 centering"><br><image style="width: 60px" src="{{url_for('static', filename = 'img/' + item.profile_pic)}}"><image></div>
                 <div class="col-md-6 col-md-offset-1">
                     <h3>{{ item.name }}</h3>
-                    <p><span style="font-size: .7em">{{ item.uptime }} - 10 cores - 20 mbps</span></p>
+                    <p><span style="font-size: .7em">{{ item.uptime }}h - 10 cores - 20 mbps</span></p>
                 </div>
-                {% if item_type == 'friends_suggestions' %}
-                <div class="col-md-1"><br><span style="font-size:24px" class="glyphicon glyphicon-plus-sign"></span></div>
+                {% if item_type == 'friend_suggestions' %}
+                <div class="col-md-1"><br><a href="javascript:addFriend('{{ item.username }}')"><span style="font-size:24px" class="glyphicon glyphicon-plus-sign"></span></a></div>
                 {% elif item_type == 'friends' %}
-                <div class="col-md-1"><br><span style="font-size:24px" class="glyphicon glyphicon-remove-circle"></span></div>
+                <div class="col-md-1"><br><a href="javascript:removeFriend('{{ item.username }}')"><span style="font-size:24px" class="glyphicon glyphicon-remove-circle"></span></a></div>
                 {% endif %}
             </div>
         {% elif item_type == 'computers' %}

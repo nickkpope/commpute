@@ -1,12 +1,12 @@
 {% extends "layout.html" %}
 {% block body %}
 <div class="row text-center">
-{% not current_user.is_authenticated() %}
+{% if not current_user.is_authenticated() %}
     <h1>You shouldn't be here. You betta login sucka!</h1>
 {% endif %}
 </div>
 <div class="row text-center">
-    <div class="col-xs-6 col-xs-offset-3">
+    <div class="col-sm-6 col-sm-offset-3">
         <div class="input-group">
           <input type="text" class="form-control" onkeypress="searchHandler(event)">
           <span class="input-group-btn">
@@ -53,39 +53,5 @@
 {% endblock %}
 {% block scripts %}
 <script type='text/javascript' src="{{ url_for('static', filename = 'js/items.js')}}"></script>
-<script type='text/javascript'>
-var searching;
-$(document).ready(function (){
-    searching = false;
-    fetchItems('friends_pane', "friends");
-    fetchItems('computers_pane', "computers");
-    fetchItems('suggestions_pane', "friends_suggestions");
-});
-
-$('#search_button').click(function(){
-    searchFriends();
-});
-function searchHandler(e){
-    if (e.keyCode === 13){
-        searchFriends();
-    }
-
-}
-function searchFriends(){
-    if (searching){
-        $('#main_pane')[0].style.display = "block";
-        $('#results_pane')[0].style.display = "none";
-        $("#search_button").html('<span class="glyphicon glyphicon-search"></span>');
-        searching = false;
-    }
-    else{
-        $('#main_pane')[0].style.display = "none";
-        $('#results_pane')[0].style.display = "block";
-        $("#search_button").html('<span class="glyphicon glyphicon-remove-circle"></span>');
-        searching = true;
-    }
-    fetchItems('friends_results_pane', 'friends_results');
-    fetchItems('friends_suggestions_results_pane', 'friends_suggestions_results');
-}
-</script>
+<script type='text/javascript' src="{{ url_for('static', filename = 'js/friends.js')}}"></script>
 {% endblock %}
