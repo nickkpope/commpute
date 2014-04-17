@@ -1,3 +1,7 @@
+from ops import mongo
+import time
+
+
 class DBO(object):
     '''
     {
@@ -20,11 +24,23 @@ class MongoDBO(DBO):
     {
         dbo: DBO,
         col: string,
-        db:  string    
+        db:  string
     }
     '''
     def __init__(self):
         DBO.__init__(self)
+
+    def __getitem__(self, k):
+        return self.__dict__[k]
+
+    def collection(self):
+        pass
+
+    def insert(self):
+        self.collection().insert(self.__dict__)
+
+    def save(self):
+        self.collection().save(self.__dict__)
 
 
 class Participant(MongoDBO):
@@ -124,7 +140,6 @@ class Organization(Participant):
             self.leaders = data['leaders']
 
 
-
 class Computer(MongoDBO):
     '''
     {
@@ -178,32 +193,21 @@ class Job(MongoDBO):
         return self.__dict__
 
 
-class Request():
+class Request(MongoDBO):
     '''
     {
         object: MongoDBO,
         sender: Participant,
         receiver: Participant,
-        date: Date,
-        status: str,
+        date: Date
     }
     '''
 
-    def __init__(self):
+    def __init__(self, sender, receiver):
         MongoDBO.__init__(self)
-        pass
+        self.sender = sender
+        self.receiver = receiver
+        self.date = time.time()
 
-    def save_request(self):
-        return self.__dict__
-
-    def load_request(self, data):
-        if 'sender' in data:
-            this.sender = data['sender']
-        if 'receiver' in data:
-            this.receiver = data['receiver']
-        if 'data' in data:
-            this.data = data['date']
-        if 'status' in data['status']:
-            this.status = data['status']
-
-
+    def collection(self):
+        return mongo.db.requests

@@ -1,8 +1,8 @@
 {% extends "layout.html" %}
 {% block body %}
 <div class="row text-center">
-{% if not username %}
-    <h1>Hello Anonymous! You shouldn't be here. Sucka!</h1>
+{% not current_user.is_authenticated() %}
+    <h1>You shouldn't be here. You betta login sucka!</h1>
 {% endif %}
 </div>
 <div class="row text-center">

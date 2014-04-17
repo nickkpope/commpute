@@ -6,6 +6,7 @@ from ops import app, facebook, twitter, mongo, users
 from auth import User
 import time
 from mock_data import jobs_data, items
+from db import Request
 
 
 @app.route('/')
@@ -14,7 +15,7 @@ def show_landing():
         username = current_user.username
     else:
         username = None
-    return render_template('landing.html', username=username, showbg=True)
+    return render_template('landing.html', showbg=True)
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -47,14 +48,14 @@ def progress():
 @app.route('/signup', methods=['GET', 'POST'])
 def sign_up():
     if current_user.is_authenticated():
-        return redirect(url_for('home', username=current_user.username))
+        return redirect(url_for('home'))
     if request.method == 'POST':
         user = User(request.form['username'], request.form['name'])
         users.append(user)
         login_user(user)
         user.user_id = session['user_id']
         mongo.db.users.insert(user.save_participant())
-        return redirect(url_for('home', username=user.username))
+        return redirect(url_for('home'))
     return render_template('signup.html')
 
 
@@ -97,15 +98,12 @@ def delete_item():
 @app.route('/jobs/<username>')
 @login_required
 def jobs(username):
-    return render_template('jobs.html', jobs=jobs_data, username=username)
+    return render_template('jobs.html', jobs=jobs_data)
 
 
 @app.route('/home/<username>')
 @login_required
 def home(username):
-    for user in users:
-        if user.username == username:
-            return render_template('home.html', name=user.name, username=username)
     return render_template('home.html', username=username)
 
 
@@ -118,7 +116,13 @@ def settings(username):
 @app.route('/friends/<username>')
 @login_required
 def friends(username):
-    return render_template('friends.html', username=username)
+    return render_template('friends.html')
+
+
+@app.route('/request_friend/<friend_username>')
+@login_required
+def request_friend(friend_username):
+    Request(current_user.username, friend_username).insert()
 
 
 @app.route('/facebook')

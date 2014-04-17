@@ -32,17 +32,17 @@
       <div id='nav_bar' class="container">
         <div class="header">
           <ul id="nav-pills" class="nav nav-pills pull-right">
-            {% if username %}
-              <li id="jobs-nav-pill"><a href="{{url_for('jobs', username=username)}}">Jobs</a></li>
-              <li id="friends-nav-pill"><a href="{{url_for('friends', username=username)}}">Friends</a></li>
-              <li id="home-nav-pill"><a href="{{url_for('home', username=username)}}">Home</a></li>
+            {% if current_user.is_authenticated() %}
+              <li id="jobs-nav-pill"><a href="{{url_for('jobs')}}">Jobs</a></li>
+              <li id="friends-nav-pill"><a href="{{url_for('friends')}}">Friends</a></li>
+              <li id="home-nav-pill"><a href="{{url_for('home')}}">Home</a></li>
               <li>
                 <div class="btn-group">
                   <button type="button" class="btn btn-default dropdown-toggle noborder" data-toggle="dropdown">
                     <a href="#"><span style="font-size: 1.5em;" class="glyphicon glyphicon-cog"></a>
                   </button>
                   <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                    <li><a href="{{url_for('settings', username=username)}}">Settings</a></li>
+                    <li><a href="{{url_for('settings')}}">Settings</a></li>
                     <li class="divider"></li>
                     <li><a href="{{url_for('logout')}}">Log out</a></li>
                   </ul>
