@@ -1,18 +1,43 @@
 {% extends "layout.html" %}
 {% block body %}
-<br><br><br><br><br><br><br><br>
-<a href="{{url_for('static', filename='files/NodeProgram.zip')}}">
 <div class="row text-center">
-    <div class="col-sm-12"> 
-        <h2>Download Node Server</h2>
+    <h1>You should download <p>the Node server first.</p></h1>
+</div>
+<br><br>
+<div class="row">
+    <div class="col-sm-6">
+        <a href="{{url_for('static', filename='files/NodeProgram.zip')}}">
+        <div class="row text-center">
+            <div class="col-md-12"> 
+                <h2>Linux</h2>
+            </div>
+        </div>
+        <br>
+        <div class="row text-center">
+            <div class="col-md-12">
+                <span style="font-size:80px"class="glyphicon glyphicon-download"></span>
+            </div>
+        </div>
+        </a>
+    </div>
+    <div class="col-sm-6">
+        <a href="{{url_for('static', filename='files/NodeProgram.gz')}}">
+        <div class="row text-center">
+            <div class="col-md-12"> 
+                <h2>The other OS's</h2>
+            </div>
+        </div>
+        <br>
+        <div class="row text-center">
+            <div class="col-md-12">
+                <span style="font-size:80px"class="glyphicon glyphicon-download"></span>
+            </div>
+        </div>
+        </a>
     </div>
 </div>
-<br>
+<br><br>
 <div class="row text-center">
-    <div class="col-sm-12">
-        <span style="font-size:80px"class="glyphicon glyphicon-download"></span>
-    </div>
-</div>
-</a>
-</div>
+    <h1>Then follow these <a href='https://github.com/nickpope/commpute/wiki/Instructions-for-downloading-&-running-the-node-program'>instructions</a> to set it up!</h1>
+</br>
 {% endblock %}
