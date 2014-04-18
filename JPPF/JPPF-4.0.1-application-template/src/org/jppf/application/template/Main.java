@@ -18,9 +18,9 @@ public class Main
 	public static void main(String[] args) throws Exception
 	{
 
-        //JPPFXmlRpcServer server = new JPPFXmlRpcServer();
+        JPPFXmlRpcServer server = new JPPFXmlRpcServer();
 
-	    JobInformationAPITester.testJobInformationAPI();
+	    //JobInformationAPITester.testJobInformationAPI();
 		
 	    //System.exit(0);
 	}
