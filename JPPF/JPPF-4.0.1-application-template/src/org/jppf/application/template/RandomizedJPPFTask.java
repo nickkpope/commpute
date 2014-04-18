@@ -98,6 +98,5 @@ public class RandomizedJPPFTask extends AbstractTask<String>
 	System.out.println("This task did not fail");
     	setResult("the execution was performed successfully");
     }
-	System.out.println("The result was: " + getResult());
   }
 }
