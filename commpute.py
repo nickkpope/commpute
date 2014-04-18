@@ -7,6 +7,9 @@ from auth import User
 import time
 from mock_data import jobs_data, items
 import db
+import xmlrpclib
+running_jobs = []
+dist_proxy = xmlrpclib.ServerProxy('http://localhost:8090')
 
 
 @app.route('/')
@@ -43,13 +46,46 @@ def logout():
 @app.route('/progress', methods=['POST'])
 @login_required
 def progress():
-    return jsonify(prog=time.time() % 50 * 2, jobs=jobs_data)
+    progress_report = []
+    for job_id in running_jobs:
+        progress_report.append({'jid': job_id, 'progress': getJobProgress(job_id)})
+    return jsonify(jobs_progress=progress_report)
+
+
+def getJobProgress(job_id):
+    task_statuses = dist_proxy.system.getTaskStatuses(job_id)
+    ret = {
+        'active': task_statuses.count('EXECUTING'),
+        'finished': task_statuses.count('COMPLETE'),
+        'error': task_statuses.count('FAILED'),
+        'total': dist_proxy.system.getTotalTasks(job_id)
+    }
+    print ret
+    return ret
+    # elif job_id == 'j2':
+    #     return {'active': 7, 'finished': 13, 'error': 5, 'total': 40}
+    # elif job_id == 'j3':
+    #     return {'active': 1, 'finished': 20, 'error': 0, 'total': 21}
 
 
 @app.route('/submit_job', methods=['POST'])
 def submit_job():
-    job_id = 'j3'
+    job_id = dist_proxy.system.submitRandomizedTestJob("oats", 10, 10)
+    running_jobs.append(job_id)
     return jsonify(job_id=job_id)
+
+
+@app.route('/kill_job', methods=['POST'])
+def kill_job():
+    job_id = request.form['job_id']
+    try:
+        running_jobs.remove(job_id)
+        dist_proxy.system.cancelJob(job_id)
+        return jsonify(nailedit=True)
+    except:
+        etype, evalue, etrace = sys.exc_info()
+        print 'caught unhandled exception: %s' % evalue
+        return jsonify(nailedit=False, error=evalue)
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -94,12 +130,19 @@ def find_items_by_type(item_type, q=None):
     item_map = {}
     item_map['friends'] = lambda q: contributors(current_user.username, q or {})
     item_map['friend_suggestions'] = lambda q: suggest_friends(current_user.username, q or {})
-    item_map['jobs'] = lambda q: jobs_data.get(q) or [i[1] for i in jobs_data.items()]
-
+    item_map['jobs'] = get_active_jobs
     try:
         return list(item_map[item_type](q))
     except KeyError:
+        print 'recieved bad item_type', item_type
         return []
+
+
+def get_active_jobs(q={}):
+    ret = []
+    for job_id in running_jobs:
+        ret.append({'id': job_id, 'name': job_id})
+    return ret
 
 
 @app.route('/iteminfo', methods=['POST'])

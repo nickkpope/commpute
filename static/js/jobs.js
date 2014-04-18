@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    // window.setInterval(refreshProgress, 2000); // repeat forever, polling every second
-    fetchItems('job_pane', null, function (result){
+    window.setInterval(refreshProgress, 2000); // repeat forever, polling every second
+    fetchItems('jobs', null, function (result){
         $("#job_pane").html(result.html);
         for (var job in result.item_data){
             bindJobClick(result.item_data[job].id);
@@ -38,13 +38,31 @@ $('#submit_job').click(function (){
                 success("Job (" + result.job_id + ") submitted successfully.");
                 fetchItems("jobs", null, function (result){
                     $("#job_pane").html(result.html);
-                    alert(result.item_data);
                 });
                 bindJobClick(result.job_id);
             }
         }
     });
 });
+
+function kill_job(job_id){
+    $.ajax({
+        url: '/kill_job',
+        type: 'POST',
+        data: {job_id: job_id},
+        success: function (result){
+            if (result.nailedit) {
+                success("Removed job successfully.");
+                fetchItems("jobs", null, function (result){
+                    $("#job_pane").html(result.html);
+                });
+            }
+            else {
+                error('Your job was not removed. ' + result.error);
+            }
+        }
+    });
+}
 
 function refreshProgress() {
     $.ajax({
@@ -53,42 +71,14 @@ function refreshProgress() {
         data: {username: null},
         success: function (result){
             // for each job: set progress
-            // for each task in selected job: set progress
+            for (var i in result.jobs_progress){
+              var d = result.jobs_progress[i];
+              $('#'+ d.jid + '_active').css('width', d.progress.active/d.progress.total*100 + '%');
+              $('#'+ d.jid + '_finished').css('width', d.progress.finished/d.progress.total*100 + '%');
+              $('#'+ d.jid + '_error').css('width', d.progress.error/d.progress.total*100 + '%');
+              // for each task in selected job: set progress  
+            }
+            
         }
     });
 }
-
-
-   // var task = job.tasks[j];
-
-   //  var taskRow = document.createElement('div');
-   //  taskRow.setAttribute('id', job.id+'_'+task.id+'_'+'_row');
-   //  taskRow.setAttribute('class','row text-left');
-   //  document.getElementById("task_list").appendChild(taskRow);
-
-   //      var taskNameCol1 = document.createElement('div');
-   //      taskNameCol1.setAttribute('class', 'col-sm-6');
-   //      taskRow.appendChild(taskNameCol1);
-
-   //          var taskNameSpan = document.createElement('span');
-   //          taskNameSpan.textContent = task.name;
-   //          taskNameSpan.setAttribute('style', 'font-size: 1.3em;');
-   //          taskNameCol1.appendChild(taskNameSpan);
-
-   //      var taskNameCol2 = document.createElement('div');
-   //      taskNameCol2.setAttribute('class', 'col-sm-6');
-   //      taskRow.appendChild(taskNameCol2);
-
-   //          var taskProgContainer = document.createElement('div');
-   //          taskProgContainer.setAttribute('class', 'progress progress-striped active');
-   //          taskNameCol2.appendChild(taskProgContainer);
-
-   //          var taskProgBar = document.createElement('div');
-   //          taskProgBar.setAttribute('id', job.id+'_'+task.id+'_pbar');
-   //          taskProgBar.setAttribute('class', 'progress-bar');
-   //          taskProgBar.setAttribute('role', 'progressbar');
-   //          taskProgBar.setAttribute('aria-valuenow','0');
-   //          taskProgBar.setAttribute('aria-valuemin','0');
-   //          taskProgBar.setAttribute('aria-valuemax','100');
-   //          taskProgBar.setAttribute('style','width: 0%');
-   //          taskProgContainer.appendChild(taskProgBar);
