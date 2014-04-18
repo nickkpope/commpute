@@ -1,10 +1,10 @@
-function fetchItems(id, item_type){
+function fetchItems(item_type, query, callback){
     $.ajax({
         url: '/fetchitems',
         type: 'POST',
-        data: {pane_id: id, item_type: item_type},
+        data: {item_type: item_type, query: query},
         success: function (result){
-            $('#' + id).html(result);
+            callback(result);
         }
     });
 }

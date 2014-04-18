@@ -19,3 +19,19 @@ function setCurrentPillState(){
 
     }
 }
+
+function error(message){
+    displayAlert('alert-danger', message);
+}
+
+function success(message){
+    displayAlert('alert-success', message);
+}
+
+function displayAlert(type, message){
+    $("#global-alert").html('<div class="alert ' + type + ' fade in out"><p>' + message + '</p></div>');
+    $(".alert").alert();
+    window.setTimeout(function (){
+        $(".alert").alert('close');
+    }, 3000);
+}

@@ -11,10 +11,6 @@ import db
 
 @app.route('/')
 def show_landing():
-    if current_user.is_authenticated():
-        username = current_user.username
-    else:
-        username = None
     return render_template('landing.html', showbg=True)
 
 
@@ -44,9 +40,16 @@ def logout():
     return redirect(url_for('show_landing'))
 
 
-@app.route('/progress')
+@app.route('/progress', methods=['POST'])
+@login_required
 def progress():
     return jsonify(prog=time.time() % 50 * 2, jobs=jobs_data)
+
+
+@app.route('/submit_job', methods=['POST'])
+def submit_job():
+    job_id = 'j3'
+    return jsonify(job_id=job_id)
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -69,31 +72,32 @@ def docs():
 @app.route('/fetchitems', methods=['POST'])
 def fetch_items():
     item_type = request.form.get('item_type')
-    pane_id = request.form.get('pane_id')
-    print 'fetching items for', item_type, [i['username'] for i in find_items_by_type(item_type)]
-    return render_template('items.html', item_type=item_type, items=find_items_by_type(item_type), pane_id=pane_id)
+    query = request.form.get('query')
+    item_data = find_items_by_type(item_type, q=query)
+    print 'fetching items for', item_type, item_data
+    return jsonify(item_data=item_data,
+                   html=render_template('items.html', item_type=item_type, items=item_data))
 
 
-def contributors(username, q={}):
+def contributors(username, q=None):
     ret = []
-    print '<<<', db.find_user(username, q)['contributors']
     for f in db.find_user(username, q)['contributors']:
         f_doc = db.find_user(f)
         if f_doc:
             ret.append(f_doc)
         else:
             print 'could not find', f
-
     return ret
 
 
-def find_items_by_type(item_type):
+def find_items_by_type(item_type, q=None):
     item_map = {}
-    item_map['friends'] = lambda q: contributors(current_user.username, q)
-    item_map['friend_suggestions'] = lambda q: suggest_friends(current_user.username, q)
+    item_map['friends'] = lambda q: contributors(current_user.username, q or {})
+    item_map['friend_suggestions'] = lambda q: suggest_friends(current_user.username, q or {})
+    item_map['jobs'] = lambda q: jobs_data.get(q) or [i[1] for i in jobs_data.items()]
 
     try:
-        return list(item_map[item_type]({}))
+        return list(item_map[item_type](q))
     except KeyError:
         return []
 
@@ -125,7 +129,7 @@ def delete_item():
 @app.route('/jobs/<username>')
 @login_required
 def jobs(username):
-    return render_template('jobs.html', jobs=jobs_data, username=username)
+    return render_template('jobs.html', username=username)
 
 
 @app.route('/home/<username>')
@@ -177,13 +181,16 @@ def manage_friend(friend_username, add=False, remove=False):
         return jsonify(nailedit=False)
 
 
-@app.route('/request_friend/<friend_username>')
+@app.route('/request_friend', methods=['POST'])
 @login_required
-def request_friend(friend_username):
-    db.Request(current_user.username, friend_username).insert()
+def request_friend():
+    friend_username = request.form['friend_username']
+    db.FriendRequest(current_user.username, friend_username).insert()
 
 
 def suggest_friends(username, q={}):
+    '''returns 2nd degree connections as suggestions or
+    all participants if no friends are found'''
     user = db.find_user(username)
     if not user:
         print 'could not find user', username

@@ -4,7 +4,7 @@ from bson.objectid import ObjectId
 
 
 def find_participants(q={}):
-    return mongo.db.participants.find(q)
+    return mongo.db.participants.find(q, {'_id': False})
 
 
 def find_user(username=None, uid=None):
@@ -216,7 +216,7 @@ class Job(MongoDBO):
         return self.__dict__
 
 
-class Request(MongoDBO):
+class FriendRequest(MongoDBO):
     '''
     {
         object: MongoDBO,

@@ -35,9 +35,15 @@
 <script type='text/javascript' src="{{ url_for('static', filename = 'js/items.js') }}"></script>
 <script type='text/javascript'>
 $(document).ready(function () {
-    fetchItems('update_pane', "user_updates");
-    fetchItems('actions_pane', "user_action_items");
-    fetchItems('community_pane', "community_updates");
+    fetchItems("user_updates", null, function (result) {
+        $('#update_pane').html(result.html);
+    });
+    fetchItems("user_action_items", null, function (result) {
+        $('#actions_pane').html(result.html);
+    });
+    fetchItems("community_updates", null, function (result) {
+        $('#community_pane').html(result.html);
+    });
 });
 </script>
 {% endblock %}

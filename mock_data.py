@@ -1,14 +1,14 @@
-jobs_data = [
-    {
-        'name': 'Job 1',
+jobs_data = {
+    "j1": {
+        'name': 'Teapot',
         "id": 'j1',
         'tasks': [
             {'name': 'Task 1', 'id': 't1'},
             {'name': 'Task 2', 'id': 't2'}
         ]
     },
-    {
-        'name': 'Job 2',
+    "j2": {
+        'name': 'Protein Folding',
         "id": 'j2',
         'tasks': [
             {'name': 'Task A', 'id': 't1'},
@@ -16,8 +16,8 @@ jobs_data = [
             {'name': 'Task C', 'id': 't3'}
         ]
     },
-    {
-        'name': 'Job 3',
+    "j3": {
+        'name': 'Zelda',
         "id": 'j3',
         'tasks': [
             {'name': 'Task Gorilla', 'id': 't1'},
@@ -27,7 +27,7 @@ jobs_data = [
 
         ]
     }
-]
+}
 
 
 items = {
@@ -65,7 +65,7 @@ items = {
             'visible': True
         },
         {
-            'html': 'Your Protien Folding job has failed tasks.',
+            'html': 'Your Protein Folding job has failed tasks.',
             'id': 7,
             'visible': True
         }

@@ -6,9 +6,15 @@ $(document).ready(function (){
 });
 
 function loadPanes(){
-    fetchItems('friends_pane', "friends");
-    fetchItems('computers_pane', "computers");
-    fetchItems('suggestions_pane', "friend_suggestions");
+    fetchItems("friends", null, function (result){
+        $('#friends_pane').html(result.html);
+    });
+    fetchItems('computers', null, function (result){
+        $('#computers_pane').html(result.html);
+    });
+    fetchItems('friend_suggestions', null, function (result){
+        $('#suggestions_pane').html(result.html);
+    });
 }
 
 $('#search_button').click(function(){
