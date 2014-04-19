@@ -1,6 +1,13 @@
 $(document).ready(function (){
     setCurrentPillState();
+    $(document).ready(function () {
+    if ($("[rel=tooltip]").length) {
+        $("[rel=tooltip]").tooltip();
+    }
 });
+    
+});
+
 
 function setCurrentPillState(){
     if (location.pathname.substring(0, 5) == "/home"){
