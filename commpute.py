@@ -1,11 +1,13 @@
 # all the imports
 import sys
+import socket
+import errno
 from flask import session, redirect, url_for, render_template, flash, request, jsonify
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from ops import app, facebook, twitter, mongo
 from auth import User
 import time
-from mock_data import jobs_data, items
+from mock_data import jobs_data, updates
 import db
 import xmlrpclib
 running_jobs = []
@@ -70,9 +72,17 @@ def getJobProgress(job_id):
 
 @app.route('/submit_job', methods=['POST'])
 def submit_job():
-    job_id = dist_proxy.system.submitRandomizedTestJob("oats", 10, 10)
-    running_jobs.append(job_id)
-    return jsonify(job_id=job_id)
+    try:
+        job_id = dist_proxy.system.submitRandomizedTestJob("oats", 10, 10)
+        running_jobs.append(job_id)
+        return jsonify(job_id=job_id)
+    except socket.error:
+        etype, evalue, etrace = sys.exc_info()
+        if evalue.errno == errno.ECONNREFUSED:
+            error = 'The Job driver XMLRPC server must not be running.'
+        else:
+            error = str(evalue)
+        return jsonify(job_id=None, error=error)
 
 
 @app.route('/kill_job', methods=['POST'])
@@ -108,22 +118,13 @@ def docs():
 @app.route('/fetchitems', methods=['POST'])
 def fetch_items():
     item_type = request.form.get('item_type')
-    query = request.form.get('query')
+    query = request.form.get('query') or {}
+    username = request.form.get('username') or query.get('username') or current_user.username
     item_data = find_items_by_type(item_type, q=query)
     print 'fetching items for', item_type, item_data
     return jsonify(item_data=item_data,
+                   username=username,
                    html=render_template('items.html', item_type=item_type, items=item_data))
-
-
-def contributors(username, q=None):
-    ret = []
-    for f in db.find_user(username, q)['contributors']:
-        f_doc = db.find_user(f)
-        if f_doc:
-            ret.append(f_doc)
-        else:
-            print 'could not find', f
-    return ret
 
 
 def find_items_by_type(item_type, q=None):
@@ -131,11 +132,26 @@ def find_items_by_type(item_type, q=None):
     item_map['friends'] = lambda q: contributors(current_user.username, q or {})
     item_map['friend_suggestions'] = lambda q: suggest_friends(current_user.username, q or {})
     item_map['jobs'] = get_active_jobs
+    item_map['user_updates'] = lambda q: updates['user_updates']
+    item_map['user_updates'] = lambda q: updates['user_updates']
+    item_map['user_action_items'] = lambda q: updates['user_action_items']
+    item_map['community_updates'] = lambda q: updates['community_updates']
     try:
         return list(item_map[item_type](q))
     except KeyError:
         print 'recieved bad item_type', item_type
         return []
+
+
+def contributors(username, q=None):
+    ret = []
+    for f in db.find_user(username, q)['contributors']:
+        f_doc = db.find_user(f, strip_id=True)
+        if f_doc:
+            ret.append(f_doc)
+        else:
+            print 'could not find', f
+    return ret
 
 
 def get_active_jobs(q={}):
@@ -153,6 +169,19 @@ def item_info():
         if item['id'] == item_id:
             return jsonify(item)
     return jsonify(None)
+
+
+@app.route('/fetch_user_computers/<username>')
+def fetch_user_computers(username):
+    print '>>', username
+    user = db.find_user(username)
+    print user['computers']
+    if user:
+        return jsonify(html=render_template('items.html', items=user['computers'], item_type='computers'),
+                       item_data=user['computers'])
+    else:
+        return jsonify(html='No items found.',
+                       item_data=[])
 
 
 @app.route('/deleteitem', methods=['POST'])
@@ -244,7 +273,7 @@ def suggest_friends(username, q={}):
     for cname in user['contributors']:
         c = db.find_user(cname)
         if c:
-            for suggestion in [db.find_user(i) for i in c['contributors']]:
+            for suggestion in [db.find_user(i, strip_id=True) for i in c['contributors']]:
                 if suggestion and not suggestion['username'] in user['contributors']:
                     ret.append(suggestion)
     return ret

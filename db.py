@@ -7,7 +7,7 @@ def find_participants(q={}):
     return mongo.db.participants.find(q, {'_id': False})
 
 
-def find_user(username=None, uid=None):
+def find_user(username=None, uid=None, strip_id=False):
     ''':returns: participant object if user exists, None otherwise'''
     if uid:
         if type(uid) is str:
@@ -20,7 +20,12 @@ def find_user(username=None, uid=None):
 
     user_doc = None
 
-    user_doc = mongo.db.participants.find_one({'username': username})
+    if strip_id:
+        user_doc = mongo.db.participants.find_one({'username': username})
+        user_doc['id'] = str(user_doc['_id'])
+        user_doc.pop('_id')
+    else:
+        user_doc = mongo.db.participants.find_one({'username': username})
     return user_doc
 
 

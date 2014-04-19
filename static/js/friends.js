@@ -8,12 +8,35 @@ $(document).ready(function (){
 function loadPanes(){
     fetchItems("friends", null, function (result){
         $('#friends_pane').html(result.html);
+        selectFriend(result);
+
     });
-    fetchItems('computers', null, function (result){
-        $('#computers_pane').html(result.html);
-    });
+
     fetchItems('friend_suggestions', null, function (result){
         $('#suggestions_pane').html(result.html);
+        selectFriend(result);
+    });
+}
+
+function selectFriend (result){
+    $('.friend').bind('click', {result: result}, function (event){
+        selectItem('friend', $(this).attr('id'));
+        // Display their computers
+        var friend_username;
+        for (var i in result.item_data){
+            var friend = result.item_data[i];
+            if (friend.id === $(this).attr('id')){
+                friend_username = friend.username;
+            }
+        }
+        if (friend_username !== undefined){
+            $.ajax({
+                url: '/fetch_user_computers/' + friend_username,
+                success: function (result){
+                    $('#computers_pane').html(result.html);
+                }
+            });
+        }
     });
 }
 

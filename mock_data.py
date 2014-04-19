@@ -30,7 +30,7 @@ jobs_data = {
 }
 
 
-items = {
+updates = {
     'user_updates': [
         {
             'html': 'Just hit 10h uptime',

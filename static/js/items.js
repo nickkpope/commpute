@@ -21,3 +21,22 @@ function deleteItem(pane, id, item_type) {
         });
     });
 }
+
+function bindItemClick(specific_item_class, item_id){
+    // alert('binding ' + item_id);
+    $("#"+item_id).bind('click', function () {
+        // Clear previous tasks if any
+        $("#task_pane").html("");
+        selectItem(specific_item_class, item_id);
+    });
+}
+
+function selectItem(specific_item_class, item_id){
+    // Clear item selection
+    $("."+specific_item_class).css("border", "none");
+
+    // Select current job
+    $("#"+item_id).css("border", "1px solid");
+    $("#"+item_id).css("borderColor", "#35bce3");
+    $("#task_pane").css("display", "block");
+}
