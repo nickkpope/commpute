@@ -18,8 +18,25 @@
 					}
 				}
 			],
-			"contributors": [],
-			"requests": []
+			"contributors": [
+				{
+					"pope"
+				},
+				{
+					"coffman"
+				}
+			],
+			"updates": [
+				{
+					"text": "You have just completed 50 hours uptime",
+				},
+				{
+					"text": "Your computer hasn't been connected in the past few days."
+				},
+				{
+					"text": "On average your jobs are 24% longer than your friend's jobs"
+				}
+			]
 		},
 		{
 			"username": "pope",
@@ -53,7 +70,14 @@
         		}	
         	],
         	"contributors": ["coffman"],
-        	"requests": []
+        	"updates": [
+        		{
+        			"text": "You are a top contributor!"
+        		},
+        		{
+        			"text": "Your jobs are 15% smaller than your friend's jobs"
+        		}
+        	]
 		},
 		{
         	"username": "coffman",
@@ -99,6 +123,6 @@
 		        }	
         	],
         	"contributors": ["pyotr"],
-        	"requests": []
+        	"updates": []
     	}
 ]
