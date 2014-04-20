@@ -303,9 +303,15 @@ def twitter_auth(resp):
         flash('You denied the request to sign in.')
         return redirect(request.args.get('next') or url_for('show_landing'))
 
-    user = User(username=resp['screen_name'], name=resp['screen_name'],
-                token=resp['oauth_token'], secret=resp['oauth_token_secret'])
-    mongo.db.participants.insert(user.save_participant())
+    stored_user = mongo.db.participants.find_one({'username': resp['screen_name']})
+    if stored_user:
+        user = User(username=resp['screen_name'],
+                    token=resp['oauth_token'], secret=resp['oauth_token_secret'])
+        user.load_participant(stored_user)
+    else:
+        user = User(username=resp['screen_name'], name=resp['screen_name'],
+                    token=resp['oauth_token'], secret=resp['oauth_token_secret'])
+        mongo.db.participants.insert(user.save_participant())
     login_user(user)
     return redirect(request.args.get('next') or url_for('home', username=user.username))
 
