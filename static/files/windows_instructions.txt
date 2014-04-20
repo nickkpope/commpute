@@ -1,0 +1,16 @@
+#Windows
+
+* Download the file NodeProgram.zip [link here]
+* Unzip the files to a location of your choice
+* Open the folder in Windows explorer and double click on the file startNode.bat
+* You should see some output like the following:
+
+  * node process id: 5376
+  * Attempting connection to the class server at 107.170.57.29:11111
+  * RemoteClassLoaderConnection: Reconnected to the class server
+  * JPPF Node management initialized
+  * Attempting connection to the node server at 107.170.57.29:11111
+  * Reconnected to the node server
+  * Node successfully initialized
+
+Your node is now running and ready to contribute!

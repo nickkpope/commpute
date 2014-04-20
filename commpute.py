@@ -210,6 +210,12 @@ def home(username):
     return render_template('home.html', username=username)
 
 
+@app.route('/node_server/<username>')
+@login_required
+def node_server(username):
+    return render_template('node_server.html', username=username)
+
+
 @app.route('/settings/<username>')
 @login_required
 def settings(username):

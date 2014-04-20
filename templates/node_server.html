@@ -1,0 +1,122 @@
+{% extends "layout.html" %}
+{% block body %}
+<br><br>
+<div class="row text-center">
+    <h1>Let's download <p>that Node server first.</p></h1>
+</div>
+<div class="row text-center">
+    <h3>Then follow the instructions <p> below to get it started up.</p></h3>
+</div>
+<!-- <br><br>
+<div class="row text-center">
+    <h1>Let's get the node server downloaded,<p> and start it up!</p></h1>
+</div> -->
+<br><br>
+<div class="row">
+    <div class="col-sm-6">
+        <a href="{{url_for('static', filename='files/NodeProgram.zip')}}">
+        <div class="row text-center">
+            <div class="col-md-12"> 
+                <h2>Linux/OS X</h2>
+            </div>
+        </div>
+        <br>
+        <div class="row text-center">
+            <div class="col-md-12">
+                <span style="font-size:80px"class="glyphicon glyphicon-download"></span>
+            </div>
+        </div>
+        </a>
+    </div>
+    <div class="col-sm-6">
+        <a href="{{url_for('static', filename='files/NodeProgram.gz')}}">
+        <div class="row text-center">
+            <div class="col-md-12"> 
+                <h2>Windows</h2>
+            </div>
+        </div>
+        <br>
+        <div class="row text-center">
+            <div class="col-md-12">
+                <span style="font-size:80px"class="glyphicon glyphicon-download"></span>
+            </div>
+        </div>
+        </a>
+    </div>
+</div>
+<div class="row">
+    <div id="linux_osx_instructions" url="{{url_for('static', filename='files/linux_osx_instructions.txt')}}" class="col-sm-6">
+<br><br><br>
+<!-- <h1><a name="user-content-linux" class="anchor" href="#linux"><span class="octicon octicon-link"></span></a>Linux</h1> -->
+
+<ul>
+<li>Decompress the file into the location of your choice by running:</li>
+<li>Open a terminal window and navigate to the folder with the node files</li>
+<li>Run the command: <span style="font-family: courier; background-color: #fefefe;padding: 1px;padding-left: 5px;padding-right: 5px;border: 1px solid;border-color: #ddd; border-radius: 3px;">sh startNode.sh</span></li>
+</ul>
+<p>You should see some output like the following:</p>
+<div class="well">
+<span style="font-family: COURIER;font-size:.9em;">
+<p>node process id: 5376</p>
+<p>Attempting connection to the class server at 107.170.57.29:11111</p>
+<p>RemoteClassLoaderConnection: Reconnected to the class server</p>
+<p>JPPF Node management initialized</p>
+<p>Attempting connection to the node server at 107.170.57.29:11111</p>
+<p>Reconnected to the node server</p>
+<p>Node successfully initialized</p>
+</span>
+</div>
+</ul>
+    </div>
+    <div id="windows_instructions" url="{{url_for('static', filename='files/windows_instructions.txt')}}" class="col-sm-6">
+<!-- <h1><a name="user-content-windows" class="anchor" href="#windows"><span class="octicon octicon-link"></span></a>Windows</h1> -->
+<br><br><br>
+<ul>
+<li>Unzip the files to a location of your choice</li>
+<li>Open the folder in Windows explorer and double click on the file startNode.bat</li>
+</ul>
+        <p>You should see some output like the following:</p>
+        <div class="well">
+            <span style="font-family: COURIER;font-size:.9em;">
+                <p>node process id: 5376</p>
+                <p>Attempting connection to the class server at 107.170.57.29:11111</p>
+                <p>RemoteClassLoaderConnection: Reconnected to the class server</p>
+                <p>JPPF Node management initialized</p>
+                <p>Attempting connection to the node server at 107.170.57.29:11111</p>
+                <p>Reconnected to the node server</p>
+                <p>Node successfully initialized</p>
+            </span>
+        </div>
+    </div>
+</div>
+<div class="row text-center">
+    <h1>Your node is now running <p> and ready to contribute!</h1>
+</div>
+<br><br><br>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+// $(document).ready(fetchInstructions('linux_instructions'));
+// $(document).ready(fetchInstructions('windows_instructions'));
+
+// function fetchInstructions(id) {
+//     $('#'+id).html(function () {
+//         $.ajax({
+//             url: $('#'+id).attr('url'),
+//             type: 'get',
+//             success: function (raw_markdown) {
+//                 $.ajax({
+//                     url: 'http://api.github.com/markdown',
+//                     type: 'POST',
+//                     data: { 'text': raw_markdown, mode: 'gtm' },
+//                     success: function (converted_html){
+//                         alert(converted_html);
+//                         $('#'+id).html(converted_html);
+//                   }
+//                 });
+//             }
+//         });
+//     });
+// }
+</script>
+{% endblock %}
