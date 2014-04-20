@@ -1,8 +1,6 @@
-{% extends "layout.html" %}
-{% block body %}
 <br><br>
 <div class="row text-center">
-    <h1>Let's download <p>that Node server first.</p></h1>
+    <h1>Let's download <p>that Node server.</p></h1>
 </div>
 <div class="row text-center">
     <h3>Then follow the instructions <p> below to get it started up.</p></h3>
@@ -50,7 +48,7 @@
 <!-- <h1><a name="user-content-linux" class="anchor" href="#linux"><span class="octicon octicon-link"></span></a>Linux</h1> -->
 
 <ul>
-<li>Decompress the file into the location of your choice by running:</li>
+<li>Decompress the file into the location of your choice.</li>
 <li>Open a terminal window and navigate to the folder with the node files</li>
 <li>Run the command: <span style="font-family: courier; background-color: #fefefe;padding: 1px;padding-left: 5px;padding-right: 5px;border: 1px solid;border-color: #ddd; border-radius: 3px;">sh startNode.sh</span></li>
 </ul>
@@ -93,30 +91,3 @@
     <h1>Your node is now running <p> and ready to contribute!</h1>
 </div>
 <br><br><br>
-{% endblock %}
-{% block scripts %}
-<script type="text/javascript">
-// $(document).ready(fetchInstructions('linux_instructions'));
-// $(document).ready(fetchInstructions('windows_instructions'));
-
-// function fetchInstructions(id) {
-//     $('#'+id).html(function () {
-//         $.ajax({
-//             url: $('#'+id).attr('url'),
-//             type: 'get',
-//             success: function (raw_markdown) {
-//                 $.ajax({
-//                     url: 'http://api.github.com/markdown',
-//                     type: 'POST',
-//                     data: { 'text': raw_markdown, mode: 'gtm' },
-//                     success: function (converted_html){
-//                         alert(converted_html);
-//                         $('#'+id).html(converted_html);
-//                   }
-//                 });
-//             }
-//         });
-//     });
-// }
-</script>
-{% endblock %}

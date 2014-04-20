@@ -1,29 +1,13 @@
 {% extends "layout.html" %}
 {% block body %}
-
-<div class="container">
-  <form class="form-horizontal" id="registration" method='post' action={{url_for('sign_up')}}>
-    <fieldset>
-      <legend>Registration Form</legend>
-      <div class="control-group">
-        <label class="control-label">Username:</label>
-        <div class="controls">
-          <input type="text" id="username" name="username">
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label">Name:</label>
-        <div class="controls">
-          <input type="text" id="name" name="name">
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label"></label>
-        <div class="controls">
-          <button type="submit" class="btn btn-success" >Submit</button>
-        </div>
-      </div>
-    </fieldset>
-  </form>
+{% if not username %}
+<div class="row text-center" style="margin-top:10em">
+  <h1>Go ahead and log in first via twitter.<p><small>Then you can signup!</small></p></h1>
 </div>
+{% else %}
+<div class="row text-center" style="margin-top:10em">
+  <h1>It looks like you have already logged in.</h1>
+  You can access your settings via the cog (<span class="glyphicon glyphicon-cog"></span>)->Settings. Or just jump right in and see your friends, start a job, or go for a walk outside!.
+</div>
+{% endif %}
 {% endblock %}

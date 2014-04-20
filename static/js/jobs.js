@@ -23,6 +23,7 @@ $('#submit_job').click(function (){
                     $("#job_pane").html(result.html);
                 });
                 bindItemClick(result.job_id);
+                $('#no_jobs').css('display', 'none');
             }
         }
     });

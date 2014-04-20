@@ -52,7 +52,7 @@ public class TemplateJPPFTask extends AbstractTask<String>
   public TemplateJPPFTask(String displayMessage, int waitTime) 
   {
     this.waitTime = waitTime;
-    COMMONMESSAGE = "This is a test JPPF task, set to wait for " + waitTime + " seconds."
+    COMMONMESSAGE = "This is a test JPPF task, set to wait for " + waitTime + " seconds.";
     this.messageDisplayed = displayMessage;
   }
 

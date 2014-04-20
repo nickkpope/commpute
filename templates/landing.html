@@ -19,9 +19,8 @@
         </div>
       </div>
       <div class="col-xs-4">
-        <div class="centered">
-          <a href="/jobs/testdriver" ><button class="btn btn-primary" type="button">Try it out</button></a>
-        </div>
+        <div class="centered" style="margin-bottom:50px">
+          <a href="/jobs/testdriver" data-toggle="modal" data-target=".bs-example-modal-sm"><button class="btn btn-primary" type="button">Get Started!</button></a>
       </div>
     </div>
   </div>
@@ -49,8 +48,8 @@ function doSpacing (event){
     var contentHeight = $(window).height() - navHeight;
     var blankHeight = contentHeight - document.getElementById('tagline').clientHeight - document.getElementById('footer').clientHeight;
     $('#content').height(contentHeight);
-    $('#top_spacer').height(blankHeight*.45);
-    $('#bottom_spacer').height(blankHeight*.45);
+    $('#top_spacer').height(blankHeight*.5);
+    $('#bottom_spacer').height(blankHeight*.5);
 }
 </script>
 {% endblock %}

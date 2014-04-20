@@ -5,7 +5,7 @@ function fetchInstructions(id) {
     $('#'+id).html(function () {
         $.ajax({
             url: $('#'+id).attr('url'),
-            type: 'get'
+            type: 'get',
             success: function (raw_markdown){
                 $.ajax({
                     "url": 'http://api.github.com/markdown',
@@ -17,6 +17,6 @@ function fetchInstructions(id) {
                   }
                 });
             }
-        })
+        });
     });
 }

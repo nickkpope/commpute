@@ -1,0 +1,48 @@
+<br>
+<form>
+    <div class="row">
+        <div class="col-sm-4" style="margin-bottom:10px">
+            <button class="btn btn-default" id="change_profile_pic"><image style="width: 120px" src="{{url_for('static', filename = 'img/' + user_doc.profile_pic)}}"></image></button>
+        </div>
+        <div class="col-sm-8">
+            <div class="row">
+                <div class="col-xs-4 text-right">
+                    <span style="font-size:1.4em">Real Name:</span>
+                </div>
+                <div class="col-xs-6">
+                     <input name="name" type="text" class="form-control" placeholder="{{user_doc.name}}"></input>
+                </div>
+            </div>
+            <div class="row" style="margin-top:20px">
+                <div class="col-xs-4 text-right">
+                    <span style="font-size:1.2em">Commpute Name:</span>
+                </div>
+                <div class="col-xs-6">
+                    <div class="input-group input-group-sm">
+                     <input name="name" type="text" class="form-control" placeholder="{{user_doc.username}}"></input>
+                 </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top:10px">
+                <div class="col-xs-4 text-right">
+                    <span style="font-size:1.2em">Twitter Name:</span>
+                 </div>
+                <div class="col-xs-6">
+                    <div class="input-group input-group-sm">
+                        <input name="twitter_username" type="text" class="form-control" placeholder="{{user_doc.username}}"></input>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row" style="margin-top:20px">
+        <div class="col-xs-2">
+            <span>Tagline:</span>
+        </div>
+        <div class="col-xs-10">
+    <input name="tagline" type="text" class="form-control" placeholder="{{user_doc.tagline or 'Your witty tagline here.'}}"></input>
+        </div>
+    </div>
+
+</form>

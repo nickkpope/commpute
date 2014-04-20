@@ -7,6 +7,18 @@ def find_participants(q={}):
     return mongo.db.participants.find(q, {'_id': False})
 
 
+def base_user_template():
+    return {
+        'username': '',
+        'twitter_username': '',
+        'profile_pic': 'new_avatar.png',
+        'tagline': '',
+        'computers': [],
+        'contributors': [],
+        'updates': []
+    }
+
+
 def find_user(username=None, uid=None, strip_id=False):
     ''':returns: participant object if user exists, None otherwise'''
     if uid:
@@ -22,8 +34,9 @@ def find_user(username=None, uid=None, strip_id=False):
 
     if strip_id:
         user_doc = mongo.db.participants.find_one({'username': username})
-        user_doc['id'] = str(user_doc['_id'])
-        user_doc.pop('_id')
+        if user_doc:
+            user_doc['id'] = str(user_doc['_id'])
+            user_doc.pop('_id')
     else:
         user_doc = mongo.db.participants.find_one({'username': username})
     return user_doc

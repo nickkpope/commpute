@@ -34,9 +34,9 @@
               <p style="font-size: 1.5em">Log in using:</p>
               <br>
 
-              <a href={{url_for('twitter_login')}}><image style="width: 120px" src="{{url_for('static', filename = 'img/Twitter_logo_blue.png')}}"><image></a>
+              <a href={{url_for('twitter_login')}}><button style="border:none" class="btn btn-default"><image style="width: 120px" src="{{url_for('static', filename = 'img/Twitter_logo_blue.png')}}"><image></button></a>
               <br><br><br>
-              <div class="row">
+              <!-- <div class="row">
                 <div class="col-sm-10 col-sm-offset-1">
                   <form action="{{url_for('login') }}" method="post">
                     <div class="input-group">
@@ -46,7 +46,7 @@
                     </div>
                   </form>
                 </div>
-              </div>
+              </div> -->
               <br>
             </div>
           </div>
@@ -72,15 +72,14 @@
                   </button>
                   <ul class="dropdown-menu dropdown-menu-right" role="menu">
                     <li><a href="{{url_for('settings', username=username)}}">Settings</a></li>
-                    <li><a href="{{url_for('node_server', username=username)}}">Node Server</a></li>
+                    <li><a href="{{url_for('downloads', username=username)}}">Downloads</a></li>
                     <li class="divider"></li>
                     <li><a href="{{url_for('logout', username=username)}}">Log out</a></li>
                   </ul>
                 </div>
               </li>
             {% else %}
-              <li><a  data-toggle="modal" data-target=".bs-example-modal-sm">Log in</a></li> <!-- href="{{url_for('login')}}" -->
-              <li class="active"><a href="/signup">Sign up</a></li>
+              <li class="active"><a class="btn" data-toggle="modal" data-target=".bs-example-modal-sm">Log in</a></li>
             {% endif %}
           </ul>
           <a href="{{url_for('show_landing')}}" style="text-decoration:none"><h1><span style="color: #4c6e3b;font-family: Helvetica;">Comm</span><span style="color: #e3722e;font-family: Georgia;font-size:1.1em;">pute</span></h3></h1></a>

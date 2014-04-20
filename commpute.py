@@ -23,19 +23,8 @@ def show_landing():
 def login():
     if current_user.is_authenticated():
         return redirect(url_for('home', username=current_user.username))
-    if request.method == 'POST':
-        stored_user = db.find_user(request.form['username'])
-        print stored_user
-        if stored_user:
-            user = User(username=stored_user['username'], name=stored_user['name'])
-            print user.name
-            print user.username
-            user.load_participant(stored_user)
-            print "user loaded"
-            login_user(user)
-            print "user logged in"
-            return redirect(url_for('home', username=user.username))
-    return render_template("login.html")
+    else:
+        return redirect(url_for('twitter_login'))
 
 
 @app.route('/logout')
@@ -161,14 +150,22 @@ def get_active_jobs(q={}):
     return ret
 
 
-@app.route('/iteminfo', methods=['POST'])
-def item_info():
-    item_id = request.form['item_id']
-    item_type = request.form['item_type']
-    for item in items[item_type]:
-        if item['id'] == item_id:
-            return jsonify(item)
-    return jsonify(None)
+@app.route('/user_prefs/<username>')
+@login_required
+def user_prefs(username):
+    user = db.find_user(username, strip_id=True)
+    if not user:
+        user = db.base_user_template(username)
+
+    return jsonify(user_doc=user, html=render_template('user_prefs.html', user_doc=user))
+
+
+@app.route('/computers/<username>')
+@login_required
+def computers(username):
+    user = db.find_user(username)
+    return jsonify(computers=user['computers'],
+                   html=render_template('computers.html', computers=user['computers']))
 
 
 @app.route('/fetch_user_computers/<username>')
@@ -201,7 +198,7 @@ def delete_item():
 @app.route('/jobs/<username>')
 @login_required
 def jobs(username):
-    return render_template('jobs.html', username=username)
+    return render_template('jobs.html', username=username, num_jobs=len(running_jobs))
 
 
 @app.route('/home/<username>')
@@ -210,10 +207,10 @@ def home(username):
     return render_template('home.html', username=username)
 
 
-@app.route('/node_server/<username>')
+@app.route('/downloads/<username>')
 @login_required
-def node_server(username):
-    return render_template('node_server.html', username=username)
+def downloads(username):
+    return render_template('downloads.html', username=username)
 
 
 @app.route('/settings/<username>')
@@ -313,6 +310,13 @@ def twitter_login():
     return twitter.authorize(callback=callback_url)
 
 
+@app.route('/startpage/<username>')
+@login_required
+def startpage(username):
+    user_doc = db.find_user(username, strip_id=True)
+    return render_template('startpage.html', user_doc=user_doc, computers=[], username=username)
+
+
 @app.route('/twitter_auth')
 @twitter.authorized_handler
 def twitter_auth(resp):
@@ -320,13 +324,22 @@ def twitter_auth(resp):
         flash('You denied the request to sign in.')
         return redirect(request.args.get('next') or url_for('show_landing'))
 
-    user = User(username=resp['screen_name'], name=resp['screen_name'],
-                token=resp['oauth_token'], secret=resp['oauth_token_secret'])
+    stored_user = mongo.db.participants.find_one({'username': resp['screen_name']})
+    if stored_user:
+        user = User(username=resp['screen_name'],
+                    token=resp['oauth_token'], secret=resp['oauth_token_secret'])
+        user.load_participant(stored_user)
+    else:
+        user = User(username=resp['screen_name'], name=resp['screen_name'],
+                    token=resp['oauth_token'], secret=resp['oauth_token_secret'])
+        mongo.db.participants.insert(user.save_participant())
     login_user(user)
-    user.user_id = session['user_id']
-    users.append(user)
-    mongo.db.participants.insert(user.save_participant())
-    return redirect(request.args.get('next') or url_for('home', username=user.username))
+    user_doc = db.find_user(user.username, strip_id=True)
+    # user_doc = None
+    if user_doc:
+        return redirect(request.args.get('next') or url_for('home', username=user.username))
+    else:
+        return redirect(url_for('startpage', username=user.username))
 
 
 @app.route('/google')

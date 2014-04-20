@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="row text-center">
+    <h1 style="margin-top:150px">Welcome to Commpute, {{username}}!</h1>
+</div>
+<br><br>
+<div class="row text-center">
+    <h1 style="margin:100px">Tell me about yourself.</h1>
+</div>
+<div class="row">
+    <div class="col-xs-6 col-xs-offset-3">
+        {% include 'user_prefs.html' %}
+    </div>
+</div>
+
+<div class="row text-center">
+    <h1 style="margin:100px">Then we'll talk computers.</h1>
+</div>
+{% include 'node_server.html' %}
+<div class="row">
+    <div class="col-xs-6 col-xs-offset-3">
+        {% include 'computers.html' %}
+    </div>
+{% endblock %}
+<br><br><br><br>

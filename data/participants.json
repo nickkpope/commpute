@@ -1,128 +1,126 @@
 [
-		{
-			"username": "pyotr",
-			"name": "Peter Anderson",
-            "uptime": "50",
-            "profile_pic": "male-avatar.png",
-			"computers": [
-				{
-					"name": "Fitzgerald",
-					"uptime": "50",
-					"info": {
-						"os": "Linux",
-						"ram": "16gb",
-						"cores": "4"
-					},
-					"connection_info": {
-						"address": "111.111.111.111"
-					}
-				}
-			],
-			"contributors": [
-				{
-					"pope"
+	{
+		"username": "pyotr",
+		"name": "Peter Anderson",
+        "uptime": "50",
+        "tagline": "what the cuss?",
+        "profile_pic": "male-avatar.png",
+		"computers": [
+			{
+				"name": "Fitzgerald",
+				"uptime": "50",
+				"info": {
+					"os": "Linux",
+					"ram": "16gb",
+					"cores": "4"
 				},
-				{
-					"coffman"
+				"connection_info": {
+					"address": "111.111.111.111"
 				}
-			],
-			"updates": [
-				{
-					"text": "You have just completed 50 hours uptime",
-				},
-				{
-					"text": "Your computer hasn't been connected in the past few days."
-				},
-				{
-					"text": "On average your jobs are 24% longer than your friend's jobs"
-				}
-			]
-		},
-		{
-			"username": "pope",
-        	"name": "Nick Pope",
-            "uptime": "150",
-            "profile_pic": "male-avatar.png",
-        	"computers": [
-        		{
-            		"name": "Poperino",
-            		"uptime": "49",
-            		"info": {
-                		"os": "OSX",
-                		"ram": "4gb",
-                		"cores": "2"
-            		},
-            		"connection_info": {
-                		"address": "222.222.222.222"
-            		}
+			}
+		],
+		"contributors": [
+			"pope, coffman"
+		],
+		"updates": [
+			{
+				"text": "You have just completed 50 hours uptime"
+			},
+			{
+				"text": "Your computer hasn't been connected in the past few days."
+			},
+			{
+				"text": "On average your jobs are 24% longer than your friend's jobs"
+			}
+		]
+	},
+	{
+		"username": "1nickpope",
+    	"name": "Nick Pope",
+        "uptime": "150",
+        "tagline": "Respect the div!",
+        "profile_pic": "male-avatar.png",
+    	"computers": [
+    		{
+        		"name": "Poperino",
+        		"uptime": "49",
+        		"info": {
+            		"os": "OSX",
+            		"ram": "4gb",
+            		"cores": "2"
         		},
-        		{
-            		"name": "Pope Mobile",
-            		"uptime": "101",
-            		"info": {
-                		"os": "Windows",
-                		"ram": "32gb",
-                		"cores": "8"
-            		},
-            		"connection_info": {
-                		"address": "333.333.333.333"
-            		}
-        		}	
-        	],
-        	"contributors": ["coffman"],
-        	"updates": [
-        		{
-        			"text": "You are a top contributor!"
-        		},
-        		{
-        			"text": "Your jobs are 15% smaller than your friend's jobs"
+        		"connection_info": {
+            		"address": "222.222.222.222"
         		}
-        	]
-		},
-		{
-        	"username": "coffman",
-        	"name": "Ben Coffman",
-            "uptime": "1285",
-            "profile_pic": "male-avatar.png",
-        	"computers": [
-        		{
-            		"name": "Coffin On Me",
-            		"uptime": "220",
-            		"info": {
-                		"os": "Windows",
-                		"ram": "256gb",
-                		"cores": "16"
-		            },
-		            "connection_info": {
-		                "address": "444.444.444.444"
-		            }
+    		},
+    		{
+        		"name": "Pope Mobile",
+        		"uptime": "101",
+        		"info": {
+            		"os": "Windows",
+            		"ram": "32gb",
+            		"cores": "8"
         		},
-		        {
-		            "name": "Coff it up",
-		            "uptime": "15",
-		            "info": {
-		                "os": "Android",
-		                "ram": "2gb",
-		                "cores": "1"
-		            },
-		            "connection_info": {
-		                "address": "555.555.555.555"
-		            }
-		        },
-		        {
-		            "name": "Coff Attack",
-		            "uptime": "1050",
-		            "info": {
-		                "os": "MS-DOS",
-		                "ram": "1tb",
-		                "cores": "128"
-		            },
-		            "connection_info": {
-		                "address": "666.666.666.666"
-		            }
-		        }	
-        	],
-        	"contributors": ["pyotr"],
-        	"updates": []
-    	}
+        		"connection_info": {
+            		"address": "333.333.333.333"
+        		}
+    		}	
+    	],
+    	"contributors": ["coffman"],
+    	"updates": [
+    		{
+    			"text": "You are a top contributor!"
+    		},
+    		{
+    			"text": "Your jobs are 15% smaller than your friend's jobs"
+    		}
+    	]
+	},
+	{
+    	"username": "coffman",
+    	"name": "Ben Coffman",
+        "uptime": "1285",
+        "tagline": "Stupid Apache!",
+        "profile_pic": "male-avatar.png",
+    	"computers": [
+    		{
+        		"name": "Coffin On Me",
+        		"uptime": "220",
+        		"info": {
+            		"os": "Windows",
+            		"ram": "256gb",
+            		"cores": "16"
+	            },
+	            "connection_info": {
+	                "address": "444.444.444.444"
+	            }
+    		},
+	        {
+	            "name": "Coff it up",
+	            "uptime": "15",
+	            "info": {
+	                "os": "Android",
+	                "ram": "2gb",
+	                "cores": "1"
+	            },
+	            "connection_info": {
+	                "address": "555.555.555.555"
+	            }
+	        },
+	        {
+	            "name": "Coff Attack",
+	            "uptime": "1050",
+	            "info": {
+	                "os": "MS-DOS",
+	                "ram": "1tb",
+	                "cores": "128"
+	            },
+	            "connection_info": {
+	                "address": "666.666.666.666"
+	            }
+	        }	
+    	],
+    	"contributors": ["pyotr"],
+    	"updates": []
+	}
 ]
