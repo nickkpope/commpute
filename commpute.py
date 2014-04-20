@@ -316,10 +316,8 @@ def twitter_auth(resp):
 
     user = User(username=resp['screen_name'], name=resp['screen_name'],
                 token=resp['oauth_token'], secret=resp['oauth_token_secret'])
-    login_user(user)
-    user.user_id = session['user_id']
-    users.append(user)
     mongo.db.participants.insert(user.save_participant())
+    login_user(user)
     return redirect(request.args.get('next') or url_for('home', username=user.username))
 
 
