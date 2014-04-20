@@ -23,19 +23,8 @@ def show_landing():
 def login():
     if current_user.is_authenticated():
         return redirect(url_for('home', username=current_user.username))
-    if request.method == 'POST':
-        stored_user = db.find_user(request.form['username'])
-        print stored_user
-        if stored_user:
-            user = User(username=stored_user['username'], name=stored_user['name'])
-            print user.name
-            print user.username
-            user.load_participant(stored_user)
-            print "user loaded"
-            login_user(user)
-            print "user logged in"
-            return redirect(url_for('home', username=user.username))
-    return render_template("login.html")
+    else:
+        return redirect(url_for('twitter_login'))
 
 
 @app.route('/logout')
