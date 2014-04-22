@@ -2,7 +2,7 @@
 {% for item in items %}
     {% if item.visible or True %}
         <!-- item_type will be an item field to provide mixed item lists -->
-        {% if item_type == 'friends' or item_type == 'friend_suggestions' %}
+        {% if item_type == 'friends' or item_type == 'friend_suggestions' or item_type == 'friends_results' or item_type == 'friends_suggestions_results' %}
             <div id="{{ item.id }}" class="friend pane-item">
                 <div id="{{ item.id }}" class='row text-center'>
                     <div class="col-md-2 centering"><br><image style="width: 60px" src="{{url_for('static', filename = 'img/' + item.profile_pic)}}"></image></div>
@@ -46,7 +46,7 @@
         {% elif item_type == 'jobs' %}
             <div id="{{ item.id }}" class="job pane-item">
                 <div class="row text-left">
-                    <div class="col-sm-5">
+                    <div class="col-sm-5 text-right">
                         <span style="font-size: 1.3em;">{{ item.name }}</span>
                     </div>
                     <div class="col-sm-6">

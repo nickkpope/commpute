@@ -2,7 +2,7 @@ function fetchItems(item_type, query, callback){
     $.ajax({
         url: '/fetchitems',
         type: 'POST',
-        data: {item_type: item_type, query: query},
+        data: {'item_type': item_type, 'query': JSON.stringify(query)},
         success: function (result){
             callback(result);
         }

@@ -62,8 +62,13 @@ function searchFriends(){
         $("#search_button").html('<span class="glyphicon glyphicon-remove-circle"></span>');
         searching = true;
     }
-    fetchItems('friends_results_pane', 'friends_results');
-    fetchItems('friends_suggestions_results_pane', 'friends_suggestions_results');
+    fetchItems('friends_results', {'name': $('#search_box').val()}, function (result){
+        $('#friends_results_pane').html(result.html);
+    });
+    fetchItems('friends_suggestions_results', {'name': $('#search_box').val()}, function(result){
+        $('#friends_suggestions_results_pane').html(result.html);
+    });
+    
 }
 
 function addFriend(friend_username) {

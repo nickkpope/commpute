@@ -1,5 +1,6 @@
 # all the imports
 import sys
+import json
 import socket
 import errno
 from flask import session, redirect, url_for, render_template, flash, request, jsonify
@@ -38,12 +39,12 @@ def logout():
 @login_required
 def progress():
     progress_report = []
-    for job_id in running_jobs:
-        progress_report.append({'jid': job_id, 'progress': getJobProgress(job_id)})
+    for job in running_jobs:
+        progress_report.append({'jid': job['id'], 'progress': get_job_progress(job['id'])})
     return jsonify(jobs_progress=progress_report)
 
 
-def getJobProgress(job_id):
+def get_job_progress(job_id):
     task_statuses = dist_proxy.system.getTaskStatuses(job_id)
     ret = {
         'active': task_statuses.count('EXECUTING'),
@@ -51,34 +52,37 @@ def getJobProgress(job_id):
         'error': task_statuses.count('FAILED'),
         'total': dist_proxy.system.getTotalTasks(job_id)
     }
-    print ret
     return ret
-    # elif job_id == 'j2':
-    #     return {'active': 7, 'finished': 13, 'error': 5, 'total': 40}
-    # elif job_id == 'j3':
-    #     return {'active': 1, 'finished': 20, 'error': 0, 'total': 21}
 
 
 @app.route('/submit_job', methods=['POST'])
 def submit_job():
+    job_name = request.form['job_name']
     try:
         job_id = dist_proxy.system.submitRandomizedTestJob("oats", 10, 10)
-        running_jobs.append(job_id)
-        return jsonify(job_id=job_id)
+        job_doc = {'id': job_id, 'name': job_name}
+        running_jobs.append(job_doc)
+        return jsonify(job_doc=job_doc)
     except socket.error:
         etype, evalue, etrace = sys.exc_info()
         if evalue.errno == errno.ECONNREFUSED:
             error = 'The Job driver XMLRPC server must not be running.'
         else:
             error = str(evalue)
-        return jsonify(job_id=None, error=error)
+        return jsonify(job_doc=None, error=error)
 
 
 @app.route('/kill_job', methods=['POST'])
 def kill_job():
     job_id = request.form['job_id']
     try:
-        running_jobs.remove(job_id)
+        toremove = None
+        for i in running_jobs:
+            if i['id'] == job_id:
+                toremove = i
+                break
+        if toremove:
+            running_jobs.remove(toremove)
         dist_proxy.system.cancelJob(job_id)
         return jsonify(nailedit=True)
     except:
@@ -107,10 +111,13 @@ def docs():
 @app.route('/fetchitems', methods=['POST'])
 def fetch_items():
     item_type = request.form.get('item_type')
-    query = request.form.get('query') or {}
+    query = request.form.get('query')
+    if query:
+        query = json.loads(query)
+    query = query or {}
     username = request.form.get('username') or query.get('username') or current_user.username
     item_data = find_items_by_type(item_type, q=query)
-    print 'fetching items for', item_type, item_data
+    print 'fetching items for "%s"' % item_type, item_data
     return jsonify(item_data=item_data,
                    username=username,
                    html=render_template('items.html', item_type=item_type, items=item_data))
@@ -118,9 +125,12 @@ def fetch_items():
 
 def find_items_by_type(item_type, q=None):
     item_map = {}
+
     item_map['friends'] = lambda q: contributors(current_user.username, q or {})
     item_map['friend_suggestions'] = lambda q: suggest_friends(current_user.username, q or {})
     item_map['jobs'] = get_active_jobs
+    item_map['friends_results'] = search_friends
+    item_map['friends_suggestions_results'] = search_participants
     item_map['user_updates'] = lambda q: updates['user_updates']
     item_map['user_updates'] = lambda q: updates['user_updates']
     item_map['user_action_items'] = lambda q: updates['user_action_items']
@@ -128,8 +138,27 @@ def find_items_by_type(item_type, q=None):
     try:
         return list(item_map[item_type](q))
     except KeyError:
-        print 'recieved bad item_type', item_type
+        etype, evalue, trace = sys.exc_info()
+        print 'recieved bad item_type "%s": got %s' % (item_type, evalue)
         return []
+
+
+def search_friends(q):
+    user = db.find_user(current_user.username)
+    ret = []
+    for c in user['contributors']:
+        f = db.find_user(c, strip_id=True)
+        if q['name'].lower() in f['name'].lower():
+            ret.append(f)
+    return ret
+
+
+def search_participants(q):
+    ret = []
+    for f in db.find_participants():
+        if q['name'].lower() in f['name'].lower():
+            ret.append(f)
+    return ret
 
 
 def contributors(username, q=None):
@@ -144,10 +173,7 @@ def contributors(username, q=None):
 
 
 def get_active_jobs(q={}):
-    ret = []
-    for job_id in running_jobs:
-        ret.append({'id': job_id, 'name': job_id})
-    return ret
+    return running_jobs
 
 
 @app.route('/user_prefs/<username>')
@@ -192,13 +218,18 @@ def delete_item():
             item['visible'] = False
             break
 
-    return render_template('items.html', items=items[item_type], pane_id=pane_id, item_type=item_type)
+    return render_template('items.html', items=items[item_type],
+                           pane_id=pane_id,
+                           item_type=item_type)
 
 
 @app.route('/jobs/<username>')
 @login_required
 def jobs(username):
-    return render_template('jobs.html', username=username, num_jobs=len(running_jobs))
+    return render_template('jobs.html',
+                           username=username,
+                           num_jobs=len(running_jobs),
+                           has_running_jobs=len(running_jobs) > 0)
 
 
 @app.route('/home/<username>')
@@ -271,14 +302,25 @@ def suggest_friends(username, q={}):
         print 'could not find user', username
         return []
     ret = []
+
     if len(user['contributors']) == 0:
-        return list(db.find_participants({'username': {'$ne': username}}))
+        return find_non_friends(user)
     for cname in user['contributors']:
         c = db.find_user(cname)
         if c:
             for suggestion in [db.find_user(i, strip_id=True) for i in c['contributors']]:
                 if suggestion and not suggestion['username'] in user['contributors']:
                     ret.append(suggestion)
+    if len(ret) == 0:
+        return find_non_friends(user)
+    return ret
+
+
+def find_non_friends(user):
+    ret = []
+    for i in list(db.find_participants({'username': {'$ne': user['username']}})):
+        if not i['username'] in user['contributors']:
+            ret.append(i)
     return ret
 
 
@@ -325,21 +367,24 @@ def twitter_auth(resp):
         return redirect(request.args.get('next') or url_for('show_landing'))
 
     stored_user = mongo.db.participants.find_one({'username': resp['screen_name']})
+
     if stored_user:
+        new_user = False
         user = User(username=resp['screen_name'],
                     token=resp['oauth_token'], secret=resp['oauth_token_secret'])
         user.load_participant(stored_user)
     else:
+        new_user = True
         user = User(username=resp['screen_name'], name=resp['screen_name'],
                     token=resp['oauth_token'], secret=resp['oauth_token_secret'])
         mongo.db.participants.insert(user.save_participant())
+
     login_user(user)
-    user_doc = db.find_user(user.username, strip_id=True)
-    # user_doc = None
-    if user_doc:
-        return redirect(request.args.get('next') or url_for('home', username=user.username))
-    else:
+
+    if new_user:
         return redirect(url_for('startpage', username=user.username))
+    else:
+        return redirect(request.args.get('next') or url_for('home', username=user.username))
 
 
 @app.route('/google')

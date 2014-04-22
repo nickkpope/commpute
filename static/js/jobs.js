@@ -8,26 +8,51 @@ $(document).ready(function () {
     });
 });
 
+// $("#submit_form").bind('ajax:complete', function(result) {
+//     if (result.job_id === null) {
+//         error('Your job was not submitted: ' + result.error);
+//     }
+//     else {
+//         success("Job (" + result.job_id + ") submitted successfully.");
+//         fetchItems("jobs", null, function (result){
+//             $("#job_pane").html(result.html);
+//         });
+//         bindItemClick(result.job_id);
+//         $('#jobs_pane').attr('class', 'col-xs-6');
+//         $('#submit_job').css('display', 'none');
+//         $('#no_jobs').css('display', 'none');
+//         $('#node_pane').css('display', 'block');
+//     }
+// });
+
 $('#submit_job').click(function (){
+    submit_job();
+});
+
+function submit_job(){
     $.ajax({
         url: '/submit_job',
         type: 'POST',
-        data: {username: null},
+        data: { job_name: $('#job_name_form').val() },
         success: function (result){
-            if (result.job_id === null) {
+            if (result.job_doc === null) {
                 error('Your job was not submitted: ' + result.error);
             }
             else {
-                success("Job (" + result.job_id + ") submitted successfully.");
+                success("Job (" + result.job_doc.name + ") submitted successfully.");
                 fetchItems("jobs", null, function (result){
                     $("#job_pane").html(result.html);
                 });
                 bindItemClick(result.job_id);
+                $('#jobs_pane').attr('class', 'col-xs-6');
+                $('#submit_job').css('display', 'none');
                 $('#no_jobs').css('display', 'none');
+                $('#node_pane').css('display', 'block');
             }
+            $('#submit_modal').modal('hide');
         }
     });
-});
+}
 
 function kill_job(job_id){
     $.ajax({

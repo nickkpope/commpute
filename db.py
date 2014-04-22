@@ -102,6 +102,7 @@ class Participant(MongoDBO):
         self.name = name
         self.requests = []
         self.contributors = []
+        self.profile_pic = 'new_avatar.png'
         if load:
             self.load(find_user(self.username))
 
