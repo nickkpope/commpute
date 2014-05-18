@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class='row'>
+    <div class='col-xs-2 col-xs-offset-4' style="color:grey;font-size:350%;font-family:helvetica;">
+        <div class='row' style='margin-top:5px'>
+            BYU
+        </div>
+        <div class='row' style='margin-top:-20px'>
+            CS
+        </div>
+    </div>
+    <div class='col-xs-4'>
+        <image height="60%" width="60%" src="{{url_for('static', filename = 'img/laptop.png')}}"></image>
+    </div>
+</div>
+<div class='row text-center' style='margin-top:50px'>
+    <h1>Your new companion awaits.</h1>
+</div>
+<div class='row' style='margin-top:50px'>
+    <div class='col-xs-10 col-xs-offset-1'
+        <p>Welcome to the Computer Science major ! We hope you enjoy these next four years with a stellar laptop at your side. Let’s be honest, you’re super busy as you transition to this new phase of your life and may not have time to research laptops. Never fear! We have developed a set of criteria to help you choose the laptop that is right for you.</p>
+        
+        <p>Out of seven laptops we found that ____________ was the best. We realize we can't rank every laptop out there so we picked the <a href='http://www.amazon.com/Best-Sellers-Electronics-Laptop-Computers/zgbs/electronics/565108/ref=amb_link_362805182_2?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=merchandised-search-leftnav&pf_rd_r=1GWGWVN6A9YRC7JSD6T9&pf_rd_t=101&pf_rd_p=1774685162&pf_rd_i=2956501011'>best selling</a> laptops listed on Amazon excluding tablets, chrome books, and non-Intel CPUs. We use a sophisticated ranking algorithm that demonstrate how they stack up.</p>
+    </div>
+</div>
+<div class='row text-center' style='margin-top:20px;margin-bottom:20px;'>
+    <h1>Criteria</h1>
+</div>
+{% for c in criteria %}
+<div class='row' style='margin-top:15px'>
+    <div class='col-xs-1 col-xs-offset-1'>
+        <h2>{{c.name}}</h2>
+    </div>
+    <div class='col-xs-4 col-xs-offset-1'>
+        {{c.inc}}
+    </div>
+    <div class='col-xs-4'>
+        {{c.just}}
+    </div>
+</div>
+{% endfor %}
+<div class='row' style='margin-top:50px'>
+    <div class='col-xs-4'>
+        <h2>Stacking up</h2>
+    </div>
+    <div class='col-xs-8'>
+        {% for r in ranking %}
+            <div class="row">
+                <div class="col-xs-4 text-right"><h4>{{r.name}}</h4></div>
+                <div class='col-xs-8 chart' style="width:{{r.rank*3}}px;">{{r.rank}}</div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<div class='row text-center' style='margin-top:50px'>
+    <h1><small>Austin Talbot - Kevin Reece - Nick Pope - Will Meyers</small></h1>
+</div>
+{% endblock %}

@@ -11,8 +11,14 @@ import time
 from mock_data import jobs_data, updates
 import db
 import xmlrpclib
+import techwriting
 running_jobs = []
 dist_proxy = xmlrpclib.ServerProxy('http://localhost:8090')
+
+
+@app.route('/techwriting')
+def tech_writing():
+    return render_template('techwriting.html', criteria=techwriting.criteria, ranking=techwriting.ranking)
 
 
 @app.route('/')
