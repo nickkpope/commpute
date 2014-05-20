@@ -17,10 +17,10 @@
     <h1>Your new companion awaits.</h1>
 </div>
 <div class='row' style='margin-top:50px'>
-    <div class='col-xs-10 col-xs-offset-1'
+    <div class='col-xs-8 col-sm-offset-2'>
         <p>Welcome to the Computer Science major ! We hope you enjoy these next four years with a stellar laptop at your side. Let’s be honest, you’re super busy as you transition to this new phase of your life and may not have time to research laptops. Never fear! We have developed a set of criteria to help you choose the laptop that is right for you.</p>
         
-        <p>Out of seven laptops we found that ____________ was the best. We realize we can't rank every laptop out there so we picked the <a href='http://www.amazon.com/Best-Sellers-Electronics-Laptop-Computers/zgbs/electronics/565108/ref=amb_link_362805182_2?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=merchandised-search-leftnav&pf_rd_r=1GWGWVN6A9YRC7JSD6T9&pf_rd_t=101&pf_rd_p=1774685162&pf_rd_i=2956501011'>best selling</a> laptops listed on Amazon excluding tablets, chrome books, and non-Intel CPUs. We use a sophisticated ranking algorithm that demonstrate how they stack up.</p>
+        <p>Out of seven laptops we found that HP Envy 15t Quad Edition ranked highest. We realize we can't rank every laptop out there so we picked the <a href='http://www.amazon.com/Best-Sellers-Electronics-Laptop-Computers/zgbs/electronics/565108/ref=amb_link_362805182_2?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=merchandised-search-leftnav&pf_rd_r=1GWGWVN6A9YRC7JSD6T9&pf_rd_t=101&pf_rd_p=1774685162&pf_rd_i=2956501011'>best selling</a> laptops listed on Amazon excluding tablets, chrome books, and non-Intel CPUs. We use a sophisticated ranking algorithm that demonstrate how they stack up.</p>
     </div>
 </div>
 <div class='row text-center' style='margin-top:20px;margin-bottom:20px;'>
@@ -28,31 +28,86 @@
 </div>
 {% for c in criteria %}
 <div class='row' style='margin-top:15px'>
-    <div class='col-xs-1 col-xs-offset-1'>
+    <div class='col-sm-1 col-sm-offset-1'>
         <h2>{{c.name}}</h2>
     </div>
-    <div class='col-xs-4 col-xs-offset-1'>
+    <div class='col-sm-4 col-sm-offset-1'>
         {{c.inc}}
     </div>
-    <div class='col-xs-4'>
+    <div class='col-sm-4'>
         {{c.just}}
     </div>
 </div>
 {% endfor %}
-<div class='row' style='margin-top:50px'>
-    <div class='col-xs-4'>
-        <h2>Stacking up</h2>
+<!-- <div class='row text-center' style='margin-top:50px'>
+    <h1>Laptops Rated</h1>
+</div>
+<div class='row' style='margin-top:20px'>
+    <div class='col-xs-4 col-xs-offset-3'>
+    <p>HP Envy 15t Quad Edition</p>
+    <p>Dell Inspiron i15RV-1435BLK</p>
+    <p>Toshiba Satellite C55-A5245</p>
+    <p>MacBook Pro 13" with Retina Display</p>
+</div>
+<div class='col-xs-4'>
+    <p>Lenovo IdeaPad U430</p>
+    <p>ASUS ROG 6750JM-DS71</p>
+    <p>MacBook Air 13"</p>
+</div> -->
+<!-- </div> -->
+<div class='row text-center' style='margin-top:50px'>
+        <h1>Stacking up</h1>
     </div>
-    <div class='col-xs-8'>
+</div>
+<div class='row' style='margin-top:20px'>
+    <div class='col-sm-8 col-sm-offset-2'>
+        <p>
+            We were surprised that our personal favorite the MacBook Pro was outscored so badly by HP, Dell, and Toshiba. Part of this is due to personal preference, we prefer MacOS and UNIX instead of Windows. Another fault comes from our assumptions. The ratings online that were such a hefty component of our rankings were done by the average user rather than a programmer and so have different criteria for satisfaction. Also the Mac’s price was a hindrance, part of this stems from the fact that is has such a good display, which adds $200 to the price. These are our personal opinions and we hope that you choose the perfect companion for you that will support you in these coming years. But even if you make a poor choice at least this companion is not eternal.
+        </p>
+    </div>
+</div>
+<div class='row' style='margin-top:50px'>
+    <div class='col-sm-10 col-sm-offset-2'>
         {% for r in ranking %}
             <div class="row">
-                <div class="col-xs-4 text-right"><h4>{{r.name}}</h4></div>
-                <div class='col-xs-8 chart' style="width:{{r.rank*3}}px;">{{r.rank}}</div>
+                <div class="col-xs-6 text-right"><h4>{{r.name}}</h4></div>
+                <div class='col-xs-6 chart' style="width:{{r.rank*4}}px;">{{r.rank}}</div>
             </div>
         {% endfor %}
     </div>
 </div>
 <div class='row text-center' style='margin-top:50px'>
-    <h1><small>Austin Talbot - Kevin Reece - Nick Pope - Will Meyers</small></h1>
+    <h1>Breakdown</h1>
+</div>
+<div class='row' style='margin-top:20px'>
+    <div class='divTable'>
+        <div class="headRow">
+            <div class='divCell' style="width:200px;background-color:transparent;font-size:1em;height:20px"></div>
+            {% for h in breakdown.row_headings %}
+            <div class='divCell' style="background-color:transparent;font-size:1em;height:20px">{{h}}</div>
+            {% endfor %}
+        </div>
+        {% for i, e in enumerate(breakdown.rows) %}
+        <div class='divRow'>
+            <div class='divCell' style="text-align:right;width:200px;background-color:transparent;font-size:1em;">{{breakdown.col_headings[i]}}</div>
+            {% for r in e %}
+            <div class='divCell'>{{r}}</div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<div class='row text-center' style='margin-top:50px'>
+    <h1>Discussion</h1>
+</div>
+<div class='row' style='margin-top:20px'>
+    <div class='col-sm-8 col-sm-offset-2'>
+        <p>
+            We were surprised that our personal favorite, the MacBook Pro, was outscored so badly by HP, Dell, and Toshiba. Part of this is due to personal preference, we prefer OS X and UNIX instead of Windows. Another fault comes from our assumptions. The ratings online that were such a hefty component of our rankings were done by the average user rather than a programmer and so have different criteria for satisfaction. Also the Mac’s price was a hindrance, part of this stems from the fact that is has such a good display, which adds $200 to the price. These are our personal opinions and we hope that you choose the perfect companion for you that will support you in these coming years. But even if you make a poor choice at least this companion is not eternal.
+        </p>
+</div>
+</div>
+<div class='row text-center' style='margin-top:50px'>
+    <h1><small>Austin Talbot - Kevin Reece - Nick Pope - Will Myers</small></h1>
 </div>
 {% endblock %}

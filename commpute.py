@@ -18,7 +18,11 @@ dist_proxy = xmlrpclib.ServerProxy('http://localhost:8090')
 
 @app.route('/techwriting')
 def tech_writing():
-    return render_template('techwriting.html', criteria=techwriting.criteria, ranking=techwriting.ranking)
+    return render_template('techwriting.html',
+                           enumerate=enumerate,
+                           criteria=techwriting.criteria,
+                           ranking=techwriting.ranking,
+                           breakdown=techwriting.breakdown)
 
 
 @app.route('/')
