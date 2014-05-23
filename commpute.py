@@ -22,7 +22,9 @@ def tech_writing():
                            enumerate=enumerate,
                            criteria=techwriting.criteria,
                            ranking=techwriting.ranking,
-                           breakdown=techwriting.breakdown)
+                           breakdown=techwriting.breakdown,
+                           proscons=techwriting.proscons,
+                           algorithm=techwriting.algorithm)
 
 
 @app.route('/')
