@@ -14,18 +14,18 @@
     </div>
 </div>
 <div class='row text-center' style='margin-top:50px'>
-    <h1>Your new laptop awaits.</h1>
+    <h1>Choosing your new laptop.</h1>
 </div>
 <div class='row' style='margin-top:50px'>
     <div class='col-xs-8 col-sm-offset-2'>
         <p>Welcome to the Computer Science program! We hope you enjoy these next four years with a stellar laptop at your side. Trust us, having the right laptop will make a world of difference. But let’s be honest, you’re super busy as you transition to this new phase of your life and may not have time to research laptops and find the best one for you. Never fear! We have developed a set of criteria to help you choose the laptop that is right for you and ranked seven popular models as examples.</p>
         
-        <p style='margin-bottom:20px'>We realize we can't rank every laptop out there so we picked the best selling laptops listed on Amazon, excluding tablets, chromebooks, and non-Intel CPUs. We chose to gather all our data, including laptop specifications, from Amazon because it is the largest online laptop retailer. It is also unaffiliated with specific laptop brands. Therefore, we can assume the information and user ratings are accurate and unbiased. The seven laptops we ranked were:
+        <p style='margin-bottom:20px'>We realize we can't rank every laptop out there so we picked the <a href="http://www.amazon.com/Best-Sellers-Electronics-Laptop-Computers/zgbs/electronics/565108/ref=amb_link_362805182_2?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=merchandised-search-leftnav&pf_rd_r=0GZM9Z2MG7K06ZD80APR&pf_rd_t=101&pf_rd_p=1774685162&pf_rd_i=2956501011">best selling</a> laptops listed on Amazon, excluding tablets, chromebooks, and non-Intel CPUs. We chose to gather all our data, including laptop specifications, from Amazon because it is the largest online laptop retailer. It is also unaffiliated with specific laptop brands. Therefore, we can assume the information and user ratings are accurate and unbiased. The seven laptops we ranked were:
         </p>
         {% for l, r in [("ASUS ROG 6750JM-DS71", "Dell Inspiron i15RV-1435BLK"), ("HP Envy 15t Quad Edition", "Lenovo IdeaPad U430"), ("MacBook Air 13\"", "MacBook Pro 13\" with Retina Display"), ("Toshiba Satellite C55-A5245", "")] %}
         <div class="row">
-            <div class='col-sm-5 col-sm-offset-1'><h4>{{l}}</h4></div>
-            <div class='col-sm-6'><h4>{{r}}</h4></div>
+            <div class='col-sm-5 col-sm-offset-1'><a><h4>{{l}}</h4></a></div>
+            <div class='col-sm-6'><a><h4>{{r}}</h4></a></div>
         </div>
         {% endfor %}
     </div>
@@ -40,13 +40,13 @@
 </div>
 <div class='row text-center' style='margin-top:40px'>
     <div class='col-sm-2 col-sm-offset-2'>
-        <h2><small>What you want.</small></h2>
+        <h2><small>What you want</small></h2>
     </div>
     <div class='col-sm-3'>
-        <h2><small>Why you care.</small></h2>
+        <h2><small>Why you care</small></h2>
     </div>
     <div class='col-sm-3'>
-        <h2><small>How much you care.</small></h2>
+        <h2><small>How much you care</small></h2>
     </div>
 </div>
 {% for c in criteria %}

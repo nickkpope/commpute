@@ -177,7 +177,7 @@ proscons = [
 
 specs = [
 #     Price Rating Weight  ScreenSize           Power       RAM    Hard Drive            BL
-    ["$702", 4.1, "5.6 lbs", "15.6\"", "4 cores 2.4 clock with 8Gb of RAM", "5400 rpm 11000 Gb", "9.5 hrs"],
+    ["$702", 4.1, "5.6 lbs", "15.6\"", "4 cores 2.4 clock with 8Gb of RAM", "5400 rpm 1100 Gb", "9.5 hrs"],
     ["$379", 4.0, "4.9 lbs", "15.6\"", "2 cores 1.8 clock with 4Gb of RAM", "5400 rpm 500 Gb", "4 hrs"],
     ["$419", 4.1, "5.4 lbs", "15.6\"", "2 cores 2.3 clock with 4Gb of RAM", "5400 rpm 500 Gb", "4 hrs"],
     ["$699", 3.8, "4.2 lbs", "14.0\"", "2 cores 1.8 clock with 4Gb of RAM", "5400 rpm 500 Gb", "5.5 hrs"],
