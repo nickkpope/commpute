@@ -1,7 +1,10 @@
 {% extends "layout.html" %}
 {% block body %}
 <div class='row'>
-    <div class='col-xs-2 col-xs-offset-4' style="color:grey;font-size:350%;font-family:helvetica;">
+    <div class='col-sm-6 col-sm-offset-3'>
+        <image height="60%" width="60%" src="http://photo2.byu.edu/p/Downloadable%20Images/Buildings//TMCB%20Talmage%20Building.jpg"></image>
+    </div>
+    <div class='col-sm-2' style="margin-left:-200px;color:grey;font-size:600%;font-family:helvetica;">
         <div class='row' style='margin-top:5px'>
             BYU
         </div>
@@ -9,31 +12,33 @@
             CS
         </div>
     </div>
-    <div class='col-xs-4'>
-        <image height="60%" width="60%" src="{{url_for('static', filename = 'img/laptop.png')}}"></image>
-    </div>
 </div>
 <div class='row text-center' style='margin-top:50px'>
-    <h1>Your new companion awaits.</h1>
+    <h1>Your new laptop awaits.</h1>
 </div>
 <div class='row' style='margin-top:50px'>
     <div class='col-xs-8 col-sm-offset-2'>
-        <p>Welcome to the Computer Science major! We hope you enjoy these next four years with a stellar laptop at your side. Let’s be honest, you’re super busy as you transition to this new phase of your life and may not have time to research laptops. Never fear! We have developed a set of criteria to help you choose the laptop that is right for you and ranked seven popular models as examples.</p>
+        <p>Welcome to the Computer Science program! We hope you enjoy these next four years with a stellar laptop at your side. Trust us, having the right laptop will make a world of difference. But let’s be honest, you’re super busy as you transition to this new phase of your life and may not have time to research laptops and find the best one for you. Never fear! We have developed a set of criteria to help you choose the laptop that is right for you and ranked seven popular models as examples.</p>
         
-        <p>We realize we can't rank every laptop out there so we picked the best selling laptops listed on Amazon (link to page) excluding tablets, chromebooks, and non-Intel CPUs. We chose to gather all our data from Amazon.com because it is the largest online laptop retailer. It is also unaffiliated with specific laptop brands. Therefore, we can assume the information and user ratings are unbiased.</p>
-
-        <p>Below you will find explanations of what we measured, how we did it, what we found, and what we thought.</p>
+        <p style='margin-bottom:20px'>We realize we can't rank every laptop out there so we picked the best selling laptops listed on Amazon, excluding tablets, chromebooks, and non-Intel CPUs. We chose to gather all our data, including laptop specifications, from Amazon because it is the largest online laptop retailer. It is also unaffiliated with specific laptop brands. Therefore, we can assume the information and user ratings are accurate and unbiased. The seven laptops we ranked were:
+        </p>
+        {% for l, r in [("ASUS ROG 6750JM-DS71", "Dell Inspiron i15RV-1435BLK"), ("HP Envy 15t Quad Edition", "Lenovo IdeaPad U430"), ("MacBook Air 13\"", "MacBook Pro 13\" with Retina Display"), ("Toshiba Satellite C55-A5245", "")] %}
+        <div class="row">
+            <div class='col-sm-5 col-sm-offset-1'><h4>{{l}}</h4></div>
+            <div class='col-sm-6'><h4>{{r}}</h4></div>
+        </div>
+        {% endfor %}
     </div>
 </div>
-<div class='row text-center' style='margin-top:20px;margin-bottom:20px;'>
+<div class='row text-center' style='margin-top:50px;margin-bottom:20px;'>
     <h1>What we measured</h1>
 </div>
-<div class='row' style='margin-top:50px'>
+<div class='row' style='margin-top:20px'>
     <div class='col-xs-8 col-sm-offset-2'>
-        <p>We chose seven criteria by which to judge the laptops. We decided which criteria to include based on our experience in the BYU Computer Science program. In Table 1, we list each criteria in the order of importance. We also include a short explanation of the inclusion and ranking of each criterion.</p>
+        <p>We chose seven criteria by which to judge the laptops. We decided which criteria to include based on our experience in the BYU Computer Science program. Here we list them in order of importance. We also include a short explanation of the inclusion and ranking of each criterion.</p>
     </div>
 </div>
-<div class='row text-center' style='margin-top:15px'>
+<div class='row text-center' style='margin-top:40px'>
     <div class='col-sm-2 col-sm-offset-2'>
         <h2><small>What you want.</small></h2>
     </div>
@@ -45,7 +50,7 @@
     </div>
 </div>
 {% for c in criteria %}
-<div class='row' style='margin-top:20px'>
+<div class='row' style='margin-top:20px;font-size:1.2em'>
     <div class='col-sm-2 col-sm-offset-2 text-center'>
         <h3>{{c.name}}</h3>
     </div>
@@ -57,22 +62,6 @@
     </div>
 </div>
 {% endfor %}
-<!-- <div class='row text-center' style='margin-top:50px'>
-    <h1>Laptops Rated</h1>
-</div>
-<div class='row' style='margin-top:20px'>
-    <div class='col-xs-4 col-xs-offset-3'>
-    <p>HP Envy 15t Quad Edition</p>
-    <p>Dell Inspiron i15RV-1435BLK</p>
-    <p>Toshiba Satellite C55-A5245</p>
-    <p>MacBook Pro 13" with Retina Display</p>
-</div>
-<div class='col-xs-4'>
-    <p>Lenovo IdeaPad U430</p>
-    <p>ASUS ROG 6750JM-DS71</p>
-    <p>MacBook Air 13"</p>
-</div> -->
-<!-- </div> -->
 <div class='row text-center' style='margin-top:50px'>
         <h1>How we did it.</h1>
     </div>
@@ -80,11 +69,11 @@
 <div class='row' style='margin-top:20px'>
     <div class='col-sm-8 col-sm-offset-2'>
         <p>
-            In order to calculate the score for each laptop, we first gave each of the criteria a certain weight, all of which added up to 100. We then developed a way to calculate a score for each criterion based on the specifications of the laptop, which we then scaled to the correct weight. We also needed to determine the highest reasonable limit for each criteria in order to scale each one correctly. To do this, we needed to make some assumptions about the highest reasonable limit for each criteria. In Table 2, we list the weight of each criterion out of 100, the calculation of the score, and the assumptions we made in our calculations.
+            In order to calculate the score for each laptop, we first gave each criterion a certain weight, so that all the weights added up to 100. We then developed a way to calculate a score for each criterion based on the specifications of the laptop, which we then scaled to the correct weight. We also determined the highest reasonable limit for each criterion in order to scale correctly. To do this, we made some assumptions about the highest reasonable limit for each of them. In Table 2, we list the weights out of 100, the equations for scoring, and the assumptions we made in our calculations.
         </p>
     </div>
 </div>
-<div class='row' style='margin-top:50px'>
+<div class='row' style='margin-top:20px'>
     <div class='row' style='margin-top:20px'>
         <div class='col-sm-2 col-sm-offset-2 text-right'>
             <h2><small>Criteria</small></h2>
@@ -96,7 +85,7 @@
             <h2><small>Formula</small></h2>
         </div>
         <div class='col-sm-3 text-center'>
-            <h2><small>Explaination</small></h2>
+            <h2><small>Explanation</small></h2>
         </div>
     </div>
     {% for i, a in enumerate(algorithm) %}
@@ -120,13 +109,13 @@
         <h1>What we found.</h1>
     </div>
 </div>
-<!-- <div class='row' style='margin-top:20px'>
+<div class='row' style='margin-top:20px'>
     <div class='col-sm-8 col-sm-offset-2'>
         <p>
-            We were surprised that our personal favorite, the MacBook Pro, was outscored so badly by HP, Dell, and Toshiba. Part of this is due to personal preference, we prefer OS X and UNIX instead of Windows. Another fault comes from our assumptions. The ratings online that were such a hefty component of our rankings were done by the price. These are our personal opinions and we hope that you choose the perfect companion for you that will support you in these coming years. But even if you make a poor choice at least this companion is not eternal.
+            When we ran our algorithm on the data, we discovered that according to our scale the HP Envy Quad Edition was the best laptop for a Computer Science Major. Its price is mid-range at just over $700, but it has a quad core 2.4 GHz processor, a 15.6” screen, 8 Gb of RAM, and a terabyte of hard drive space. While it is relatively heavy and doesn’t have a solid-state hard drive, those are not enough to counteract the decent price and great power. The Dell and Toshiba came in second and third, respectively, due to their incredibly low price rather in spite of their subpar tech specs. The MacBook Pro had the highest user rating as well as fairly light and reasonably powerful, but the high price tag was insurmountable. The ASUS was a brick and moderately expensive. However it was very powerful, so a label of portable desktop is very accurate. The MacBook Air was incredibly light and moderately priced, however in important categories of screen size, power, and storage it was simply outclassed by the opposition.
         </p>
     </div>
-</div> -->
+</div>
 <div class='row' style='margin-top:50px'>
     <div class='col-sm-10 col-sm-offset-1'>
         {% for r in ranking %}
@@ -140,38 +129,46 @@
 <div class='row text-center' style='margin-top:50px'>
     <h3>Score Breakdown</h3>
 </div>
-<!-- <div class='row' style='margin-top:20px'>
-    <div class='col-sm-8 col-sm-offset-2'>
-        <p>
-            We were surprised that our personal favorite, the MacBook Pro, was outscored so badly by HP, Dell, and Toshiba. Part of this is due to personal preference, we prefer OS X and UNIX instead of Windows. Another fault comes from our assumptions. The ratings online that were such a hefty component of our rankings were done by the average user rather than a programmer and so have different criteria for satisfaction. Also the Mac’s price was a hindrance, part of this stems from the fact that is has such a good display, which adds $200 to the price. These are our personal opinions and we hope that you choose the perfect companion for you that will support you in these coming years. But even if you make a poor choice at least this companion is not eternal.
-        </p>
-    </div>
-</div> -->
-<div class='row' style='margin-top:20px'>
+<div class='row' style='margin-top:20px;margin-left:50px'>
     <div class='col-sm-offset-1'>
         <div class='divTable'>
             <div class="headRow">
-                <div class='divCell' style="width:200px;background-color:transparent;font-size:1em;height:20px"></div>
+                <div class='divCell' style="margin-bottom:-10px;width:200px;background-color:transparent;font-size:1em;height:10px"></div>
                 {% for h in breakdown.row_headings %}
-                <div class='divCell' style="background-color:transparent;font-size:1em;height:20px">{{h}}</div>
+                <div class='divCell' style="margin-bottom:-10px;background-color:transparent;font-size:1em;height:10px">{{h}}</div>
+                {% endfor %}
+            </div>
+            <div class="headRow">
+                <div class='divCell' style="margin-top:50px;width:200px;background-color:transparent;font-size:1em;height:10px"><h1><small></small></h1></div>
+                {% for w in weights %}
+                <div class='divCell' style="background-color:transparent;font-size:1em;height:10px"><h1><small>{{w}}</small></h1></div>
                 {% endfor %}
             </div>
             {% for i, e in enumerate(breakdown.rows) %}
             <div class='divRow'>
-                <div class='divCell' style="text-align:right;width:200px;background-color:transparent;font-size:1em;">{{breakdown.col_headings[i]}}</div>
-                {% for r in e %}
-                <div class='divCell'>{{r}}</div>
+                <div class='divCell' style="text-align:right;width:200px;background-color:transparent;font-size:1em;"><h4>{{breakdown.col_headings[i]}}</h4></div>
+                {% for j, r in enumerate(e) %}
+                <div class='divCell' data-container="body" data-toggle="popover" data-placement="right" data-content="{{specs[i][j]}}" style="background-color:#{{cellcolors[i][j]}};">{{r}}</div>
                 {% endfor %}
             </div>
             {% endfor %}
         </div>
     </div>
 </div>
-<div class='row  text-center' style='margin-top:50px;margin-bottom:20px'>
-    <h3>In summary</h3>
+<div class='row text-center' style='margin-top:50px'>
+    <h1>What we thought.</h1>
+</div>
+<div class='row' style='margin-top:20px'>
+    <div class='col-sm-8 col-sm-offset-2'>
+        <p>
+            We were satisfied with the results of our calculation. It successfully ranked the laptops according to their specifications and our criteria. However, the algorithm is objective, and purchasing a laptop is highly subjective. Most people will buy a laptop according to their personal preferences, regardless of the subjective data. For example, our personal favorite is the MacBook Pro. We would be willing to spend the extra money for it because we prefer OSX to Windows. Objectively, we can see why the HP did so well as it is high-powered with a moderate price tag. We hope that our article helps you as you choose the special companion that will support you in these coming years. But at least if you make a poor choice this companion is not eternal as you can always buy a new one.
+        </p>
+        <h3 class='text-center' style='margin-top:30px'>Here is a short list of pros and cons because we like you.</h3>
+        
+    </div>
 </div>
 <div class='row text-center' style='margin-top:30px'>
-    <div class='col-sm-3 col-sm-offset-2'>
+    <div class='col-sm-3 col-sm-offset-3'>
         <h1><small>Laptop</small></h1>
     </div>
     <div class='col-sm-2 text-left'>
@@ -183,7 +180,7 @@
 </div>
 {% for pc in proscons %}
 <div class='row text-center' style='margin-top:30px'>
-    <div class='col-sm-3 col-sm-offset-2'>
+    <div class='col-sm-3 col-sm-offset-3'>
         <div class='row'>
             <image width=200 height=auto src='{{pc.url}}'></image>
         </div>
@@ -204,16 +201,9 @@
 </div>
 {% endfor %}
 <div class='row text-center' style='margin-top:50px'>
-    <h1>What we thought.</h1>
-</div>
-<div class='row' style='margin-top:20px'>
-    <div class='col-sm-8 col-sm-offset-2'>
-        <p>
-            We were surprised that our personal favorite, the MacBook Pro, was outscored so badly by HP, Dell, and Toshiba. Part of this is due to personal preference, we prefer OS X and UNIX instead of Windows. Another fault comes from our assumptions. The ratings online that were such a hefty component of our rankings were done by the average user rather than a programmer and so have different criteria for satisfaction. Also the Mac’s price was a hindrance, part of this stems from the fact that is has such a good display, which adds $200 to the price. These are our personal opinions and we hope that you choose the perfect companion for you that will support you in these coming years. But even if you make a poor choice at least this companion is not eternal.
-        </p>
-</div>
-</div>
-<div class='row text-center' style='margin-top:50px'>
     <h1><small>Austin Talbot - Kevin Reece - Nick Pope - Will Myers</small></h1>
 </div>
+{% endblock %}
+{% block scripts %}
+<script type='text/javascript' src="{{ url_for('static', filename = 'js/techwriting.js')}}"></script>
 {% endblock %}

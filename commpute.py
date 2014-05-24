@@ -18,13 +18,54 @@ dist_proxy = xmlrpclib.ServerProxy('http://localhost:8090')
 
 @app.route('/techwriting')
 def tech_writing():
+    weights = [30, 25, 20, 10, 7, 5, 3]
+    cellcolors = []
+    for i, r in enumerate(techwriting.breakdown['rows']):
+        cell_row = []
+        for j, c in enumerate(r):
+            t = c/float(weights[j])
+            if t < .1 and t >= 0:
+                c = 'ff5555'
+            elif t < .2 and t >= .1:
+                c = 'ff6666'
+            elif t < .3 and t >= .2:
+                c = 'ff7777'
+            elif t < .4 and t >= .3:
+                c = 'ff9999'
+            elif t < .5 and t >= .4:
+                c = 'ffbbbb'
+            elif t < .6 and t >= .5:
+                c = 'dddddd'
+            elif t < .7 and t >= .6:
+                c = 'ccffcc'
+            elif t < .8 and t >= .7:
+                c = '99ff99'
+            elif t < .9 and t >= .8:
+                c = '66ff66'
+            elif t < 1. and t >= .9:
+                c = '33ff33'
+            else:
+                c = '00ff00'
+
+            cell_row.append(c)
+        cellcolors.append(cell_row)
+
     return render_template('techwriting.html',
                            enumerate=enumerate,
                            criteria=techwriting.criteria,
                            ranking=techwriting.ranking,
                            breakdown=techwriting.breakdown,
                            proscons=techwriting.proscons,
-                           algorithm=techwriting.algorithm)
+                           algorithm=techwriting.algorithm,
+                           specs=techwriting.specs,
+                           cellcolors=cellcolors,
+                           weights=weights)
+.9
+.7
+.1
+
+.4
+.2
 
 
 @app.route('/')
