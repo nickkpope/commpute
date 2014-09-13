@@ -67,10 +67,10 @@
                 </div>
               </li>
             {% else %}
-              <li class="active"><a class="btn" data-toggle="modal" data-target=".bs-login-modal-sm">Log in</a></li>
+              <li class="active"><a class="btn-lg" data-toggle="modal" data-target=".bs-login-modal-sm">Log in</a></li>
             {% endif %}
           </ul>
-          <a href="{{url_for('show_landing')}}" style="text-decoration:none"><h1><span style="color: #4c6e3b;font-family: Helvetica;">Comm</span><span style="color: #e3722e;font-family: Georgia;font-size:1.1em;">pute</span></h3></h1></a>
+          <a href="{{url_for('show_landing')}}" style="text-decoration:none"><h1><span style="color:#4c6e3b;font-family:AppleGothic;">Comm</span><span style="color:#e3722e;font-family: CourierNew;font-size:1.32em;letter-spacing:-4px"><b>pute</b></span></h1></a>
         </div>
       </div> <!-- /container -->
       
@@ -79,9 +79,10 @@
           <div class="col-xs-4 col-xs-offset-4" id="global-alert"></div>
         </div>
         <div class="page">
-          {% block body %}{% endblock %}
+          
         </div>
       </div> <!-- /container -->
+  {% block body %}{% endblock %}
   </div>
     <!-- Bootstrap core JavaScript
     ================================================== -->

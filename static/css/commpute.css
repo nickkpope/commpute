@@ -1,3 +1,22 @@
+@font-face {
+  font-family: 'AppleGothic';
+  src: url('../fonts/AAppleGothic.ttf');
+}
+@font-face {
+  font-family: 'CourierNew';
+  src: url('../fonts/Courier New.ttf');
+}
+@font-face {
+  font-family: 'AppleGothicThin';
+  src: url('../fonts/AppleSDGothicNeo-Thin.otf');
+}
+h1 {
+  font-family: 'AppleGothicThin';
+}
+.companel {
+  padding-top:70px;
+  padding-bottom:70px
+}
 .chart {
   font: 20px sans-serif;
   background-color: steelblue;

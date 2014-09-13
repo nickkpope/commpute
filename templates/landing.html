@@ -1,36 +1,115 @@
 {% extends "layout.html" %}
 {% block body %}
-  <div id='content' class='outer'>
-    <div id="top_spacer"></div>
-    <div id="tagline" class="row text-center">
-      <div class="col-lg-12 tagline">
-        <h2>
-          Think community garden,
-          <p><small style="color: #433;">but with computers.</small></p>
-        </h2>
+<div id='content' class='outer'>
+  <div id="top_spacer"></div>
+  <div id="tagline" class="row text-center">
+    <div class="col-lg-12 tagline">
+      <h2 style='font-family: AppleGothicThin;font-size:4em;'>
+        Think community garden,
+        <p><small style="color: #433;">but with computers.</small></p>
+      </h2>
+    </div>
+  </div>
+  <div id="bottom_spacer"></div>
+  <div id="footer" class="row text-center">
+    <div class="col-xs-4 col-xs-offset-2" style="font-size:1.8em">
+      <div class="centered">
+        Learn more
+        <p><span class="glyphicon glyphicon-chevron-down"></span></p>
       </div>
     </div>
-    <div id="bottom_spacer"></div>
-    <div id="footer" class="row text-center">
-      <div class="col-xs-4 col-xs-offset-2">
-        <div class="centered">
-          Learn more
-          <p><span class="glyphicon glyphicon-chevron-down"></span></p>
+    <div class="col-xs-4">
+      <div class="centered" style="margin-bottom:50px:">
+        <a href="/jobs/testdriver" data-toggle="modal" data-target=".bs-example-modal-sm"><button class="btn-lg btn-primary" type="button">Get Started!</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class='companel' style="background-color:#FAFAFA;">
+  <div class="row text-center" style="font-size:3em;color:black;">
+    <div class="row" style="padding-bottom:50px">
+      <div class='col-sm-6 col-sm-offset-3'>
+        <h1>Connect with your friends and run those long tasks on their computers.</h1>
+      </div>
+    </div>
+    <div class="row text-center">
+      <div class='col-xm-8 col-xm-offset-2'>
+        <div class="product">
+          <div class="product-img">
+            <img class="img-responsive center-block" style="padding:50px;" src="{{ url_for('static', filename = 'img/helping_out.png') }}"></img>
+          </div>
         </div>
       </div>
-      <div class="col-xs-4">
-        <div class="centered" style="margin-bottom:50px">
-          <a href="/jobs/testdriver" data-toggle="modal" data-target=".bs-example-modal-sm"><button class="btn btn-primary" type="button">Get Started!</button></a>
+    </div>
+    <div class="row" style="padding-top:50px">
+      <div class='col-sm-10 col-sm-offset-1'>
+        <h1>Since you only talk with the cloud, it's super secure.</h1>
       </div>
     </div>
   </div>
-  <div class="row text-center">
-    <div class="col-xs-12>"><img style="image-width: 100%;image-height:100%" src="{{ url_for('static', filename = 'img/Description.jpg') }}"></img></div>
+</div>
+
+<div class="companel" style="background-color:#00B2AD;">
+  <div class="row text-center" style="font-size:3em;color:white;">
+    <div class="row" style="padding-top:0px">
+      <div class='col-sm-8 col-sm-offset-2'>
+        <h1>And we use *<b><span style="color:#006D99;">docker</span></b> to run your friends tasks and communicate with the cloud.</h1>
+      </div>
+    </div>
+    <div class="row" style="padding-top:50px">
+      <img style="height:300px;" src="{{ url_for('static', filename = 'img/Docker-logo.png') }}"></img>
+    </div>
+    <div class="row" style="padding-top:20px;font-size:.3em">
+      <span style="color:#006F92"><p>*It's like a nice little sandbox for them with barbed wires, attack dogs,</p>
+      <p>and threatening security guards that keep your computer safe.</p></span>
+    </div>
   </div>
-  <br><br>
-  <div class="row text-center">
-    <div class="col-xs-12>"><img style="image-width: 100%;image-height:100%" src="{{ url_for('static', filename = 'img/CreateAndViewJobs.jpg') }}"></img></div>
+</div>
+
+<div class="companel" style="background-color:#FAFAFA;">
+  <div class="row text-center" style="font-size:3em;color:black;">
+    <div class="row" style="padding-top:50px">
+      <div class='col-sm-10 col-sm-offset-1'>
+        <h1>We don't store your IP address, passwords, or personal info.</h1>
+      </div>
+    </div>
+    <div class="row" style="color:#007DA9;">
+      <div class='col-sm-3 col-sm-offset-1'>
+        <span style="font-size:3em;margin-top:80px" class="glyphicon glyphicon-envelope"></span>
+      </div>
+      <div class='col-sm-3' style="padding-top:40px;">
+        <span style="font-size:4em;">*****</span>
+      </div>
+      <div class='col-sm-3'>
+        <span style="font-size:3em;margin-top:80px" class="glyphicon glyphicon-credit-card"></span>
+      </div>
+    </div>
+    <div class="row" style="padding-top:0px">
+      <div class='col-sm-10 col-sm-offset-1'>
+        <h1>No stored information means no stolen information.</h1>
+      </div>
+    </div>
   </div>
+</div>
+
+<div class="companel" style="background-color:#84DFFF;">
+  <div class="row text-center" style="font-size:3em;color:#222222;">
+    <div class="row" style="padding-top:70px;">
+      <div class='col-sm-6 col-sm-offset-3'>
+        <h1>So really, its just a place for you and your friends to work together.</h1>
+      </div>
+    </div>
+
+    <div class="row" style="padding-top:70px;padding-bottom:50px;">
+      <div class='col-sm-8 col-sm-offset-2'>
+        <h1>Join us, and make your computer a <span style="color:#4c6e3b;font-family:AppleGothic;">comm</span><span style="color:#e3722e;font-family: CourierNew;font-size:1.32em;letter-spacing:-4px"><b>puter</b></span>
+        </h1>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
 {% block scripts %}
 <script type="text/javascript">
